@@ -6,54 +6,93 @@
       </div>
     </div>
   </nav>
-  <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-  <section class="section section-login">
-    <div class="container">
-      <div class="row">
-        <div class="col s12 m8 offset-m2 l6 offset-l3">
-          <div class="card-panel login blue darken-2 white-text center">
-            <h2>Madmin Login</h2>
-            <form action="index.html">
-              <div class="input-field">
-                <i class="material-icons prefix">account_box</i>
-                <!-- <input type="email" id="email"> -->
-                <input type="text" id="username" name="username" [(ngModel)]="form.username" #username="ngModel"
-                required />
-                <label class="white-text" for="username">Username</label>
-                <div *ngIf="f.submitted && username.invalid">
-                  <div *ngIf="username.errors.required">Username is required</div>
+  <form
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+    <section class="section section-login">
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m8 offset-m2 l6 offset-l3">
+            <div class="card-panel login blue darken-2 white-text center">
+              <h2>Madmin Login</h2>
+              <form action="index.html">
+                <div class="input-field">
+                  <i class="material-icons prefix">account_box</i>
+                  <!-- <input type="email" id="email"> -->
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    [(ngModel)]="form.username"
+                    #username="ngModel"
+                    required
+                  />
+                  <label class="white-text" for="username">Username</label>
+                  <div *ngIf="f.submitted && username.invalid">
+                    <div *ngIf="username.errors.required">
+                      Username is required
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="input-field">
-                <i class="material-icons prefix">lock</i>
-                <input type="password"  id="password" name="password" [(ngModel)]="form.password" #password="ngModel" required minlength="6" />
-                <div *ngIf="f.submitted && password.invalid">
-                  <div *ngIf="password.errors.required">Password is required</div>
-                  <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                <div class="input-field">
+                  <i class="material-icons prefix">lock</i>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="form.password"
+                    #password="ngModel"
+                    required
+                    minlength="6"
+                  />
+                  <div *ngIf="f.submitted && password.invalid">
+                    <div *ngIf="password.errors.required">
+                      Password is required
+                    </div>
+                    <div *ngIf="password.errors.minlength">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+                  <label class="white-text" for="password">Password</label>
                 </div>
-                <label class="white-text" for="password">Password</label>
-              </div>
-              <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger">
-                Login failed: {{errorMessage}}
-              </div>
-              <button class="btn btn-large btn-extended grey lighten-4 black-text" >Login</button>
-              <!-- <input type="submit" value="Login" class="btn btn-large btn-extended grey lighten-4 black-text"> -->
-                <!-- <a routerLink="/dashboard" class="btn btn-large btn-extended grey lighten-4 black-text" >Login </a> -->
-            <!-- </input> -->
-            </form>
+                <div class="form-group">
+                  <button
+                    class="btn btn-large btn-extended grey lighten-4 black-text"
+                  >
+                  <a href="#modal1">Login</a>
+                    
+                  </button>
+
+                  <div *ngIf="f.submitted && isLoginFailed">
+                    <div id="modal1" class="modal">
+                      <div class="modal-content">
+                        <h4>Modal Header</h4>
+                        <p>Login failed: {{ errorMessage }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <a
+                          class="modal-action modal-close waves-effect waves-green btn-flat"
+                          >Ok</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-</form>
+    </section>
+  </form>
 
   <!-- Footer -->
   <footer class="section blue darken-2 white-text center">
     <p>Madmin Panel Copyright &copy; 2018</p>
   </footer>
-
-
 
   <!-- Preloader -->
   <div class="loader preloader-wrapper big active">

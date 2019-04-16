@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   private loginInfo: AuthLoginInfo;
-  constructor(private authService:AuthService, private tokenStorage:TokenStorageService) { 
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) {
 
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
@@ -25,21 +25,28 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
- 
-   
-     // Hide Sections
-     $('.section').hide();
 
-     setTimeout(function () {
-       $(document).ready(function () {
-         // Show sections
-         $('.section').fadeIn();
- 
-         // Hide preloader
-         $('.loader').fadeOut();
- 
-       });
-     }, 1000);
+    $('.modal').modal({
+      dismissible: true,
+      inDuration: 300,
+      outDuration: 200,
+      ready: function (modal, trigger) {
+        console.log('Modal Opened', modal, trigger);
+      }
+    });
+    // Hide Sections
+    $('.section').hide();
+
+    setTimeout(function () {
+      $(document).ready(function () {
+        // Show sections
+        $('.section').fadeIn();
+
+        // Hide preloader
+        $('.loader').fadeOut();
+
+      });
+    }, 1000);
   }
 
   onSubmit() {
