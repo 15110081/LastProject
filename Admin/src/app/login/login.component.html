@@ -6,7 +6,7 @@
       </div>
     </div>
   </nav>
-
+  <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
   <section class="section section-login">
     <div class="container">
       <div class="row">
@@ -15,17 +15,30 @@
             <h2>Madmin Login</h2>
             <form action="index.html">
               <div class="input-field">
-                <i class="material-icons prefix">email</i>
-                <input type="email" id="email">
-                <label class="white-text" for="email">Email</label>
+                <i class="material-icons prefix">account_box</i>
+                <!-- <input type="email" id="email"> -->
+                <input type="text" id="username" name="username" [(ngModel)]="form.username" #username="ngModel"
+                required />
+                <label class="white-text" for="username">Username</label>
+                <div *ngIf="f.submitted && username.invalid">
+                  <div *ngIf="username.errors.required">Username is required</div>
+                </div>
               </div>
               <div class="input-field">
                 <i class="material-icons prefix">lock</i>
-                <input type="password" id="password">
+                <input type="password"  id="password" name="password" [(ngModel)]="form.password" #password="ngModel" required minlength="6" />
+                <div *ngIf="f.submitted && password.invalid">
+                  <div *ngIf="password.errors.required">Password is required</div>
+                  <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
                 <label class="white-text" for="password">Password</label>
               </div>
+              <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger">
+                Login failed: {{errorMessage}}
+              </div>
+              <button class="btn btn-large btn-extended grey lighten-4 black-text" >Login</button>
               <!-- <input type="submit" value="Login" class="btn btn-large btn-extended grey lighten-4 black-text"> -->
-                <a routerLink="/dashboard" class="btn btn-large btn-extended grey lighten-4 black-text" >Login </a>
+                <!-- <a routerLink="/dashboard" class="btn btn-large btn-extended grey lighten-4 black-text" >Login </a> -->
             <!-- </input> -->
             </form>
           </div>
@@ -33,7 +46,7 @@
       </div>
     </div>
   </section>
-
+</form>
 
   <!-- Footer -->
   <footer class="section blue darken-2 white-text center">

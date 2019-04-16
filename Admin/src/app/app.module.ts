@@ -16,6 +16,9 @@ import { PostsComponent } from './posts/posts.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CommentsComponent } from './comments/comments.component';
 import { UsersComponent } from './users/users.component';
+import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -27,13 +30,16 @@ import { UsersComponent } from './users/users.component';
     CategoriesComponent,
     CommentsComponent,
     UsersComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule, MatCheckboxModule,MatPaginatorModule,
-    MatTableModule,DataTablesModule
+    MatTableModule,DataTablesModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
