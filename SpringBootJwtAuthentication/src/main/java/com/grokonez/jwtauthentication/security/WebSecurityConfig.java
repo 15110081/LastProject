@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.grokonez.jwtauthentication.security.jwt.JwtAuthEntryPoint;
 import com.grokonez.jwtauthentication.security.jwt.JwtAuthTokenFilter;
 import com.grokonez.jwtauthentication.security.services.UserDetailsServiceImpl;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthEntryPoint unauthorizedHandler;
+    private static final String[] AUTH_LIST = {
+            // -- swagger ui
+            "**/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "**/webjars/**"
+    };
 
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
@@ -63,23 +71,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                .authorizeRequests().antMatchers(AUTH_LIST).authenticated()
+                .and()
+                .httpBasic().authenticationEntryPoint(swaggerAuthenticationEntryPoint())
+                .and()
+                .csrf().disable();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/v2/api-docs",
-//                "/configuration/ui",
-//                "/swagger-resources",
-//                "/configuration/security",
-//                "/swagger-ui.html",
-//                "/webjars/**");
-        web.ignoring().antMatchers(
-                "/configuration/ui",
-                "/swagger-resources",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
+    @Bean
+    public BasicAuthenticationEntryPoint swaggerAuthenticationEntryPoint() {
+        BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+        entryPoint.setRealmName("Swagger Realm");
+        return entryPoint;
     }
 }
