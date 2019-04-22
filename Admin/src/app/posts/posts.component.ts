@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { emojiRandom } from '../../model/emojis';
+import * as faker from 'faker';
 declare var $:any;
 declare var CKEDITOR:any;
 @Component({
@@ -7,8 +9,18 @@ declare var CKEDITOR:any;
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
-
-  constructor() { }
+  people;
+  constructor() { 
+    this.people = Array(100)
+      .fill(1)
+      .map(_ => {
+        return {
+          name: faker.name.findName(),
+          bio: faker.hacker.phrase(),
+          emoji: emojiRandom()
+        };
+      });
+  }
 
   ngOnInit() {
       // Hide Sections

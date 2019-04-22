@@ -1,6 +1,8 @@
+
+
 <app-header></app-header>
-<!-- Section: Posts -->
-<section class="section section-posts grey lighten-4">
+ <!-- Section: Posts -->
+ <!-- <section class="section section-posts grey lighten-4"> 
   <div class="container">
     <div class="row">
       <div class="col s12">
@@ -101,8 +103,22 @@
       </div>
     </div>
   </div>
-</section>
+</section>  -->
+<cdk-virtual-scroll-viewport itemSize="100">
 
+<a href="#detail-card" class="modal-trigger">
+    <li *cdkVirtualFor="let p of people;" class="animated slideInRight" >
+    
+        <h2>{{ p.emoji }} {{ p.name }}</h2>  
+        <p> {{ p.bio }} </p>
+    
+     
+    </li>
+</a>
+   
+  
+  
+  </cdk-virtual-scroll-viewport>
 <!-- Footer -->
 <footer class="section blue darken-2 white-text center">
   <p>Madmin Panel Copyright &copy; 2018</p>
@@ -114,7 +130,12 @@
     <i class="material-icons">add</i>
   </a>
 </div>
+<!-- Model Item Post-->
+<div id="detail-card" class="modal">
+    <div class="modal-content">
 
+      </div>
+</div>
 <!-- Add Post Modal -->
 <div id="post-modal" class="modal">
   <div class="modal-content">

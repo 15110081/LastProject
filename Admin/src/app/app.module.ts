@@ -18,7 +18,9 @@ import { CommentsComponent } from './comments/comments.component';
 import { UsersComponent } from './users/users.component';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -39,7 +41,15 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule, MatCheckboxModule,MatPaginatorModule,
     MatTableModule,DataTablesModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ScrollingModule,
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyBogpc-AUVgVdcgoiWhE4_lKCFzfcbaSaA',
+      authDomain: 'angularfirebase-267db.firebaseapp.com',
+      databaseURL: 'https://angularfirebase-267db.firebaseio.com',
+      projectId: 'angularfirebase-267db'
+    }),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
