@@ -1,9 +1,12 @@
 package com.grokonez.jwtauthentication.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Word {
@@ -17,21 +20,25 @@ public class Word {
     private String typeword;
     private String title;
     public String audioword;
-    @JsonIgnore
-    @Transient
-    private MultipartFile image;
-    @JsonIgnore
-    @Transient
-    private MultipartFile audio;
+    private String imageWord;
 
-    public MultipartFile getAudio() {
-        return audio;
+    public Word(){}
+    @Column(name = "created_datetime")
+    @CreationTimestamp
+    private Date createdDatetime;
+    @Column(name = "updated_datetime")
+    @UpdateTimestamp
+    private Date updatedDatetime;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "title_word",
+            joinColumns = { @JoinColumn(name = "word_id") },
+            inverseJoinColumns = {@JoinColumn(name = "title_id") })
+    private List<TitleWord> titleWord = new ArrayList<>();
+    @Override
+    public String toString() {
+        return "Product [id=" + id + ", name=" + vocabulary + "  - categories size: " + titleWord.size() +"]";
     }
-
-    public void setAudio(MultipartFile audio) {
-        this.audio = audio;
-    }
-
     public String getAudioword() {
         return audioword;
     }
@@ -40,14 +47,22 @@ public class Word {
         this.audioword = audioword;
     }
 
-    public MultipartFile getImage() {
-        return image;
+    public Date getCreatedDatetime() {
+        return createdDatetime;
     }
 
-    public void setImage(MultipartFile image) {
-        this.image = image;
+    public void setCreatedDatetime(Date createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
-    private String imageWord;
+
+    public Date getUpdatedDatetime() {
+        return updatedDatetime;
+    }
+
+    public void setUpdatedDatetime(Date updatedDatetime) {
+        this.updatedDatetime = updatedDatetime;
+    }
+
 
     public Word(String vocabulary, String phonetic, String note, String definition, String typeword, String title, String imageWord) {
         this.vocabulary = vocabulary;
@@ -59,15 +74,6 @@ public class Word {
         this.imageWord = imageWord;
     }
 
-    public Word() {
-    }
-    //    @ManyToOne
-//    @JoinColumn(name="title_id",nullable = false)
-//    private Title title;
-//
-//    @ManyToOne
-//    @JoinColumn(name="type_id",nullable = false)
-//    private Type type;
 
 
     public String getImageWord() {
@@ -141,7 +147,11 @@ public class Word {
     }
 
 
+    public List<TitleWord> getTitleWord() {
+        return titleWord;
+    }
 
-
-
+    public void setTitleWord(List<TitleWord> titleWord) {
+        this.titleWord = titleWord;
+    }
 }

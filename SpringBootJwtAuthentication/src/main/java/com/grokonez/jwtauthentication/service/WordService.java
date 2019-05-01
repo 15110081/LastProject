@@ -13,6 +13,11 @@ import java.util.List;
 public class WordService {
     @Autowired
     private WordRepository wordRepository;
+
+    public List<Word> selectOrders(){return wordRepository.findAllByOrderByVocabulary();}
+
+
+
     // get all article
     public List<Word> selectAllWord() {
         return wordRepository.findAll();

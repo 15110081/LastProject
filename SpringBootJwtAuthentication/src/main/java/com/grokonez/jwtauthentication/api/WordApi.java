@@ -2,6 +2,7 @@ package com.grokonez.jwtauthentication.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grokonez.jwtauthentication.model.Word;
+import com.grokonez.jwtauthentication.repository.WordRepository;
 import com.grokonez.jwtauthentication.service.WordService;
 import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
 import com.sun.deploy.association.utility.AppConstants;
@@ -14,18 +15,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/wordapi")
 public class WordApi {
     @Autowired
     private WordService articleService;
+
     ObjectMapper objectMapper = new ObjectMapper();
 //    @Autowired
 //    FileStorageService fileStorageService;
@@ -91,6 +91,12 @@ public class WordApi {
     }
 
 
+    @RequestMapping(value = "/getOrder",method = RequestMethod.GET)
+    public List<Word>getOrders() {
+        System.out.println("__________Demo find all order by name desc________________");
+        List<Word> listCustomer1 = articleService.selectOrders();
+        return listCustomer1;
+    }
 
 
 }
