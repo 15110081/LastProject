@@ -24,11 +24,11 @@ public class TitleWord {
     @UpdateTimestamp
     private Date updatedDatetime;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "title_id") },
             inverseJoinColumns = {@JoinColumn(name = "word_id") })
-    private List<Word> words = new ArrayList<>();
+    private Set<Word> words;
 
     @Override
     public String toString() {
@@ -54,13 +54,6 @@ public class TitleWord {
         this.name = name;
     }
 
-    public List<Word> getWords() {
-        return words;
-    }
-
-    public void setWords(List<Word> words) {
-        this.words = words;
-    }
 
     public String getImage() {
         return image;

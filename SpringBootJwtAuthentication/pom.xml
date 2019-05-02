@@ -42,6 +42,10 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-browser</artifactId>
+		</dependency>
 		<!--Swagger 2.0  - specification API-->
 		<dependency>
 			<groupId>io.springfox</groupId>

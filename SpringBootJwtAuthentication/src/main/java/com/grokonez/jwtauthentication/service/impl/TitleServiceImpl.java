@@ -13,12 +13,5 @@ import java.util.stream.Collector;
 
 @Service
 public class TitleServiceImpl {
-    @Autowired
-    TitleRepository titleRepository;
-    public List<Word> getListTitle(){
-     Optional<TitleWord> titleWord=titleRepository.findById((long) 1);
-        System.out.println(titleWord.get().getWords());
-        List<Word> wordList= (List<Word>) titleWord.get().getWords();
-        return wordList;
-    }
+
 }

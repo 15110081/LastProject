@@ -30,11 +30,11 @@ public class Word {
     @UpdateTimestamp
     private Date updatedDatetime;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "word_id") },
             inverseJoinColumns = {@JoinColumn(name = "title_id") })
-    private List<TitleWord> titleWord = new ArrayList<>();
+    private Set<TitleWord> titleWord ;
     @Override
     public String toString() {
         return "Product [id=" + id + ", name=" + vocabulary + "  - categories size: " + titleWord.size() +"]";
@@ -147,11 +147,11 @@ public class Word {
     }
 
 
-    public List<TitleWord> getTitleWord() {
+    public Set<TitleWord> getTitleWord() {
         return titleWord;
     }
 
-    public void setTitleWord(List<TitleWord> titleWord) {
+    public void setTitleWord(Set<TitleWord> titleWord) {
         this.titleWord = titleWord;
     }
 }
