@@ -1,5 +1,5 @@
-
-<app-header></app-header>
+<div *ngIf="isLoggedIn; else loggedOut">
+  <app-header></app-header>
   <!-- Section: Stats -->
   <section class="section section-stats center">
     <div class="row">
@@ -45,31 +45,48 @@
       </div>
     </div>
   </section>
-
-
+  <section class="section section-visitors blue lighten-4">
+      <div class="row">  </div>
+    </section>
+     
+          <!-- <div class="col s12 l8 m6"> -->
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              [dtTrigger]="dtTrigger"
+              class="row-border hover"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Vocabulary</th>
+                  <th>Phonetic</th>
+                  <th>Definition</th>
+                  <th>Note</th>
+                  <th>TypeWord</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let word of data">
+                  <td>{{ word.id }}</td>
+                  <td>{{ word.vocabulary }}</td>
+                  <td>{{ word.phonetic }}</td>
+                  <td>{{word.definition}}</td>
+                  <td>{{word.note}}</td>
+                  <td>{{word.typeword}}</td>
+                </tr>
+              </tbody>
+            </table>
+      
+      
+  
+  
   <!-- Section: Visitors -->
   <section class="section section-visitors blue lighten-4">
     <div class="row">
       <div class="col s12 m6 l8">
         <div class="card-panel">
-            <table datatable [dtOptions]="dtOptions" class="row-border hover">
-          <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"> -->
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First name</th>
-                <th>Last name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let person of persons">
-                <td>{{ person.id }}</td>
-                <td>{{ person.firstName }}</td>
-                <td>{{ person.lastName }}</td>
-              </tr>
-            </tbody>
-            </table>
-        
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
       </div>
       <div class="col s12 m6 l4">
@@ -79,26 +96,38 @@
             <h5>Latest Comments</h5>
           </li>
           <li class="collection-item avatar">
-            <img src="img/person1.jpg" alt="" class="circle">
+            <img src="img/person1.jpg" alt="" class="circle" />
             <span class="title">John Doe</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae
-              explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.</p>
+            <p class="truncate">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
+              minima dolor error laboriosam autem ad beatae explicabo pariatur
+              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
+              fugit tempore.
+            </p>
             <a href="" class="approve green-text">Approve</a> |
             <a href="" class="deny red-text">Deny</a>
           </li>
           <li class="collection-item avatar">
-            <img src="img/person2.jpg" alt="" class="circle">
+            <img src="img/person2.jpg" alt="" class="circle" />
             <span class="title">Steve Smith</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae
-              explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.</p>
+            <p class="truncate">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
+              minima dolor error laboriosam autem ad beatae explicabo pariatur
+              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
+              fugit tempore.
+            </p>
             <a href="" class="approve green-text">Approve</a> |
             <a href="" class="deny red-text">Deny</a>
           </li>
           <li class="collection-item avatar">
-            <img src="img/person3.jpg" alt="" class="circle">
+            <img src="img/person3.jpg" alt="" class="circle" />
             <span class="title">Ellen Williams</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae
-              explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.</p>
+            <p class="truncate">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
+              minima dolor error laboriosam autem ad beatae explicabo pariatur
+              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
+              fugit tempore.
+            </p>
             <a href="" class="approve green-text">Approve</a> |
             <a href="" class="deny red-text">Deny</a>
           </li>
@@ -127,21 +156,27 @@
                   <td>Post One</td>
                   <td>Web Development</td>
                   <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                    <a href="details.html" class="btn blue lighten-2"
+                      >Details</a
+                    >
                   </td>
                 </tr>
                 <tr>
                   <td>Post Two</td>
                   <td>Graphic Design</td>
                   <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                    <a href="details.html" class="btn blue lighten-2"
+                      >Details</a
+                    >
                   </td>
                 </tr>
                 <tr>
                   <td>Post Three</td>
                   <td>Web Development</td>
                   <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                    <a href="details.html" class="btn blue lighten-2"
+                      >Details</a
+                    >
                   </td>
                 </tr>
               </tbody>
@@ -155,19 +190,21 @@
             <span class="card-title">Quick Todos</span>
             <form id="todo-form">
               <div class="input-field">
-                <input id="todo" type="text" placeholder="Add Todo...">
+                <input id="todo" type="text" placeholder="Add Todo..." />
               </div>
             </form>
             <ul class="collection todos">
               <li class="collection-item">
-                <div>Todo One
+                <div>
+                  Todo One
                   <a href="#!" class="secondary-content delete">
                     <i class="material-icons">close</i>
                   </a>
                 </div>
               </li>
               <li class="collection-item">
-                <div>Todo Two
+                <div>
+                  Todo Two
                   <a href="#!" class="secondary-content delete">
                     <i class="material-icons">close</i>
                   </a>
@@ -215,7 +252,7 @@
       <h4>Add Post</h4>
       <form>
         <div class="input-field">
-          <input type="text" id="title">
+          <input type="text" id="title" />
           <label for="title">Title</label>
         </div>
         <div class="input-field">
@@ -229,12 +266,18 @@
           <label>Category</label>
         </div>
         <div class="input-field">
-          <textarea name="body" id="body" class="materialize-textarea"></textarea>
+          <textarea
+            name="body"
+            id="body"
+            class="materialize-textarea"
+          ></textarea>
           <label for="body">Body</label>
         </div>
       </form>
       <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close btn blue white-text">Submit</a>
+        <a href="#!" class="modal-action modal-close btn blue white-text"
+          >Submit</a
+        >
       </div>
     </div>
   </div>
@@ -245,12 +288,14 @@
       <h4>Add Category</h4>
       <form>
         <div class="input-field">
-          <input type="text" id="title">
+          <input type="text" id="title" />
           <label for="title">Title</label>
         </div>
       </form>
       <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close btn blue white-text">Submit</a>
+        <a href="#!" class="modal-action modal-close btn blue white-text"
+          >Submit</a
+        >
       </div>
     </div>
   </div>
@@ -261,29 +306,31 @@
       <h4>Add User</h4>
       <form>
         <div class="input-field">
-          <input type="text" id="name">
+          <input type="text" id="name" />
           <label for="name">Name</label>
         </div>
         <div class="input-field">
-          <input type="email" id="email">
+          <input type="email" id="email" />
           <label for="email">Email</label>
         </div>
         <div class="input-field">
-          <input type="password" id="password">
+          <input type="password" id="password" />
           <label for="password">Password</label>
         </div>
         <div class="input-field">
-          <input type="password" id="password2">
+          <input type="password" id="password2" />
           <label for="password2">Confirm Password</label>
         </div>
       </form>
       <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close btn blue white-text">Submit</a>
+        <a href="#!" class="modal-action modal-close btn blue white-text"
+          >Submit</a
+        >
       </div>
     </div>
   </div>
 
-    <!-- Preloader -->
+  <!-- Preloader -->
   <div class="loader preloader-wrapper big active">
     <div class="spinner-layer spinner-blue-only">
       <div class="circle-clipper left">
@@ -297,3 +344,7 @@
       </div>
     </div>
   </div>
+</div>
+<ng-template #loggedOut>
+  <app-login></app-login>
+</ng-template>

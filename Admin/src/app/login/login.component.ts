@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { AuthLoginInfo } from '../auth/login-info';
+import { Router } from '@angular/router';
 
 declare var $: any;
 @Component({
@@ -16,13 +17,15 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   private loginInfo: AuthLoginInfo;
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) {
-
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,private router: Router) {
+    this.isLoggedIn = false;
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
+      this.router.navigate(["/dashboard"]);
       this.roles = this.tokenStorage.getAuthorities();
       console.log(this.roles);
     }
+
   }
 
   ngOnInit() {
@@ -79,5 +82,6 @@ export class LoginComponent implements OnInit {
   reloadPage() {
     window.location.reload();
   }
+ 
 
 }

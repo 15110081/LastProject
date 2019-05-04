@@ -21,10 +21,10 @@ import java.util.Set;
 public class TitleApi {
     @Autowired
     private TitleServiceImpl titleService;
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Word> getAllWordAPI() {
-        return titleService.getListTitle();
-    }
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Word> getAllWordAPI() {
+//        return titleService.getListTitle();
+//    }
 
 }

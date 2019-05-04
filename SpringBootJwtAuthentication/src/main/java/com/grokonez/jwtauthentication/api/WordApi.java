@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grokonez.jwtauthentication.model.Word;
 import com.grokonez.jwtauthentication.repository.WordRepository;
 import com.grokonez.jwtauthentication.service.WordService;
+import com.grokonez.jwtauthentication.storage.StorageService;
 import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
 import com.sun.deploy.association.utility.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,29 +15,72 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/wordapi")
 public class WordApi {
     @Autowired
     private WordService articleService;
+    @Autowired
+    StorageService storageService;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-//    @Autowired
-//    FileStorageService fileStorageService;
+    List<String> files = new ArrayList<String>();
+
+    @PostMapping("/post")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            storageService.store(file);
+            files.add(file.getOriginalFilename());
+
+            message = "You successfully uploaded " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            message = "FAIL to upload " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+        }
+    }
+
+    @GetMapping("/getallfiles")
+    public ResponseEntity<List<String>> getListFiles(Model model) {
+        List<String> fileNames = files
+                .stream().map(fileName -> MvcUriComponentsBuilder
+                        .fromMethodName(WordApi.class, "getFile", fileName).build().toString())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(fileNames);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        Resource file = storageService.loadFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
+
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public Map<String, ?> getAllWordAPI() {
         return ApiResponseBuilder.buildContainsData("List all words", articleService.selectAllWord());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Map<String, ?> getWordAPI(@PathVariable Long id) {
         return ApiResponseBuilder.buildContainsData("Get article#" + id, articleService.selectWordById(id));
     }
