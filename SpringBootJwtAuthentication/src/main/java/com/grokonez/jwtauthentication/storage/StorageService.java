@@ -18,11 +18,20 @@ import java.nio.file.Paths;
 public class StorageService {
 
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
-	private final Path rootLocation = Paths.get("upload-dir");
-
+	private final Path rootLocationImage = Paths.get("upload-dir/image");
+	private final Path rootLocationAudio = Paths.get("upload-dir/audio");
 	public void store(MultipartFile file) {
 		try {
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+			String mimeType =file.getContentType();
+			System.out.println(mimeType);
+			if(mimeType.matches("^audio.+")) {
+				Files.copy(file.getInputStream(), this.rootLocationAudio.resolve(file.getOriginalFilename()));
+				return;
+			}
+			if(mimeType.matches("^image.+")) {
+				Files.copy(file.getInputStream(), this.rootLocationImage.resolve(file.getOriginalFilename()));
+				return;
+			}
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
 		}
@@ -30,7 +39,7 @@ public class StorageService {
 
 	public Resource loadFile(String filename) {
 		try {
-			Path file = rootLocation.resolve(filename);
+			Path file = rootLocationImage.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -43,12 +52,15 @@ public class StorageService {
 	}
 
 	public void deleteAll() {
-		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+		FileSystemUtils.deleteRecursively(rootLocationImage.toFile());
 	}
 
 	public void init() {
 		try {
-			Files.createDirectory(rootLocation);
+			if (!Files.exists(rootLocationImage))
+			Files.createDirectory(rootLocationImage);
+			if(!Files.exists(rootLocationAudio))
+			Files.createDirectory(rootLocationAudio);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize storage!");
 		}

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { emojiRandom } from '../../model/emojis';
 import * as faker from 'faker';
 import { TokenStorageService } from '../auth/token-storage.service';
-import { WordService } from '../auth/word.service';
+import { WordService } from '../service/word.service';
 declare var $:any;
 declare var CKEDITOR:any;
 @Component({

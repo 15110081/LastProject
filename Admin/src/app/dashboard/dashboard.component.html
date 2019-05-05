@@ -58,22 +58,24 @@
             >
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Vocabulary</th>
                   <th>Phonetic</th>
                   <th>Definition</th>
                   <th>Note</th>
                   <th>TypeWord</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let word of data">
-                  <td>{{ word.id }}</td>
                   <td>{{ word.vocabulary }}</td>
                   <td>{{ word.phonetic }}</td>
                   <td>{{word.definition}}</td>
                   <td>{{word.note}}</td>
                   <td>{{word.typeword}}</td>
+                  <td><a class="btn waves-effect waves-light" href="#!">
+                      <i class="material-icons left">view_list</i> View</a>
+                    <button class=" btn red"  (click)='deleteWord(word.id)'> <i class="material-icons left">delete</i>Detele</button></td>
                 </tr>
               </tbody>
             </table>
@@ -234,8 +236,8 @@
         </a>
       </li>
       <li>
-        <a href="#category-modal" class="modal-trigger btn-floating blue">
-          <i class="material-icons">folder</i>
+        <a href="#add-word" class="modal-trigger btn-floating blue">
+          <i class="material-icons">star</i>
         </a>
       </li>
       <li>
@@ -282,23 +284,74 @@
     </div>
   </div>
 
-  <!-- Add Category Modal -->
-  <div id="category-modal" class="modal">
-    <div class="modal-content">
-      <h4>Add Category</h4>
-      <form>
-        <div class="input-field">
-          <input type="text" id="title" />
-          <label for="title">Title</label>
-        </div>
-      </form>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close btn blue white-text"
-          >Submit</a
-        >
+  <!-- Add Word Modal -->
+    <div id="add-word" class="modal">
+      <div class="modal-content">
+          <h4>Add Word</h4>
+        <form>
+          <div class="input-field">
+            <input type="text" id="vocabulary" [(ngModel)]="Word.vocabulary" name="vocabulary" placeholder=""/>
+            <label for="vocabulary">Vocabulary</label> 
+          </div>
+          <div class="input-field">
+            <input type="text" id="phonetic"  [(ngModel)]="Word.phonetic" name="phonetic" placeholder="" />
+            <label for="phonetic">Phonetic</label>
+          </div>
+          <div class="input-field">
+            <textarea id="note" class="materialize-textarea" [(ngModel)]="Word.note" name="note" placeholder=""></textarea>
+            <label for="note">Note</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="definition"  [(ngModel)]="Word.definition" name="definition" placeholder=""/>
+            <label for="definition">Definition</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="typeword"  [(ngModel)]="Word.typeword" name="typeword" placeholder=""/>
+            <label for="typeword">Typeword</label>
+          </div>
+          <!-- Upload File Image -->
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>Upload File Image</span>
+              <input  #file type="file" accept='image/*' (change)="preview(file.files,$event)" />
+            </div>
+            <div class="file-path-wrapper">
+              <input id="inputImage" type="text" class="file-path" />
+            </div>
+          </div>
+          <!-- Result Preview Upload File Image -->
+          <div class="input-field">
+              <span style="color:red;" *ngIf="messageImage">{{messageImage}}</span>
+              <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL">
+          </div>
+            <!-- Upload File Audio -->
+          <div class="file-field input-field">
+              <div class="btn">
+                  <span>Upload File Audio</span>
+                  <input #fileaudio type="file" id="input" (change)="previewAudio(fileaudio.files,$event)"/>
+                </div>
+                <div class="file-path-wrapper">
+                  <input id="inputAudio" type="text" class="file-path" />
+                </div>
+          </div>
+           <!-- Result Preview Upload File Audio -->
+          <div>
+              <audio id="sound"></audio>
+              <span style="color:red;" *ngIf="messageAudio">{{messageAudio}}</span>
+          </div>
+          <!-- PreLoader Add Word-->
+          <div id="progress" class="progress" style="display: none;">
+              <div class="determinate" [ngStyle]="{width:progress.percentage+'%'}"></div>
+          </div>
+
+        </form>
+        <div class="modal-footer">
+            <button (click)="upload()" class="modal-action btn blue white-text "
+              >Update</button>
+              <button (click)="file.value = null" id="updateButton" style="display:none;" class="modal-close"></button>
+          </div>
       </div>
     </div>
-  </div>
 
   <!-- Add User Modal -->
   <div id="user-modal" class="modal">
@@ -348,3 +401,4 @@
 <ng-template #loggedOut>
   <app-login></app-login>
 </ng-template>
+

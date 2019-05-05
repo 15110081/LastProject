@@ -76,7 +76,7 @@ public class WordApi {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public Map<String, ?> getAllWordAPI() {
-        return ApiResponseBuilder.buildContainsData("List all words", articleService.selectAllWord());
+        return ApiResponseBuilder.buildContainsDataSize("List all words", articleService.selectAllWord(),articleService.selectAllWord().size());
     }
 
     @GetMapping("/{id}")
@@ -88,6 +88,7 @@ public class WordApi {
     public Word getWordInfoAPI(@PathVariable Long id) {
         return  articleService.selectWordById(id);
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, ?> postArticle(@RequestBody Word article) {
