@@ -13,6 +13,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class StorageService {
@@ -20,16 +23,27 @@ public class StorageService {
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocationImage = Paths.get("upload-dir/image");
 	private final Path rootLocationAudio = Paths.get("upload-dir/audio");
+	public static String fileStoredImage;
+	public static String fileStoredAudio;
 	public void store(MultipartFile file) {
 		try {
 			String mimeType =file.getContentType();
 			System.out.println(mimeType);
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_");
+			Date date = new Date();
+			System.out.println(dateFormat.format(date));
+			String fileStored=dateFormat.format(date)+file.getOriginalFilename();
+//			fileStoredImage="";
+//			fileStoredAudio="";
 			if(mimeType.matches("^audio.+")) {
-				Files.copy(file.getInputStream(), this.rootLocationAudio.resolve(file.getOriginalFilename()));
+				Files.copy(file.getInputStream(), this.rootLocationAudio.resolve(fileStored));
+				fileStoredAudio=fileStored;
 				return;
 			}
 			if(mimeType.matches("^image.+")) {
-				Files.copy(file.getInputStream(), this.rootLocationImage.resolve(file.getOriginalFilename()));
+				Files.copy(file.getInputStream(), this.rootLocationImage.resolve(fileStored));
+				fileStoredImage=fileStored;
 				return;
 			}
 		} catch (Exception e) {

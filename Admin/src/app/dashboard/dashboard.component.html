@@ -48,8 +48,6 @@
   <section class="section section-visitors blue lighten-4">
       <div class="row">  </div>
     </section>
-     
-          <!-- <div class="col s12 l8 m6"> -->
             <table
               datatable
               [dtOptions]="dtOptions"
@@ -290,23 +288,23 @@
           <h4>Add Word</h4>
         <form>
           <div class="input-field">
-            <input type="text" id="vocabulary" [(ngModel)]="Word.vocabulary" name="vocabulary" placeholder=""/>
+            <input type="text" id="vocabulary" [(ngModel)]="WordPost.vocabulary" name="vocabulary" placeholder=""/>
             <label for="vocabulary">Vocabulary</label> 
           </div>
           <div class="input-field">
-            <input type="text" id="phonetic"  [(ngModel)]="Word.phonetic" name="phonetic" placeholder="" />
+            <input type="text" id="phonetic"  [(ngModel)]="WordPost.phonetic" name="phonetic" placeholder="" />
             <label for="phonetic">Phonetic</label>
           </div>
           <div class="input-field">
-            <textarea id="note" class="materialize-textarea" [(ngModel)]="Word.note" name="note" placeholder=""></textarea>
+            <textarea id="note" class="materialize-textarea" [(ngModel)]="WordPost.note" name="note" placeholder=""></textarea>
             <label for="note">Note</label>
           </div>
           <div class="input-field">
-            <input type="text" id="definition"  [(ngModel)]="Word.definition" name="definition" placeholder=""/>
+            <input type="text" id="definition"  [(ngModel)]="WordPost.definition" name="definition" placeholder=""/>
             <label for="definition">Definition</label>
           </div>
           <div class="input-field">
-            <input type="text" id="typeword"  [(ngModel)]="Word.typeword" name="typeword" placeholder=""/>
+            <input type="text" id="typeword"  [(ngModel)]="WordPost.typeword" name="typeword" placeholder=""/>
             <label for="typeword">Typeword</label>
           </div>
           <!-- Upload File Image -->

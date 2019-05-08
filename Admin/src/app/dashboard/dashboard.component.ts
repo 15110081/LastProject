@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { WordService } from '../service/word.service';
 import { Subject } from 'rxjs';
@@ -14,25 +14,24 @@ declare var CKEDITOR: any;
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnDestroy,OnInit {
 
   data: any;
   currentID: number;
   logs: string[] = [];
-  dtOptions: any = {};
+  dtOptions:any;
   dtTrigger: Subject<Word> = new Subject();
   isLoggedIn = false;
   roles: string[] = [];
-  Word = {
+  word = {
     id: null,
     vocabulary: "",
     phonetic: "",
     note: "",
     definition: "",
-    typeword: "",
-    imageword: "",
-    audioword: ""
+    typeword: ""
   };
+  WordPost:Word=new Word("","","","","");
   constructor(private token: TokenStorageService, private wordService: WordService,private uploadService: UploadFileService) { }
 
   ngOnInit() {
@@ -45,8 +44,9 @@ export class DashboardComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10,
-      select: true,
+      pageLength: 5,
+      // destroy:true,
+      // select: true,
       // Declare the use of the extension in the dom parameter
       dom: 'Bfrtip',
       // Configure the buttons
@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-
+   
     this.JqueryAjax();
 
   }
@@ -232,9 +232,9 @@ export class DashboardComponent implements OnInit {
   
   upload() {
     this.progress.percentage = 0;
-    (<HTMLInputElement>document.getElementById('sound')).src = "";
-    (<HTMLInputElement>document.getElementById('inputAudio')).value = "";
-    (<HTMLInputElement>document.getElementById('inputImage')).value = "";
+    // (<HTMLInputElement>document.getElementById('sound')).src = "";
+    // (<HTMLInputElement>document.getElementById('inputAudio')).value = "";
+    // (<HTMLInputElement>document.getElementById('inputImage')).value = "";
    
     document.getElementById("progress").style.display = "block";
     if(this.selectedFilesImage!=undefined){
@@ -259,6 +259,12 @@ export class DashboardComponent implements OnInit {
         }
       });
     }
+    console.log(this.WordPost);
+    
+    this.wordService.postWord(this.WordPost,this.token.getToken()).subscribe(res=>{
+      if(res.code!=-1) console.log(res.message);
+    });
+
     setTimeout(function() {
       document.getElementById("updateButton").click();
       (<HTMLInputElement>document.getElementById('resultImage')).src = "";
@@ -267,6 +273,8 @@ export class DashboardComponent implements OnInit {
     this.selectedFilesAudio = undefined;
    
   }
-
+insertWord(){
+  
+}
  
 }

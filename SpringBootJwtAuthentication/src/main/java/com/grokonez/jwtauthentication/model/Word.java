@@ -18,7 +18,6 @@ public class Word {
     private String note;
     private String definition;
     private String typeword;
-    private String title;
     public String audioword;
     private String imageWord;
 
@@ -64,14 +63,14 @@ public class Word {
     }
 
 
-    public Word(String vocabulary, String phonetic, String note, String definition, String typeword, String title, String imageWord) {
+    public Word(String vocabulary, String phonetic, String note, String definition, String typeword,String audioword, String imageword) {
         this.vocabulary = vocabulary;
         this.phonetic = phonetic;
         this.note = note;
         this.definition = definition;
         this.typeword = typeword;
-        this.title = title;
-        this.imageWord = imageWord;
+        this.audioword=audioword;
+        this.imageWord = imageword;
     }
 
 
@@ -103,13 +102,7 @@ public class Word {
     }
 
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
 
 

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class WordApi {
         try {
             storageService.store(file);
             files.add(file.getOriginalFilename());
+//            Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword(), article.getAudioword(), article.getImageWord()));
 
             message = "You successfully uploaded " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.OK).body(message);
@@ -51,6 +53,15 @@ public class WordApi {
             message = "FAIL to upload " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String, ?> postArticle(@RequestBody Word article) {
+        System.out.println(article.getDefinition());
+        System.out.println("API POST "+StorageService.fileStoredAudio+StorageService.fileStoredImage);
+        Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword(), StorageService.fileStoredAudio, StorageService.fileStoredImage));
+
+        return ApiResponseBuilder.buildSuccess(String.format("Insert article#%d success", insertedArticle.getId()), insertedArticle);
     }
 
     @GetMapping("/getallfiles")
@@ -89,12 +100,7 @@ public class WordApi {
         return  articleService.selectWordById(id);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, ?> postArticle(@RequestBody Word article) {
-        Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword(), article.getTitle(), article.getImageWord()));
-        return ApiResponseBuilder.buildSuccess(String.format("Insert article#%d success", insertedArticle.getId()), insertedArticle);
-    }
+
 
     //    @RequestMapping(value = "/Image/{id:.+}", method = RequestMethod.GET)
 //    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {

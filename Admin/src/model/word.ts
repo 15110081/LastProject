@@ -8,22 +8,16 @@ export class Word {
   title: string;
  audioword:string;
   constructor(
-    id: number,
     definition: string,
     note: string,
     phonetic: string,
-    title: string,
     typeword: string,
     vocabulary: string,
-    audioword:string
   ) {
-      this.id=id;
       this.definition=definition;
       this.note=note;
       this.phonetic=phonetic;
-      this.title=title;
       this.typeword=typeword;
       this.vocabulary=vocabulary;
-      this.audioword=audioword;
   }
 }
