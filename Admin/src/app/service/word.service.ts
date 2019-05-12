@@ -12,7 +12,10 @@ export class WordService {
 
     private URL_API="http://localhost:9059/wordapi/"
   constructor(private http: HttpClient) { }
-
+  getFiles(id:number,auth_token): Observable<any> {
+    console.log('request get file audio');
+    return this.http.get('http://localhost:9059/upload/file/'+id,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`),responseType: 'json'});
+  }
   getAllWord(auth_token): Observable<RestResponse> {
     return this.http.get<RestResponse>(this.URL_API, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
   }

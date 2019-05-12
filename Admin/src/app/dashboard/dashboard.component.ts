@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { WordService } from '../service/word.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Word } from 'src/model/word';
 import { UploadFileService } from '../service/upload-file.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
@@ -14,12 +14,12 @@ declare var CKEDITOR: any;
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnDestroy,OnInit {
+export class DashboardComponent implements OnDestroy, OnInit {
 
   data: any;
   currentID: number;
   logs: string[] = [];
-  dtOptions:any;
+  dtOptions: any;
   dtTrigger: Subject<Word> = new Subject();
   isLoggedIn = false;
   roles: string[] = [];
@@ -31,41 +31,43 @@ export class DashboardComponent implements OnDestroy,OnInit {
     definition: "",
     typeword: ""
   };
-  WordPost:Word=new Word("","","","","");
-  constructor(private token: TokenStorageService, private wordService: WordService,private uploadService: UploadFileService) { }
+  WordPost: Word = new Word("", "", "", "", "");
+  constructor(private token: TokenStorageService, private wordService: WordService, private uploadService: UploadFileService) {
+    this.loadWord(this.token.getToken());
+  }
 
   ngOnInit() {
     console.log(this.token.getToken());
-    this.loadWord(this.token.getToken());
     if (this.token.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.token.getAuthorities();
     }
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      // destroy:true,
-      // select: true,
-      // Declare the use of the extension in the dom parameter
-      dom: 'Bfrtip',
-      // Configure the buttons
-      buttons: [
-        'colvis',
-        'copy',
-        'print',
-        'excel',
-        'csv',
-        {
-          text: 'Some button',
-          key: '1',
-          action: function (e, dt, node, config) {
-            alert('Button activated');
+    this.dtOptions =
+      {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        // destroy:true,
+        // select: true,
+        // Declare the use of the extension in the dom parameter
+        dom: 'Bfrtip',
+        // Configure the buttons
+        buttons: [
+          'colvis',
+          'copy',
+          'print',
+          'excel',
+          'csv',
+          {
+            text: 'Some button',
+            key: '1',
+            action: function (e, dt, node, config) {
+              alert('Button activated');
+            }
           }
-        }
-      ]
-    };
-   
+        ]
+      };
+
     this.JqueryAjax();
 
   }
@@ -88,6 +90,7 @@ export class DashboardComponent implements OnDestroy,OnInit {
         this.loadWord(this.token.getToken());
       },
       error => console.log(error));
+    window.location.reload();
   }
   errorMessage: string;
   loadWord(token: any) {
@@ -109,7 +112,7 @@ export class DashboardComponent implements OnDestroy,OnInit {
   public messageImage: string;
   public messageAudio: string;
   // Review Image Before Upload
-  preview(files,event) {
+  preview(files, event) {
     if (files.length === 0)
       return;
 
@@ -120,7 +123,7 @@ export class DashboardComponent implements OnDestroy,OnInit {
       return;
     }
     this.messageImage = "";
-    this.selectedFilesImage=event.target.files;
+    this.selectedFilesImage = event.target.files;
     var reader = new FileReader();
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
@@ -129,7 +132,7 @@ export class DashboardComponent implements OnDestroy,OnInit {
     }
   }
   // Review Audio Before Upload
-  previewAudio(files,event) {
+  previewAudio(files, event) {
     var mimeType = files[0].type;
     console.log(mimeType);
     if (mimeType.match(/audio\/*/) == null) {
@@ -137,7 +140,7 @@ export class DashboardComponent implements OnDestroy,OnInit {
       return;
     }
     this.messageAudio = "";
-    this.selectedFilesAudio=event.target.files;
+    this.selectedFilesAudio = event.target.files;
     var sound: any = document.getElementById('sound');
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -227,30 +230,30 @@ export class DashboardComponent implements OnDestroy,OnInit {
   selectedFilesAudio: FileList;
   selectedFilesImage: FileList;
 
- 
+
   progress: { percentage: number } = { percentage: 0 };
-  
+
   upload() {
     this.progress.percentage = 0;
     // (<HTMLInputElement>document.getElementById('sound')).src = "";
     // (<HTMLInputElement>document.getElementById('inputAudio')).value = "";
     // (<HTMLInputElement>document.getElementById('inputImage')).value = "";
-   
+
     document.getElementById("progress").style.display = "block";
-    if(this.selectedFilesImage!=undefined){
-      this.uploadService.pushFileToStorage(this.selectedFilesImage.item(0),this.token.getToken()).subscribe(event => {  
+    if (this.selectedFilesImage != undefined) {
+      this.uploadService.pushFileToStorage(this.selectedFilesImage.item(0), this.token.getToken()).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           console.log('File Image is completely uploaded!');
-         
-          
+
+
         }
       });
     }
     this.progress.percentage = 0;
-    if(this.selectedFilesAudio!=undefined){
-      this.uploadService.pushFileToStorage(this.selectedFilesAudio.item(0),this.token.getToken()).subscribe(event => {  
+    if (this.selectedFilesAudio != undefined) {
+      this.uploadService.pushFileToStorage(this.selectedFilesAudio.item(0), this.token.getToken()).subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total);
           // console.log(this.progress.percentage);
@@ -260,21 +263,40 @@ export class DashboardComponent implements OnDestroy,OnInit {
       });
     }
     console.log(this.WordPost);
-    
-    this.wordService.postWord(this.WordPost,this.token.getToken()).subscribe(res=>{
-      if(res.code!=-1) console.log(res.message);
+
+    this.wordService.postWord(this.WordPost, this.token.getToken()).subscribe(res => {
+      if (res.code != -1) console.log(res.message);
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
       document.getElementById("updateButton").click();
       (<HTMLInputElement>document.getElementById('resultImage')).src = "";
     }, 500)
     this.selectedFilesImage = undefined;
     this.selectedFilesAudio = undefined;
-   
+
   }
-insertWord(){
-  
-}
- 
+  selectedWord = {
+    vocabulary: "",
+    phonetic: "",
+    note: "",
+    definition: "",
+    typeword: ""
+  };
+  fileUpload:Observable<string[]>;
+  viewWord(id: number) {
+    this.wordService.getWordFromId(id, this.token.getToken()).subscribe(
+      res => {
+        this.selectedWord = res["data"];
+        console.log("Data detail:" + JSON.stringify(this.selectedWord));
+        
+      }
+
+    );
+    this.wordService.getFiles(id,this.token.getToken()).subscribe(res=>{this.fileUpload=res;
+    console.log(this.fileUpload);
+     
+    });
+  }
+
 }
