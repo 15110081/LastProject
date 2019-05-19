@@ -8,6 +8,7 @@ public class ApiResponseBuilder {
     private static final String MESSAGE = "message";
     private static final String DATA = "data";
     private static final String SIZE = "size";
+    private static final String ID="id";
     private static int ERROR_CODE = -1;
     private static int SUCCESS_CODE = 0;
     private static int DATA_CODE = 1;
@@ -38,7 +39,6 @@ public class ApiResponseBuilder {
         res.put(DATA, data);
         return res;
     }
-
     private static HashMap<String, Object> buildSize(int code, String message, Object data,int size) {
         HashMap<String, Object> res = new HashMap<>();
         res.put(CODE, code);

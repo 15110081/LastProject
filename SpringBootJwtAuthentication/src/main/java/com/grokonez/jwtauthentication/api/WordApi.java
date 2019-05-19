@@ -37,16 +37,14 @@ public class WordApi {
     @Autowired
     StorageService storageService;
 
-    List<String> files = new ArrayList<String>();
 
+    public static Long idGlobal;
     @PostMapping("/post")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            storageService.store(file);
-            files.add(file.getOriginalFilename());
-//            Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword(), article.getAudioword(), article.getImageWord()));
 
+            storageService.store(file);
             message = "You successfully uploaded " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
@@ -57,31 +55,15 @@ public class WordApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, ?> postArticle(@RequestBody Word article) {
-        System.out.println(article.getDefinition());
-        System.out.println("API POST "+StorageService.fileStoredAudio+StorageService.fileStoredImage);
-        Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword(), StorageService.fileStoredAudio, StorageService.fileStoredImage));
-
-        return ApiResponseBuilder.buildSuccess(String.format("Insert article#%d success", insertedArticle.getId()), insertedArticle);
+        System.out.println("definition"+article.getDefinition());
+//        System.out.println("API POST "+StorageService.fileStoredAudio+StorageService.fileStoredImage);
+        Word insertedArticle = articleService.insertWord(new Word(article.getVocabulary(), article.getPhonetic(), article.getNote(), article.getDefinition(), article.getTypeword()));
+        idGlobal=insertedArticle.getId();
+        System.out.println(idGlobal);
+        return ApiResponseBuilder.buildSuccess(String.format("%d", insertedArticle.getId()), insertedArticle);
     }
 
-    @GetMapping("/getallfiles")
-    public ResponseEntity<List<String>> getListFiles(Model model) {
-        List<String> fileNames = files
-                .stream().map(fileName -> MvcUriComponentsBuilder
-                        .fromMethodName(WordApi.class, "getFile", fileName).build().toString())
-                .collect(Collectors.toList());
 
-        return ResponseEntity.ok().body(fileNames);
-    }
-
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.loadFile(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-    }
 
 
     @GetMapping
@@ -107,15 +89,7 @@ public class WordApi {
 //        byte[] image = imageService.getImage(id);
 //        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
 //    }
-    @GetMapping(value = "/image/{id}")
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable("id")Long id) throws IOException {
-        Word word=articleService.selectWordById(id);
-        ClassPathResource imgFile = new ClassPathResource("/static/uploads/image/"+word.getImageWord());
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG).contentType(MediaType.IMAGE_PNG)
-                .body(new InputStreamResource(imgFile.getInputStream()));
-    }
+
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

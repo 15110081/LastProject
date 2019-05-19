@@ -52,12 +52,16 @@ public class WordService {
         article.setTypeword(data.getTypeword());
         return wordRepository.save(article);
     }
-    public Word updateImageWord(Long id) throws ObjectNotFoundException {
+    public Word updateImageWord(Long id,String wordName) throws ObjectNotFoundException {
         Word word=selectWordById(id);
-        word.setImageWord("");
+        word.setImageWord(wordName);
         return wordRepository.save(word);
     }
-
+    public Word updateAudioWord(Long id,String wordName) throws ObjectNotFoundException {
+        Word word=selectWordById(id);
+        word.setAudioword(wordName);
+        return wordRepository.save(word);
+    }
     // delete a article
     public boolean deleteWord(Long id) throws ObjectNotFoundException {
         Word article = selectWordById(id);

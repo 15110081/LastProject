@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { WordService } from '../service/word.service';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Word } from 'src/model/word';
 import { UploadFileService } from '../service/upload-file.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
@@ -34,6 +34,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   WordPost: Word = new Word("", "", "", "", "");
   constructor(private token: TokenStorageService, private wordService: WordService, private uploadService: UploadFileService) {
     this.loadWord(this.token.getToken());
+    // this.wordService.getWordByTitle2(this.token.getToken()).subscribe(res=>{
+    //   console.log(res["_embedded"]["word"]);
+    //   this.data=res["_embedded"]["word"];
+    //       });
   }
 
   ngOnInit() {
@@ -232,16 +236,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
 
   progress: { percentage: number } = { percentage: 0 };
-
-  upload() {
+  id:any;
+  uploadImageOrAudio(){
     this.progress.percentage = 0;
-    // (<HTMLInputElement>document.getElementById('sound')).src = "";
-    // (<HTMLInputElement>document.getElementById('inputAudio')).value = "";
-    // (<HTMLInputElement>document.getElementById('inputImage')).value = "";
-
     document.getElementById("progress").style.display = "block";
     if (this.selectedFilesImage != undefined) {
-      this.uploadService.pushFileToStorage(this.selectedFilesImage.item(0), this.token.getToken()).subscribe(event => {
+      this.uploadService.pushFileToStorage(this.selectedFilesImage.item(0), this.token.getToken()).toPromise().then(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
@@ -253,7 +253,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     }
     this.progress.percentage = 0;
     if (this.selectedFilesAudio != undefined) {
-      this.uploadService.pushFileToStorage(this.selectedFilesAudio.item(0), this.token.getToken()).subscribe(event => {
+      this.uploadService.pushFileToStorage(this.selectedFilesAudio.item(0), this.token.getToken()).toPromise().then(event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total);
           // console.log(this.progress.percentage);
@@ -261,19 +261,29 @@ export class DashboardComponent implements OnDestroy, OnInit {
           console.log('File Audio is completely uploaded!');
         }
       });
-    }
-    console.log(this.WordPost);
-
-    this.wordService.postWord(this.WordPost, this.token.getToken()).subscribe(res => {
-      if (res.code != -1) console.log(res.message);
-    });
-
+    }  
     setTimeout(function () {
+    
       document.getElementById("updateButton").click();
+      if(document.getElementById('resultImage')!=null)
       (<HTMLInputElement>document.getElementById('resultImage')).src = "";
+      if(document.getElementById('audio')!=null)
+      (<HTMLInputElement>document.getElementById('audio')).src = "";
     }, 500)
     this.selectedFilesImage = undefined;
     this.selectedFilesAudio = undefined;
+  }
+  upload() {
+    
+   
+   this.uploadService.addWordToAPI(this.WordPost,this.token.getToken(),()=>{
+     console.log("Da them vao ");
+     this.uploadImageOrAudio();
+    });
+    console.log(this.WordPost);
+
+    
+    
 
   }
   selectedWord = {
@@ -283,20 +293,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
     definition: "",
     typeword: ""
   };
+ 
+  
   fileUpload:Observable<string[]>;
   viewWord(id: number) {
     this.wordService.getWordFromId(id, this.token.getToken()).subscribe(
       res => {
         this.selectedWord = res["data"];
         console.log("Data detail:" + JSON.stringify(this.selectedWord));
-        
       }
 
     );
-    this.wordService.getFiles(id,this.token.getToken()).subscribe(res=>{this.fileUpload=res;
-    console.log(this.fileUpload);
-     
-    });
+   this.fileUpload=this.wordService.getFiles(id,this.token.getToken());
+     console.log(this.fileUpload);
   }
 
 }

@@ -326,72 +326,11 @@
           <label for="typeword">Typeword</label>
         </div>
         <audio controls>
-          <source src="{{fileUpload}}" type="audio/mp3" />
+          <source src={{fileUpload}} type="audio/mp3" />
           Your browser does not support the audio element.
         </audio>
-        <!-- Upload File Image -->
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>Upload File Image</span>
-            <input
-              #file
-              type="file"
-              accept="image/*"
-              (change)="preview(file.files, $event)"
-            />
-          </div>
-          <div class="file-path-wrapper">
-            <input id="inputImage" type="text" class="file-path" />
-          </div>
-        </div>
-        <!-- Result Preview Upload File Image -->
-        <div class="input-field">
-          <span style="color:red;" *ngIf="messageImage">{{
-            messageImage
-          }}</span>
-          <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
-        </div>
-        <!-- Upload File Audio -->
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>Upload File Audio</span>
-            <input
-              #fileaudio
-              type="file"
-              id="input"
-              (change)="previewAudio(fileaudio.files, $event)"
-            />
-          </div>
-          <div class="file-path-wrapper">
-            <input id="inputAudio" type="text" class="file-path" />
-          </div>
-        </div>
-        <!-- Result Preview Upload File Audio -->
-        <div>
-          <audio id="sound"></audio>
-          <span style="color:red;" *ngIf="messageAudio">{{
-            messageAudio
-          }}</span>
-        </div>
-        <!-- PreLoader Add Word-->
-        <div id="progress" class="progress" style="display: none;">
-          <div
-            class="determinate"
-            [ngStyle]="{ width: progress.percentage + '%' }"
-          ></div>
-        </div>
       </form>
-      <div class="modal-footer">
-        <button (click)="upload()" class="modal-action btn blue white-text ">
-          Update
-        </button>
-        <button
-          (click)="file.value = null"
-          id="updateButton"
-          style="display:none;"
-          class="modal-close"
-        ></button>
-      </div>
+     
     </div>
   </div>
   <!-- Add Word Modal -->

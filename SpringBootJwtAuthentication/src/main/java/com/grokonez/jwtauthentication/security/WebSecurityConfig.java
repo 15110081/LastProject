@@ -19,6 +19,7 @@ import com.grokonez.jwtauthentication.security.jwt.JwtAuthEntryPoint;
 import com.grokonez.jwtauthentication.security.jwt.JwtAuthTokenFilter;
 import com.grokonez.jwtauthentication.security.services.UserDetailsServiceImpl;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthEntryPoint unauthorizedHandler;
     private static final String[] AUTH_LIST = {
             // -- swagger ui
-            "**/swagger-resources/**",
-            "/swagger-ui.html",
-            "/v2/api-docs",
             "**/webjars/**"
     };
+    private static final String[] NO_CONFIRM = {
+          "/upload/**", "/api/auth/**", "/browser/index.html","/swagger-ui.html", "**/swagger-resources/**",
+            "/v2/api-docs"
 
+    };
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
         return new JwtAuthTokenFilter();
@@ -61,16 +63,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.cors().and().csrf().disable().
+//                authorizeRequests()
+//                .antMatchers("/api/auth/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers(NO_CONFIRM).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http
                 .authorizeRequests().antMatchers(AUTH_LIST).authenticated()

@@ -63,14 +63,12 @@ public class Word {
     }
 
 
-    public Word(String vocabulary, String phonetic, String note, String definition, String typeword,String audioword, String imageword) {
+    public Word(String vocabulary, String phonetic, String note, String definition, String typeword) {
         this.vocabulary = vocabulary;
         this.phonetic = phonetic;
         this.note = note;
         this.definition = definition;
         this.typeword = typeword;
-        this.audioword=audioword;
-        this.imageWord = imageword;
     }
 
 
