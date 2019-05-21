@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,15 +37,18 @@ public class FileApi {
                 .body(new InputStreamResource(imgFile.getInputStream()));
     }
     @GetMapping("/fileaudio/{id}")
-    public ResponseEntity<String> getListFiles(@PathVariable Long id) {
+    public  HashMap<String, Object> getListFiles(@PathVariable Long id) {
         Word word=articleService.selectWordById(id);
-        String fileNames = MvcUriComponentsBuilder.fromMethodName(FileApi.class,"getFile",word.getAudioword()).build().toString();
+        String audio = MvcUriComponentsBuilder.fromMethodName(FileApi.class,"getFile",word.getAudioword()).build().toString();
+        String image = MvcUriComponentsBuilder.fromMethodName(FileApi.class,"getFile",word.getImageWord()).build().toString();
 //                files
 //                .stream().map(fileName -> MvcUriComponentsBuilder
 //                        .fromMethodName(WordApi.class, "getFile", fileName).build().toString())
 //                .collect(Collectors.toList());
-
-        return ResponseEntity.ok().body(fileNames);
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("audio", audio);
+       res.put("image", image);
+        return res;
     }
 
     @GetMapping("/file/{filename:.+}")

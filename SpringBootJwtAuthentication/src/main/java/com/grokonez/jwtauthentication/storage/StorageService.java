@@ -58,7 +58,7 @@ public class StorageService {
 
 	public Resource loadFile(String filename) {
 		try {
-			Path file = rootLocationAudio.resolve(filename);
+			Path file = rootLocationImage.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

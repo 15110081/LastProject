@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { DetailWordComponent } from './detail-word/detail-word.component';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     PostsComponent,
     CategoriesComponent,
     CommentsComponent,
-    UsersComponent
+    UsersComponent,
+    DetailWordComponent
 
   ],
   imports: [

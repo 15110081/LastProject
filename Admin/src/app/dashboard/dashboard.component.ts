@@ -286,26 +286,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
     
 
   }
-  selectedWord = {
-    vocabulary: "",
-    phonetic: "",
-    note: "",
-    definition: "",
-    typeword: ""
-  };
+  
  
   
-  fileUpload:Observable<string[]>;
+ 
   viewWord(id: number) {
-    this.wordService.getWordFromId(id, this.token.getToken()).subscribe(
-      res => {
-        this.selectedWord = res["data"];
-        console.log("Data detail:" + JSON.stringify(this.selectedWord));
-      }
-
-    );
-   this.fileUpload=this.wordService.getFiles(id,this.token.getToken());
-     console.log(this.fileUpload);
+    
   }
 
 }

@@ -74,9 +74,8 @@
         <td>{{ word.typeword }}</td>
         <td>
           <a
-            class="btn waves-effect waves-light modal-trigger"
-            href="#view-word"
-            (click)="viewWord(word.id)"
+            class="btn waves-effect waves-light "
+            routerLink="/detail/{{word.id}}"
           >
             <i class="material-icons left">view_list</i> View</a
           >
@@ -270,69 +269,7 @@
     </div>
   </div>
 
-  <!--View Word Modal-->
-  <div id="view-word" class="modal">
-    <div class="modal-content">
-      <h4>Detail Word</h4>
-      <form>
-        <div class="input-field">
-          <input
-            type="text"
-            id="vocabulary"
-            [(ngModel)]="selectedWord.vocabulary"
-            name="vocabulary"
-            placeholder=""
-          />
-          <label for="vocabulary">Vocabulary</label>
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            id="phonetic"
-            [(ngModel)]="selectedWord.phonetic"
-            name="phonetic"
-            placeholder=""
-          />
-          <label for="phonetic">Phonetic</label>
-        </div>
-        <div class="input-field">
-          <textarea
-            id="note"
-            class="materialize-textarea"
-            [(ngModel)]="selectedWord.note"
-            name="note"
-            placeholder=""
-          ></textarea>
-          <label for="note">Note</label>
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            id="definition"
-            [(ngModel)]="selectedWord.definition"
-            name="definition"
-            placeholder=""
-          />
-          <label for="definition">Definition</label>
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            id="typeword"
-            [(ngModel)]="selectedWord.typeword"
-            name="typeword"
-            placeholder=""
-          />
-          <label for="typeword">Typeword</label>
-        </div>
-        <audio controls>
-          <source src={{fileUpload}} type="audio/mp3" />
-          Your browser does not support the audio element.
-        </audio>
-      </form>
-     
-    </div>
-  </div>
+  
   <!-- Add Word Modal -->
   <div id="add-word" class="modal">
     <div class="modal-content">

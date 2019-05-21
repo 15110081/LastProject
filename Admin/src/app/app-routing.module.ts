@@ -7,6 +7,7 @@ import { PostsComponent } from './posts/posts.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CommentsComponent } from './comments/comments.component';
 import { UsersComponent } from './users/users.component';
+import { DetailWordComponent } from './detail-word/detail-word.component';
 
 const routes: Routes = [{
   path:'login',
@@ -35,6 +36,10 @@ const routes: Routes = [{
 {
   path:'users',
   component:UsersComponent
+},
+{
+  path:'detail/:id',
+  component:DetailWordComponent
 },
 { 
   path: '',

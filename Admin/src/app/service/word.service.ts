@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { RestResponse } from 'src/model/restresponse';
 import { Word } from 'src/model/word';
 
@@ -9,10 +9,14 @@ import { Word } from 'src/model/word';
   providedIn: 'root'
 })
 export class WordService {
-
+  // private fileSubject:Subject<any>;
+  // file$:Observable<any>;
     private URL_API="http://localhost:9059/wordapi/"
-  constructor(private http: HttpClient) { }
-  getFiles(id:number,auth_token): Observable<any> {
+  constructor(private http: HttpClient) { 
+    // this.fileSubject=new Subject();
+    // this.file$=this.fileSubject.asObservable();
+  }
+  getFiles(id:number,auth_token):Observable<any>{
     console.log('request get file audio');
     return this.http.get('http://localhost:9059/upload/fileaudio/'+id,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`),responseType:'text'});
   }
