@@ -1,10 +1,34 @@
 <div *ngIf="isLoggedIn; else loggedOut">
   <app-header></app-header>
+  <div class="input-field">
+    <i class="material-icons prefix">search</i>
+    <input id="phone" type="text"  [(ngModel)]="searchText">
+    <label for="phone">Search Word</label>
+  </div>
   <cdk-virtual-scroll-viewport itemSize="100">
-    <a href="#detail-card" class="modal-trigger">
-      <li *cdkVirtualFor="let p of data" class="animated slideInRight" (click)="onSelectedWord(p.id)">
-        <h2>{{ p.id }} {{ p.vocabulary }}</h2>
-        <p>{{ p.phonetic }}</p>
+    <a>
+      <li *cdkVirtualFor="let p of data|filter:searchText" class="animated slideInRight" (click)="onSelectedWord(p.id)">
+          <!-- src="http://localhost:9059/upload/file/{{p.imageWord}}" 
+          onError="this.onerror=this.src='../../assets/images/no_image.png';"-->
+            
+          <div class="row" routerLink="/detail/{{p.id}}" >
+            <div class="col s4">
+                <img
+                class="responsive-img file_image"
+               src="http://localhost:9059/upload/file/{{p.imageWord}}"
+                style="height: 150px;position: relative;top: -11px;"
+                onError="this.onerror=this.src='../../assets/images/no_image.png';"
+              />
+            </div>
+            <div class="col s8">
+                <h2>{{ p.vocabulary }}</h2>
+              <p>{{ p.note }}</p>
+            </div>
+            
+          </div>
+
+       
+        
       </li>
     </a>
   </cdk-virtual-scroll-viewport>
@@ -15,62 +39,134 @@
 
   <!-- Fixed Action Button -->
   <div class="fixed-action-btn">
-    <a href="#post-modal" class="modal-trigger btn-floating btn-large red">
+    <a href="#add-word" class="modal-trigger btn-floating btn-large red">
       <i class="material-icons">add</i>
     </a>
   </div>
-  <!-- Model Item Post-->
-  <div id="detail-card" class="modal">
-    <div class="modal-content">
-      <form>
-        <div class="input-field">
-          <input type="text" id="vocabulary" [(ngModel)]="selectedWord.vocabulary" name="vocabulary" placeholder=""/>
-          <label for="vocabulary">Vocabulary</label> 
-        </div>
-        <div class="input-field">
-          <input type="text" id="phonetic"  [(ngModel)]="selectedWord.phonetic" name="phonetic" placeholder="" />
-          <label for="phonetic">Phonetic</label>
-        </div>
-        <div class="input-field">
-          <textarea id="note" class="materialize-textarea" [(ngModel)]="selectedWord.note" name="note" placeholder=""></textarea>
-          <label for="note">Note</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="definition"  [(ngModel)]="selectedWord.definition" name="definition" placeholder=""/>
-          <label for="definition">Definition</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="typeword"  [(ngModel)]="selectedWord.typeword" name="typeword" placeholder=""/>
-          <label for="typeword">Typeword</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="createdDatetime"  [(ngModel)]="selectedWord.createDatetime" name="createdDatetime" placeholder=""/>
-          <label for="createdDatetime">CreatedDatetime</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="updatedDatetime"  [(ngModel)]="selectedWord.updatedDatetime" name="updatedDatetime" placeholder=""/>
-          <label for="updatedDatetime">UpdatedDatetime</label>
-        </div>
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>Upload File</span>
-            <input type="file" />
+
+   <!-- Add Word Modal -->
+   <div id="add-word" class="modal">
+      <div class="modal-content">
+        <h4>Add Word</h4>
+        <form>
+          <div class="input-field">
+            <input
+              type="text"
+              id="vocabulary"
+              [(ngModel)]="WordPost.vocabulary"
+              name="vocabulary"
+              placeholder=""
+            />
+            <label for="vocabulary">Vocabulary</label>
           </div>
-          <div class="file-path-wrapper">
-            <input type="text" class="file-path" />
+          <div class="input-field">
+            <input
+              type="text"
+              id="phonetic"
+              [(ngModel)]="WordPost.phonetic"
+              name="phonetic"
+              placeholder=""
+            />
+            <label for="phonetic">Phonetic</label>
           </div>
+          <div class="input-field">
+            <textarea
+              id="note"
+              class="materialize-textarea"
+              [(ngModel)]="WordPost.note"
+              name="note"
+              placeholder=""
+            ></textarea>
+            <label for="note">Note</label>
+          </div>
+          <div class="input-field">
+            <input
+              type="text"
+              id="definition"
+              [(ngModel)]="WordPost.definition"
+              name="definition"
+              placeholder=""
+            />
+            <label for="definition">Definition</label>
+          </div>
+          <div class="input-field">
+            <input
+              type="text"
+              id="typeword"
+              [(ngModel)]="WordPost.typeword"
+              name="typeword"
+              placeholder=""
+            />
+            <label for="typeword">Typeword</label>
+          </div>
+          <!-- Upload File Image -->
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>Upload File Image</span>
+              <input
+                #file
+                type="file"
+                accept="image/*"
+                (change)="preview(file.files, $event)"
+              />
+            </div>
+            <div class="file-path-wrapper">
+              <input id="inputImage" type="text" class="file-path" />
+            </div>
+          </div>
+          <!-- Result Preview Upload File Image -->
+          <div class="input-field">
+            <span style="color:red;" *ngIf="messageImage">{{
+              messageImage
+            }}</span>
+            <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
+          </div>
+          <!-- Upload File Audio -->
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>Upload File Audio</span>
+              <input
+                #fileaudio
+                type="file"
+                id="input"
+                (change)="previewAudio(fileaudio.files, $event)"
+              />
+            </div>
+            <div class="file-path-wrapper">
+              <input id="inputAudio" type="text" class="file-path" />
+            </div>
+          </div>
+          <!-- Result Preview Upload File Audio -->
+          <div>
+            <audio id="sound"></audio>
+            <span style="color:red;" *ngIf="messageAudio">{{
+              messageAudio
+            }}</span>
+          </div>
+          <!-- PreLoader Add Word-->
+          <div id="progress" class="progress" style="display: none;">
+            <div
+              class="determinate"
+              [ngStyle]="{ width: progress.percentage + '%' }"
+            ></div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button (click)="upload()" class="modal-action btn blue white-text ">
+            Save
+          </button>
+          <button
+            (click)="file.value = null"
+            id="updateButton"
+            style="display:none;"
+            class="modal-close"
+          ></button>
         </div>
-      </form>
-      <div class="modal-footer">
-          <a href="#!" class="modal-action modal-close btn blue white-text"
-            >Update</a
-          >
-        </div>
+      </div>
     </div>
-  </div>
   <!-- Add Post Modal -->
   <div id="post-modal" class="modal">
-    <div class="modal-content">
+    <!-- <div class="modal-content">
       <h4>Add Post</h4>
       <form>
         <div class="input-field">
@@ -101,7 +197,8 @@
           >Submit</a
         >
       </div>
-    </div>
+    </div> -->
+    
   </div>
 
   <!-- Preloader -->

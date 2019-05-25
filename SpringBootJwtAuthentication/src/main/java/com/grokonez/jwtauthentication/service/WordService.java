@@ -43,12 +43,12 @@ public class WordService {
     // edit a article
     public Word updateWord(Long id, Word data) throws ObjectNotFoundException {
         Word article = selectWordById(id);
-        article.setImageWord(data.getImageWord());
+//        article.setImageWord(data.getImageWord());
         article.setVocabulary(data.getVocabulary());
         article.setPhonetic(data.getPhonetic());
         article.setNote(data.getNote());
         article.setDefinition(data.getDefinition());
-        article.setAudioword(data.getAudioword());
+//        article.setAudioword(data.getAudioword());
         article.setTypeword(data.getTypeword());
         return wordRepository.save(article);
     }

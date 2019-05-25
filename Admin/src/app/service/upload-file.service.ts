@@ -29,7 +29,19 @@ export class UploadFileService {
 
     return this.http.request(req);
   }
+  updatePushFileToStorage(file: File,auth_token,id:number): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
 
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST','http://localhost:9059/wordapi/updatefile/'+id, formdata, {
+      headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`),
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
   getFiles(): Observable<any> {
     return this.http.get('http://localhost:8080/getallfiles');
   }

@@ -11,7 +11,7 @@ cdk-virtual-scroll-viewport {
       height: 150px;
       margin: 10px;
       padding: 10px;
-      background: whitesmoke;
+      // background: whitesmoke;
   
       box-shadow: 2px 2px 3px rgba($color: #888888, $alpha: 0.2);
     }
@@ -29,3 +29,4 @@ cdk-virtual-scroll-viewport {
   }
   a { color: inherit;cursor: pointer;text-decoration:none;  } 
   
+ 

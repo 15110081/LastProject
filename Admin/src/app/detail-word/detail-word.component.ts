@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { Word } from 'src/model/word';
 import { Observable, Subscription, Subject } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { UploadFileService } from '../service/upload-file.service';
+import { identifierModuleUrl } from '@angular/compiler';
 declare var $:any;
 @Component({
   selector: 'app-detail-word',
@@ -14,24 +17,33 @@ declare var $:any;
 export class DetailWordComponent implements OnInit {
   data: any;
   fileUpload:Observable<any>;
-  selectedWord = {
-    vocabulary: "",
-    phonetic: "",
-    note: "",
-    definition: "",
-    typeword: "",
-    audioword:"",
-    imageWord:""
-  };
+  // selectedWord = {
+  //   id:"",
+  //   vocabulary: "",
+  //   phonetic: "",
+  //   note: "",
+  //   definition: "",
+  //   typeword: "",
+  //   audioword:"",
+  //   imageWord:""
+  // };
+  selectedWord=new Word("","","","","","");
   files={audio:""};
   subs:Subscription;
   file:any;
-  constructor (private detector:ChangeDetectorRef,private route:ActivatedRoute,private wordService:WordService, private location:Location,private token:TokenStorageService) 
+  constructor (private uploadService:UploadFileService,private route:ActivatedRoute,private wordService:WordService, private location:Location,private token:TokenStorageService) 
   {
       // this.wordService.file$.subscribe(file=>this.fileUpload=file);
    }
  JqueryDetailWord(){
   $(document).ready(function () {
+    $('select').material_select();
+    $('.dropdown-button').dropdown({
+      constrainWidth: false,
+      hover: true,
+      belowOrigin: true,
+      alignment: 'left'
+    });
     // Init Side nav
     $('.button-collapse').sideNav();
 
@@ -80,17 +92,27 @@ export class DetailWordComponent implements OnInit {
       }
 
     );
-   
-  this.wordService.getFiles(id,this.token.getToken()).subscribe(
-    res=>{
-      this.files=res;
-      console.log(this.files);
+  }
+  updateWord(id:number){
+    var temp=(<HTMLInputElement> document.getElementById("inputImage")).value;
+    if(temp!=this.selectedWord.imageWord) {
+      this.selectedWord.imageWord=temp;
+      this.uploadImage(this.selectedWord.id);
     }
-    );
-  //  JSON.stringify(this.fileUpload);
- 
-  //  String(this.fileUpload);
-     
+    this.wordService.putWord(id,this.selectedWord,this.token.getToken()).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => console.log(error));
+   this.goBack();
+  }
+  deleteWord(id: number) {
+    this.wordService.deleteWord(id, this.token.getToken()).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => console.log(error));
+   this.goBack();
   }
   public messageImage: string;
   selectedFilesImage: FileList;
@@ -114,5 +136,12 @@ export class DetailWordComponent implements OnInit {
   }
   goBack(): void {
     this.location.back();
+  }
+  progress: { percentage: number } = { percentage: 0 };
+  id:any;
+  uploadImage(id:number){
+      this.uploadService.updatePushFileToStorage(this.selectedFilesImage.item(0),
+       this.token.getToken(),id).toPromise();
+  
   }
 }

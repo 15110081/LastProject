@@ -1,0 +1,19 @@
+img.file_image::after{
+display:inherit;
+position: absolute;
+top:0;
+left:0;
+width: 100%;
+min-width: 200px;
+padding:10px 20px 10px 45px;
+border:1px dashed #888888;
+background-color: #f0f0f0;
+background-image:url(../../assets/images/no_image.png);
+baackground-size:10%;
+background-repeat: no-repeat;
+background-position: 15px 10px;
+z-index: 1;
+content: "" attr(alt) " Not Found";
+height: 102%;
+background-size: 69px;
+}

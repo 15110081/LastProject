@@ -22,6 +22,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DetailWordComponent } from './detail-word/detail-word.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -34,7 +35,6 @@ import { DetailWordComponent } from './detail-word/detail-word.component';
     CommentsComponent,
     UsersComponent,
     DetailWordComponent
-
   ],
   imports: [
     BrowserModule,
@@ -51,7 +51,8 @@ import { DetailWordComponent } from './detail-word/detail-word.component';
       databaseURL: 'https://angularfirebase-267db.firebaseio.com',
       projectId: 'angularfirebase-267db'
     }),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    Ng2SearchPipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

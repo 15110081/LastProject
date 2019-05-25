@@ -41,11 +41,11 @@ public class StorageService {
 			String fileStored=dateFormat.format(date)+file.getOriginalFilename();
 			System.out.println("filename:"+fileStored);
             System.out.println("ID:"+WordApi.idGlobal);
-			if(mimeType.matches("^audio.+")) {
-				Files.copy(file.getInputStream(), this.rootLocationAudio.resolve(fileStored));
-				fileStoredAudio=fileStored;
-				wordService.updateAudioWord(WordApi.idGlobal,fileStored);
-			}
+//			if(mimeType.matches("^audio.+")) {
+//				Files.copy(file.getInputStream(), this.rootLocationAudio.resolve(fileStored));
+//				fileStoredAudio=fileStored;
+//				wordService.updateAudioWord(WordApi.idGlobal,fileStored);
+//			}
 			if(mimeType.matches("^image.+")) {
                 fileStoredImage=fileStored;
 				Files.copy(file.getInputStream(), this.rootLocationImage.resolve(fileStored));
@@ -55,7 +55,23 @@ public class StorageService {
 			throw new RuntimeException("FAIL!");
 		}
 	}
+	public void storeid(MultipartFile file,Long id) {
+		try {
+			String mimeType =file.getContentType();
+			System.out.println(mimeType);
 
+			DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_");
+			Date date = new Date();
+			String fileStored=dateFormat.format(date)+file.getOriginalFilename();
+			if(mimeType.matches("^image.+")) {
+				fileStoredImage=fileStored;
+				Files.copy(file.getInputStream(), this.rootLocationImage.resolve(fileStored));
+				wordService.updateImageWord(id,fileStored);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("FAIL!");
+		}
+	}
 	public Resource loadFile(String filename) {
 		try {
 			Path file = rootLocationImage.resolve(filename);
