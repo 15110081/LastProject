@@ -62,7 +62,6 @@
         <th>Definition</th>
         <th>Note</th>
         <th>TypeWord</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -72,21 +71,6 @@
         <td>{{ word.definition }}</td>
         <td>{{ word.note }}</td>
         <td>{{ word.typeword }}</td>
-        <td>
-          <a
-            class="btn waves-effect waves-light "
-            routerLink="/detail/{{word.id}}"
-          >
-            <i class="material-icons left">view_list</i> View</a
-          >
-          <a
-            href="#delete-form"
-            (click)="deleteWord(word.id)"
-            class="modal-trigger btn red"
-          >
-            <i class="material-icons left">delete</i>Detele</a
-          >
-        </td>
       </tr>
     </tbody>
   </table>

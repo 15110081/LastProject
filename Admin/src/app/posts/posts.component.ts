@@ -21,6 +21,7 @@ export class PostsComponent implements OnInit {
   isLoggedIn = false;
   data:Observable<any>;
   roles: string[] = [];
+  
   selectedWord = {
     id: null,
     vocabulary: "",
@@ -32,16 +33,18 @@ export class PostsComponent implements OnInit {
     updatedDatetime:"",
     imageWord:""
   };
+
   constructor(private tokenStorage:TokenStorageService,private wordService: WordService, private uploadService: UploadFileService,) { 
-    this.people = Array(100)
-      .fill(1)
-      .map(_ => {
-        return {
-          name: faker.name.findName(),
-          bio: faker.hacker.phrase(),
-          emoji: emojiRandom()
-        };
-      });
+    // this.people = Array(100)
+    //   .fill(1)
+    //   .map(_ => {
+    //     return {
+    //       name: faker.name.findName(),
+    //       bio: faker.hacker.phrase(),
+    //       emoji: emojiRandom()
+    //     };
+    //   });
+    
   }
 
   loadWord(token: any) {
@@ -69,7 +72,7 @@ export class PostsComponent implements OnInit {
      });
      //  this.selectedWord=this.data[id];
    }
-WordPost: Word = new Word("", "", "", "", "","");
+WordPost: Word = new Word(null,"", "", "", "", "","");
 public imagePath;
 imgURL: any;
 public messageImage: string;

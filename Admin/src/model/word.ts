@@ -9,6 +9,7 @@ export class Word {
   createdDatetime:string;
   updatedDatetime:string;
   constructor(
+    id:number,
     definition: string,
     note: string,
     phonetic: string,
@@ -16,6 +17,7 @@ export class Word {
     vocabulary: string,
     imageWord:string
   ) {
+      this.id=id;
       this.definition=definition;
       this.note=note;
       this.phonetic=phonetic;

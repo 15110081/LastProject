@@ -11,6 +11,7 @@ import { WordService } from './word.service';
 export class UploadFileService {
 
   constructor(private http: HttpClient, private wordService:WordService) { }
+
   addWordToAPI(Word:Word,auth_token,callBackFunc?: () => any){
     this.wordService.postWord(Word,auth_token).toPromise().then(() => {
       callBackFunc();
@@ -22,6 +23,19 @@ export class UploadFileService {
     formdata.append('file', file);
 
     const req = new HttpRequest('POST','http://localhost:9059/wordapi/post', formdata, {
+      headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`),
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+  pushFileTitleToStorage(file: File,auth_token): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST','http://localhost:9059/titleApi/post', formdata, {
       headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`),
       reportProgress: true,
       responseType: 'text'

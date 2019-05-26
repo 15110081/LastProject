@@ -40,7 +40,7 @@
   <!-- Fixed Action Button -->
   <div class="fixed-action-btn">
     <a href="#add-word" class="modal-trigger btn-floating btn-large red">
-      <i class="material-icons">add</i>
+      <i class="material-icons">star</i>
     </a>
   </div>
 
@@ -122,7 +122,7 @@
             <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
           </div>
           <!-- Upload File Audio -->
-          <div class="file-field input-field">
+          <!-- <div class="file-field input-field">
             <div class="btn">
               <span>Upload File Audio</span>
               <input
@@ -135,14 +135,14 @@
             <div class="file-path-wrapper">
               <input id="inputAudio" type="text" class="file-path" />
             </div>
-          </div>
+          </div> -->
           <!-- Result Preview Upload File Audio -->
-          <div>
+          <!-- <div>
             <audio id="sound"></audio>
             <span style="color:red;" *ngIf="messageAudio">{{
               messageAudio
             }}</span>
-          </div>
+          </div> -->
           <!-- PreLoader Add Word-->
           <div id="progress" class="progress" style="display: none;">
             <div

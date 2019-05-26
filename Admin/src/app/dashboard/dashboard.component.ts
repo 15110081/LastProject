@@ -17,6 +17,7 @@ declare var CKEDITOR: any;
 export class DashboardComponent implements OnDestroy, OnInit {
 
   data: any;
+  dateTemp:any;
   currentID: number;
   logs: string[] = [];
   dtOptions: any;
@@ -31,13 +32,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
     definition: "",
     typeword: ""
   };
-  
+
+  listWord: Word[] = [];
   constructor(private token: TokenStorageService, private wordService: WordService) {
     this.loadWord(this.token.getToken());
-    // this.wordService.getWordByTitle2(this.token.getToken()).subscribe(res=>{
-    //   console.log(res["_embedded"]["word"]);
-    //   this.data=res["_embedded"]["word"];
-    //       });
+  
   }
 
   ngOnInit() {
@@ -87,7 +86,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return Promise.reject(error.message || error);
   }
 
-  
+
   errorMessage: string;
   loadWord(token: any) {
     this.wordService.getAllWord(token).toPromise()
@@ -103,7 +102,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       .catch(this.handleError);
   }
 
- 
+
 
   JqueryAjax() {
     // Hide Sections
@@ -181,15 +180,15 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   }
 
-  
 
 
-  
-  
-  
- 
+
+
+
+
+
   viewWord(id: number) {
-    
+
   }
 
 }

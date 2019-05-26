@@ -36,6 +36,6 @@ export class WordService {
   deleteWord(id: number,auth_token:any) {     return this.http.delete<RestResponse>(this.URL_API + id,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});   } 
  
   getWordByTitle2(auth_token:any):Observable<any>{
-    return this.http.get("http://localhost:9059/titleHAL/2/words", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+    return this.http.get("http://localhost:9059/titleHAL/1/words", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
   }
 }

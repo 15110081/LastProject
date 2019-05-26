@@ -16,7 +16,9 @@ public class TitleWord {
     @Column(name = "name")
     private String name;
     @Column(name="image")
-    private  String image;
+    private  String imageTitle;
+    @Column(name="description")
+    private  String description;
     @Column(name = "created_datetime")
     @CreationTimestamp
     private Date createdDatetime;
@@ -38,6 +40,21 @@ public class TitleWord {
     public TitleWord() {
     }
 
+
+    public TitleWord(String name, String imageTitle, String description) {
+        this.name = name;
+        this.imageTitle = imageTitle;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,12 +72,12 @@ public class TitleWord {
     }
 
 
-    public String getImage() {
-        return image;
+    public String getImageTitle() {
+        return imageTitle;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageTitle(String imageTitle) {
+        this.imageTitle = imageTitle;
     }
 
     public Date getCreatedDatetime() {

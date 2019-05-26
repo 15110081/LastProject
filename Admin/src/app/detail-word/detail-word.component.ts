@@ -27,7 +27,7 @@ export class DetailWordComponent implements OnInit {
   //   audioword:"",
   //   imageWord:""
   // };
-  selectedWord=new Word("","","","","","");
+  selectedWord=new Word(null,"","","","","","");
   files={audio:""};
   subs:Subscription;
   file:any;
