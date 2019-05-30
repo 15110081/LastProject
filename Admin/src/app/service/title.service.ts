@@ -29,6 +29,14 @@ export class TitleService {
 
     deleteTitle(id: number, auth_token: any) { return this.http.delete<RestResponse>(this.URL_API + id, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }); }
     getTitleHAL(auth_token: any): Observable<any> {
-        return this.http.get("http://localhost:9059/titleHAL", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+        return this.http.get("http://localhost:9059/titleHAL?page=0&size=2&sort=name,asc", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
+    getTitleIDHAL(auth_token: any,id:any): Observable<any> {
+        return this.http.get(`http://localhost:9059/titleHAL?page=${id}&size=2&sort=name,asc`,
+         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
+    getTitleHALLink(auth_token: any,link:any): Observable<any> {
+        return this.http.get(link, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
+   
 }

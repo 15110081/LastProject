@@ -36,6 +36,7 @@ public class StorageService {
 	private final Path rootLocationImageTitle = Paths.get("upload-dir/titles");
 
 	public static String fileStoredImage;
+	public static String fileStoredImageTitle;
 	public static String fileStoredAudio;
 	public void store(MultipartFile file) {
 		try {
@@ -78,6 +79,23 @@ public class StorageService {
 			throw new RuntimeException("FAIL!");
 		}
 	}
+	public void storeidTitle(MultipartFile file,Long id) {
+		try {
+			String mimeType =file.getContentType();
+			System.out.println(mimeType);
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_");
+			Date date = new Date();
+			String fileStored=dateFormat.format(date)+file.getOriginalFilename();
+			if(mimeType.matches("^image.+")) {
+				fileStoredImageTitle=fileStored;
+				Files.copy(file.getInputStream(), this.rootLocationImageTitle.resolve(fileStored));
+				titleService.updateImageTitle(id,fileStored);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("FAIL!");
+		}
+	}
 	public void storeTitleFile(MultipartFile file) {
 		try {
 			String mimeType =file.getContentType();
@@ -101,6 +119,20 @@ public class StorageService {
 	public Resource loadFile(String filename) {
 		try {
 			Path file = rootLocationImage.resolve(filename);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new RuntimeException("FAIL!");
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("FAIL!");
+		}
+	}
+
+	public Resource loadFileTitle(String filename) {
+		try {
+			Path file = rootLocationImageTitle.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

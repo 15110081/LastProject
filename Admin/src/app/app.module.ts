@@ -23,6 +23,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DetailWordComponent } from './detail-word/detail-word.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { DetailTitleComponent } from './detail-title/detail-title.component';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     CategoriesComponent,
     CommentsComponent,
     UsersComponent,
-    DetailWordComponent
+    DetailWordComponent,
+    DetailTitleComponent
   ],
   imports: [
     BrowserModule,

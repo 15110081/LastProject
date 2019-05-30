@@ -5,6 +5,9 @@ import { Word } from 'src/model/word';
 import { Title } from 'src/model/title';
 import { UploadFileService } from '../service/upload-file.service';
 import { TitleService } from '../service/title.service';
+import { Observable } from 'rxjs';
+import { controlNameBinding } from '@angular/forms/src/directives/reactive_directives/form_control_name';
+import { element } from '@angular/core/src/render3';
 declare var $: any;
 @Component({
   selector: 'app-categories',
@@ -16,19 +19,34 @@ export class CategoriesComponent implements OnInit {
   dateTemp: any;
   listWord: Word[] = [];
   listTitle: Title[] = [];
-  title: Title = new Title("", "", "", "", "");
+  title: Title = new Title("", "", "", "", "","");
+  page={size:"",totalElements:'',totalPages:'',number:''};
+  numbers:any;
+  nextPage:any;
+  PrePage:any;
   constructor(private wordService: WordService, private token: TokenStorageService, private titleService: TitleService, private uploadService: UploadFileService) {
-    this.getTitleHAL();
+   
   }
   getTitleHAL(){
     this.titleService.getTitleHAL(this.token.getToken()).subscribe(res => {
-      console.log(res["_embedded"]);
-      console.log(res["_embedded"]["title"]);
+      this.page["size"]=res["page"]["size"];
+      this.page["totalElements"]=res["page"]["totalElements"];
+      this.page["totalPages"]=res["page"]["totalPages"];
+      this.page["number"]=res["page"]["number"];
+      if(res["page"]["number"]!==0)
+      this.PrePage=res["_links"]["prev"]["href"];
+      if(res["page"]["totalPages"]*res["page"]["number"]!==res["page"]["totalElements"]){
+        this.nextPage=res["_links"]["next"]["href"];
+      }  
+      this.numbers = Array(parseInt(this.page["totalPages"],10)).fill(0).map((x,i)=>i);
+      
+      console.log(this.numbers);
+      console.log(this.page);
       var patt1 = /\/[1-9]+/g;
       this.dateTemp = res["_embedded"]["title"];
       var temp;
       this.dateTemp.forEach(element => {
-        let title = new Title(null, "", "", "", "");
+        let title = new Title(null, "", "", "", "","");
         temp = element["_links"]["self"]["href"].match(patt1);
         title["id"] = temp.toString().slice(1);
         title["name"] = element["name"];
@@ -36,15 +54,16 @@ export class CategoriesComponent implements OnInit {
         title["description"] = element["description"];
         title["createdDatetime"] = element["createdDatetime"];
         title["updatedDatetime"] = element["updatedDatetime"];
-
+        title["username"] = element["username"];
         this.listTitle.push(title);
 
       });
       this.data = this.listTitle;
+
       console.log(this.data);
     });
   }
-  getWordHAL() {
+  getAllWordHAL() {
     this.wordService.getWordByTitle2(this.token.getToken()).subscribe(res => {
       console.log(res["_embedded"]);
       console.log(res["_embedded"]["word"]);
@@ -93,6 +112,8 @@ export class CategoriesComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.getTitleHAL();
+  
     $('.section').hide();
 
     setTimeout(function () {
@@ -113,8 +134,6 @@ export class CategoriesComponent implements OnInit {
     }, 1000);
   }
   saveTitle() {
-
-
     this.titleService.postTitleCallBack(this.title, this.token.getToken(), () => {
       this.uploadService.pushFileTitleToStorage(this.selectedFilesImage.item(0), this.token.getToken()).toPromise();
       // $('#myTableId tbody').empty();
@@ -132,5 +151,58 @@ export class CategoriesComponent implements OnInit {
 
 
 
+  }
+  checkactive(numberPage,numberIndex):any{
+    if(numberPage===numberIndex) return true;
+    return false;
+  }
+  PageClick(number:any){
+    this.listTitle=[];
+    this.titleService.getTitleIDHAL(this.token.getToken(),number).subscribe(res=>{
+      var patt1 = /\/[1-9]+/g;
+      this.dateTemp = res["_embedded"]["title"];
+      var temp;
+      this.dateTemp.forEach(element => {
+        let title = new Title(null, "", "", "", "","");
+        temp = element["_links"]["self"]["href"].match(patt1);
+        title["id"] = temp.toString().slice(1);
+        title["name"] = element["name"];
+        title["imageTitle"] = element["imageTitle"];
+        title["description"] = element["description"];
+        title["createdDatetime"] = element["createdDatetime"];
+        title["updatedDatetime"] = element["updatedDatetime"];
+        title["username"] = element["username"];
+        this.listTitle.push(title);
+
+      });
+      this.data = this.listTitle;
+    });
+  }
+  GetDataFromLink(link:any){
+    this.listTitle=[];
+    this.titleService.getTitleHALLink(this.token.getToken(),link).subscribe(res=>{
+      if(res["page"]["number"]!==0)
+      this.PrePage=res["_links"]["prev"]["href"];
+      if(res["page"]["totalPages"]*res["page"]["number"]!==res["page"]["totalElements"]){
+        this.nextPage=res["_links"]["next"]["href"];
+      }
+      var patt1 = /\/[1-9]+/g;
+      this.dateTemp = res["_embedded"]["title"];
+      var temp;
+      this.dateTemp.forEach(element => {
+        let title = new Title(null, "", "", "", "","");
+        temp = element["_links"]["self"]["href"].match(patt1);
+        title["id"] = temp.toString().slice(1);
+        title["name"] = element["name"];
+        title["imageTitle"] = element["imageTitle"];
+        title["description"] = element["description"];
+        title["createdDatetime"] = element["createdDatetime"];
+        title["updatedDatetime"] = element["updatedDatetime"];
+        title["username"] = element["username"];
+        this.listTitle.push(title);
+
+      });
+      this.data = this.listTitle;
+    })
   }
 }

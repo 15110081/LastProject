@@ -17,19 +17,7 @@ declare var $:any;
 export class DetailWordComponent implements OnInit {
   data: any;
   fileUpload:Observable<any>;
-  // selectedWord = {
-  //   id:"",
-  //   vocabulary: "",
-  //   phonetic: "",
-  //   note: "",
-  //   definition: "",
-  //   typeword: "",
-  //   audioword:"",
-  //   imageWord:""
-  // };
   selectedWord=new Word(null,"","","","","","");
-  files={audio:""};
-  subs:Subscription;
   file:any;
   constructor (private uploadService:UploadFileService,private route:ActivatedRoute,private wordService:WordService, private location:Location,private token:TokenStorageService) 
   {
@@ -37,7 +25,6 @@ export class DetailWordComponent implements OnInit {
    }
  JqueryDetailWord(){
   $(document).ready(function () {
-    $('select').material_select();
     $('.dropdown-button').dropdown({
       constrainWidth: false,
       hover: true,
@@ -53,20 +40,6 @@ export class DetailWordComponent implements OnInit {
       height: 500,
       transition: 500,
       interval: 6000
-    });
-
-    // Autocomplete
-    $('.autocomplete').autocomplete({
-      data: {
-        "Aruba": null,
-        "Cancun Mexico": null,
-        "Hawaii": null,
-        "Florida": null,
-        "California": null,
-        "Jamaica": null,
-        "Europe": null,
-        "The Bahamas": null,
-      }
     });
 
     // Init Scrollspy

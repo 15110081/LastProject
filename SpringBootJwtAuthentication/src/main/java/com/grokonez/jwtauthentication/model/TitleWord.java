@@ -25,7 +25,8 @@ public class TitleWord {
     @Column(name = "updated_datetime")
     @UpdateTimestamp
     private Date updatedDatetime;
-
+    @Column(name="username")
+    private String username;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "title_id") },
@@ -40,6 +41,13 @@ public class TitleWord {
     public TitleWord() {
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public TitleWord(String name, String imageTitle, String description) {
         this.name = name;

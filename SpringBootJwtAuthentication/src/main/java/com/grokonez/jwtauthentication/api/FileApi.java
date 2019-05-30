@@ -1,7 +1,9 @@
 package com.grokonez.jwtauthentication.api;
 
+import com.grokonez.jwtauthentication.model.TitleWord;
 import com.grokonez.jwtauthentication.model.Word;
 import com.grokonez.jwtauthentication.service.WordService;
+import com.grokonez.jwtauthentication.service.impl.TitleServiceImpl;
 import com.grokonez.jwtauthentication.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 public class FileApi {
     @Autowired
     WordService articleService=new WordService();
+    @Autowired
+    TitleServiceImpl titleService=new TitleServiceImpl();
     @Autowired
     StorageService storageService;
     @GetMapping(value = "/image/{id}")
@@ -55,6 +59,14 @@ public class FileApi {
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.loadFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
+    @GetMapping("/filetitle/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> getFileTitle(@PathVariable String filename) {
+        Resource file = storageService.loadFileTitle(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);

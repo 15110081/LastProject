@@ -8,6 +8,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CommentsComponent } from './comments/comments.component';
 import { UsersComponent } from './users/users.component';
 import { DetailWordComponent } from './detail-word/detail-word.component';
+import { DetailTitleComponent } from './detail-title/detail-title.component';
 
 const routes: Routes = [{
   path:'login',
@@ -38,8 +39,12 @@ const routes: Routes = [{
   component:UsersComponent
 },
 {
-  path:'detail/:id',
+  path:'detailword/:id',
   component:DetailWordComponent
+},
+{
+  path:'detailtitle/:id',
+  component:DetailTitleComponent
 },
 { 
   path: '',

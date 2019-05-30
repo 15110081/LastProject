@@ -65,6 +65,19 @@ public class WordApi {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
     }
+    @PostMapping("/updatefiletitle/{id}")
+    public ResponseEntity<String> handleFileUpdateAfterUploadTitle(@RequestParam("file") MultipartFile file,@PathVariable Long id) {
+        String message = "";
+        try {
+
+            storageService.storeidTitle(file,id);
+            message = "You successfully uploaded " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            message = "FAIL to upload " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+        }
+    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, ?> postArticle(@RequestBody Word article) {

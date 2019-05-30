@@ -41,6 +41,7 @@ public class TitleServiceImpl {
         TitleWord article = selectTitleById(id);
         article.setImageTitle(data.getImageTitle());
         article.setName(data.getName());
+        article.setUsername(data.getUsername());
         return titleRepository.save(article);
     }
     public TitleWord updateImageTitle(Long id,String titleName) throws ObjectNotFoundException {
