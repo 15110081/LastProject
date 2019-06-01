@@ -1,9 +1,7 @@
 package com.grokonez.jwtauthentication.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.*;

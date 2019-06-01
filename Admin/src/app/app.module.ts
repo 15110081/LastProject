@@ -24,6 +24,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { DetailWordComponent } from './detail-word/detail-word.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DetailTitleComponent } from './detail-title/detail-title.component';
+import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { DetailTitleComponent } from './detail-title/detail-title.component';
     CommentsComponent,
     UsersComponent,
     DetailWordComponent,
-    DetailTitleComponent
+    DetailTitleComponent,
+    AddWordToTitleComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { DetailTitleComponent } from './detail-title/detail-title.component';
       projectId: 'angularfirebase-267db'
     }),
     AngularFirestoreModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

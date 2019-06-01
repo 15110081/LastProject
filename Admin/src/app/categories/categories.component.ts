@@ -141,16 +141,6 @@ export class CategoriesComponent implements OnInit {
       this.getTitleHAL();
       document.getElementById("updateButton").click();
     });
-    // (this.title,this.tokenStorage.getToken(),()=>{
-    //   console.log("Da them vao ");
-    //   this.uploadImageOrAudio();
-    //   this.loadWord(this.tokenStorage.getToken());
-    //  });
-    //  console.log(this.WordPost);
-
-
-
-
   }
   checkactive(numberPage,numberIndex):any{
     if(numberPage===numberIndex) return true;
@@ -161,6 +151,8 @@ export class CategoriesComponent implements OnInit {
     this.titleService.getTitleIDHAL(this.token.getToken(),number).subscribe(res=>{
       var patt1 = /\/[1-9]+/g;
       this.dateTemp = res["_embedded"]["title"];
+      this.page["number"]=res["page"]["number"];
+      console.log(this.page["number"]);
       var temp;
       this.dateTemp.forEach(element => {
         let title = new Title(null, "", "", "", "","");
@@ -181,9 +173,9 @@ export class CategoriesComponent implements OnInit {
   GetDataFromLink(link:any){
     this.listTitle=[];
     this.titleService.getTitleHALLink(this.token.getToken(),link).subscribe(res=>{
-      if(res["page"]["number"]!==0)
+      if(parseInt(this.page["number"])>0)
       this.PrePage=res["_links"]["prev"]["href"];
-      if(res["page"]["totalPages"]*res["page"]["number"]!==res["page"]["totalElements"]){
+      if(parseInt(this.page["number"])<parseInt(res["page"]["size"])){
         this.nextPage=res["_links"]["next"]["href"];
       }
       var patt1 = /\/[1-9]+/g;

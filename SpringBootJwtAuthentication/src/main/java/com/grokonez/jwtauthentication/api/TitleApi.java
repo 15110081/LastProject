@@ -1,21 +1,19 @@
 package com.grokonez.jwtauthentication.api;
 
-import com.grokonez.jwtauthentication.model.TitleWord;
-import com.grokonez.jwtauthentication.model.Word;
-import com.grokonez.jwtauthentication.repository.TitleRepository;
-import com.grokonez.jwtauthentication.service.impl.TitleServiceImpl;
-import com.grokonez.jwtauthentication.storage.StorageService;
-import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+        import com.grokonez.jwtauthentication.model.TitleWord;
+        import com.grokonez.jwtauthentication.model.Word;
+        import com.grokonez.jwtauthentication.repository.TitleRepository;
+        import com.grokonez.jwtauthentication.service.WordService;
+        import com.grokonez.jwtauthentication.service.impl.TitleServiceImpl;
+        import com.grokonez.jwtauthentication.storage.StorageService;
+        import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.http.HttpStatus;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.web.bind.annotation.*;
+        import org.springframework.web.multipart.MultipartFile;
+        import java.util.List;
+        import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -25,8 +23,12 @@ public class TitleApi {
     private TitleServiceImpl titleService;
     @Autowired
     StorageService storageService;
+    @Autowired
+    private WordService wordService;
+    @Autowired
+    private TitleRepository titleRepository;
     @GetMapping
-    public Map<String, ?> getAllWordAPI() {
+    public Map<String, ?> getAllTitleAPI() {
         return ApiResponseBuilder.buildContainsDataSize("List all title", titleService.selectAllTitle(),titleService.selectAllTitle().size());
     }
     public static Long idGlobalTitle;
@@ -67,7 +69,19 @@ public class TitleApi {
             return ApiResponseBuilder.buildError(String.format("Delete title#%d fail", id));
     }
     @GetMapping("/{id}")
-    public Map<String, ?> getWordAPI(@PathVariable Long id) {
+    public Map<String, ?> getTitleAPI(@PathVariable Long id) {
         return ApiResponseBuilder.buildContainsData("Get article#" + id, titleService.selectTitleById(id));
+    }
+    @GetMapping("/{id}/words")
+    public Map<String, ?> getWordLeft(@PathVariable Long id){
+        List<Word> listWordByIdTitle= titleRepository.findWordByIdTitle(id);
+        List<Word> wordAllList=wordService.selectAllWord();
+
+            for (Word wordTile:listWordByIdTitle
+                 ) {
+                    wordAllList.removeIf(c->c.getId()==wordTile.getId());
+            }
+
+        return ApiResponseBuilder.buildContainsDataSize("Get Word Left",wordAllList,wordAllList.size());
     }
 }

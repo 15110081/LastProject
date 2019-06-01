@@ -38,5 +38,10 @@ export class TitleService {
     getTitleHALLink(auth_token: any,link:any): Observable<any> {
         return this.http.get(link, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
-   
+    getWordByTitleHAL(auth_token: any,id:any): Observable<any> {
+        return this.http.get(`http://localhost:9059/titleHAL/${id}/words`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
+    getWordLeft(auth_token: any,id:any): Observable<any> {
+        return this.http.get(this.URL_API+`${id}/words`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
 }

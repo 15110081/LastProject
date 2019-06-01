@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<section class="section grey lighten-4 center">
+  <div class="container">
+    <div class="modal-content card-panel">
+        <a href="javascript:void(0);" class="chip" *ngFor="let item of data|filter:searchText" (click)="getWordOfTitle(item.id)">
+            <img src="http://localhost:9059/upload/filetitle/{{item.imageTitle}}">{{item.name}}
+        </a>
+          <div class="input-field">
+              <i class="material-icons prefix">search</i>
+              <input id="phone" type="text"  [(ngModel)]="searchText">
+              <label for="phone">Search Word</label>
+            </div>
+      <div class="row">
+          <div class="col m6 ">
+              Active
+              <div
+                style="overflow: auto;height:500px;"
+                class="box-list"
+                cdkDropList
+                #activeList="cdkDropList"
+                id = "Active Words"
+                [cdkDropListData]="activeWords"
+                [cdkDropListConnectedTo]="[inactiveList]"
+                (cdkDropListDropped)="drop($event)">
+                <div
+                  
+                  class="drag-box"
+                  [cdkDragData]="customer"
+                  *ngFor="let wordActive of activeWords" 
+                  cdkDrag>
+                  <ul class="collection" >
+                      <li class="collection-item">
+                          {{wordActive.vocabulary}}
+                          <p *cdkDragPreview>
+                            <img src="../../assets/images/i_forecast_n.jpeg" alt="" style="opacity: 0.5;width: 400px;height:300px;">
+                          </p>
+                      </li>
+                  </ul>
+                 
+                </div>
+              </div>
+            </div>
+        <div class="col m6" >
+          Inactive
+          <div
+            style="overflow: auto;height:500px;"
+            class="box-list"
+            cdkDropList
+            #inactiveList="cdkDropList"
+            id = "Inactive Words"
+            [cdkDropListData]="inactiveWords"
+            [cdkDropListConnectedTo]="[activeList]"
+            (cdkDropListDropped)="drop($event)">
+            <div
+            
+              class="drag-box"
+              [cdkDragData]="customer"
+              *ngFor="let WordInActive of inactiveWords" 
+              cdkDrag>
+              <ul class="collection" >
+                  <li class="collection-item">
+                      {{WordInActive.vocabulary}}
+                      <p *cdkDragPreview>
+                        <img src="../../assets/images/i_forecast_n.jpeg" alt="" style="opacity: 0.5;width: 400px;height:300px;">
+                      </p>
+                  </li>
+              </ul>
+                 
+              
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="section blue darken-2 white-text center">
+    <p>Madmin Panel Copyright &copy; 2018</p>
+  </footer>

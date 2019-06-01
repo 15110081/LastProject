@@ -9,6 +9,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { UsersComponent } from './users/users.component';
 import { DetailWordComponent } from './detail-word/detail-word.component';
 import { DetailTitleComponent } from './detail-title/detail-title.component';
+import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.component';
 
 const routes: Routes = [{
   path:'login',
@@ -45,6 +46,10 @@ const routes: Routes = [{
 {
   path:'detailtitle/:id',
   component:DetailTitleComponent
+},
+{
+  path:'addwordtotitle',
+  component:AddWordToTitleComponent
 },
 { 
   path: '',

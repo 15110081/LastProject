@@ -74,7 +74,7 @@
           </a>
         </li>
         <li>
-          <a href="#list" class="modal-trigger btn-floating blue">
+          <a routerLink="/addwordtotitle" class="modal-trigger btn-floating blue">
             <i class="material-icons">list_alt</i>
           </a>
         </li>
@@ -130,35 +130,6 @@
             }}</span>
             <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
           </div>
-          <!-- Upload File Audio -->
-          <!-- <div class="file-field input-field">
-            <div class="btn">
-              <span>Upload File Audio</span>
-              <input
-                #fileaudio
-                type="file"
-                id="input"
-                (change)="previewAudio(fileaudio.files, $event)"
-              />
-            </div>
-            <div class="file-path-wrapper">
-              <input id="inputAudio" type="text" class="file-path" />
-            </div>
-          </div> -->
-          <!-- Result Preview Upload File Audio -->
-          <!-- <div>
-            <audio id="sound"></audio>
-            <span style="color:red;" *ngIf="messageAudio">{{
-              messageAudio
-            }}</span>
-          </div> -->
-          <!-- PreLoader Add Word-->
-          <!-- <div id="progress" class="progress" style="display: none;">
-            <div
-              class="determinate"
-              [ngStyle]="{ width: progress.percentage + '%' }"
-            ></div>
-          </div> -->
         </form>
         <div class="modal-footer">
           <button (click)="saveTitle()" class="modal-action btn blue white-text ">

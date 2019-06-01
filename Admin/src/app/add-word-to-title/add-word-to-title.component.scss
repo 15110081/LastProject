@@ -1,0 +1,40 @@
+.drag-box {
+  
+    background: #fff;
+    // border: solid 1px #ccc;
+   
+    cursor: move;
+  
+}
+
+.box-list {
+  
+    background: white;
+
+}
+
+.box-list-horizontal {
+ 
+    background: white;
+  
+}
+
+.cdk-drag-animating {
+    transition: transform 300ms ease;
+}
+
+.cdk-drag-placeholder {
+    background: #ccc;
+    border: dotted 1px #999;
+    transition: transform 500ms ease;
+}
+
+.box-custom-placeholder {
+    background: #fff;
+    border: dotted 1px #0084ff;
+    transition: transform 200ms ease;
+}
+
+.box-list.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder) {
+    transition: transform 500ms ease;
+}
