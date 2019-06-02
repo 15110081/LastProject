@@ -1,5 +1,6 @@
 package com.grokonez.jwtauthentication.api;
 
+        import com.grokonez.jwtauthentication.message.response.ResponseMessage;
         import com.grokonez.jwtauthentication.model.TitleWord;
         import com.grokonez.jwtauthentication.model.Word;
         import com.grokonez.jwtauthentication.repository.TitleRepository;
@@ -12,10 +13,13 @@ package com.grokonez.jwtauthentication.api;
         import org.springframework.http.ResponseEntity;
         import org.springframework.web.bind.annotation.*;
         import org.springframework.web.multipart.MultipartFile;
+
+        import java.util.HashSet;
         import java.util.List;
         import java.util.Map;
+        import java.util.Set;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/titleApi")
 public class TitleApi {
@@ -83,5 +87,15 @@ public class TitleApi {
             }
 
         return ApiResponseBuilder.buildContainsDataSize("Get Word Left",wordAllList,wordAllList.size());
+    }
+    @PostMapping("/{id}/save/{id2}")
+    public ResponseEntity<?> saveTitleWord(@PathVariable Long id,@PathVariable Long id2){
+        TitleWord titleWord=titleService.selectTitleById(id);
+        Set<TitleWord> titles = new HashSet<>();
+        titles.add(titleWord);
+        Word word=wordService.selectWordById((long) id2);
+        word.setTitleWord(titles);
+        wordService.insertWord(word);
+        return new ResponseEntity<>(new ResponseMessage("Word Title save successfully!"), HttpStatus.OK);
     }
 }

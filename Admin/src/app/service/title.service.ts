@@ -23,7 +23,8 @@ export class TitleService {
     }
 
     postTitle(title: Title, auth_token: any): Observable<RestResponse> {
-        return this.http.post<RestResponse>(this.URL_API, title, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+        return this.http.post<RestResponse>(this.URL_API, title,
+             { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
     putTitle(id: number, title: Title, auth_token: any) { return this.http.put<RestResponse>(this.URL_API + id, title, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }); }
 
@@ -44,4 +45,23 @@ export class TitleService {
     getWordLeft(auth_token: any,id:any): Observable<any> {
         return this.http.get(this.URL_API+`${id}/words`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
+    saveAccessiable(auth_token: any,idTitle:any,idWord:any){
+
+        return this.http.post(`http://localhost:9059/titleApiv1/${idTitle}/save/${idWord}`, 
+        { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+
+    }
+
+    deleteAccessiable(auth_token:any,idTitle:any,idWord:any){
+        return this.http.delete(`http://localhost:9059/titleHAL/${idTitle}/words/${idWord}`,
+        { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+    }
+    clearAccessiable(auth_token:any,idTitle:any, callBackFunc?: () => any){
+        return this.http.put(`http://localhost:9059/titleHAL/${idTitle}/words`,
+        { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }).toPromise().then(()=>callBackFunc());
+    }
+    // clearAccessiable(auth_token:any,idTitle:any):Observable<any>{
+    //     return this.http.put<any>(`http://localhost:9059/titleHAL/${idTitle}/words`,
+    //     { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    // }
 }

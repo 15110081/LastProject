@@ -6,6 +6,7 @@ import {
   CdkDragDrop, CdkDragStart, CdkDragEnd, CdkDragEnter, CdkDragExit
 } from '@angular/cdk/drag-drop';
 import { Word } from 'src/model/word';
+import { element } from '@angular/core/src/render3';
 declare var $: any;
 @Component({
   selector: 'app-add-word-to-title',
@@ -23,6 +24,7 @@ inactiveWords:Word[] = [
 activeWords:Word[] = [
   
 ];
+storeWords:Word[]=[];
   constructor(private titleService:TitleService, private token:TokenStorageService) {
     this.getTitle();
    
@@ -31,15 +33,12 @@ getTitle(){
   this.titleService.getAllTitle(this.token.getToken()).subscribe(res=>{
     this.data=res["data"];
     this.listData.push(this.data["name"]);
-  console.log(this.data)
 });
 }
   ngOnInit() {
     $(document).ready(function() {
       $('select').material_select();
     });
-    console.log(this.inactiveWords);
-    console.log(this.activeWords);
   }
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -54,33 +53,35 @@ getTitle(){
         event.container.data,
         event.previousIndex,
         event.currentIndex);
-        console.log("active:");
-      this.activeWords.forEach(element => {
-        console.log(element);
-      });
-      console.log("inactive:");
-      this.inactiveWords.forEach(element => {
-        console.log(element);
-      });
+        // console.log("active:");
+      // this.activeWords.forEach(element => {
+      //   console.log(element);
+      // });
+      // console.log("inactive:");
+      // this.inactiveWords.forEach(element => {
+      //   console.log(element);
+      // });
     }
   }
   dataTemp:any;
   listWordofTitle: Word[]=[];
   dataWordOfTitle:any
+  idTitle:any;
   getWordOfTitle(number:any){
+    $('#btnSave').removeAttr('disabled');
+    this.idTitle=number;
+    console.log(this.idTitle);
+
     this.activeWords=[];
     this.inactiveWords=[];
     // this.listWordofTitle=[];
-    this.getWordLeft(number);
     this.titleService.getWordByTitleHAL(this.token.getToken(),number).subscribe(res=>{
       var patt1 = /\/[1-9]+/g;
       this.dataTemp = res["_embedded"]["word"];
-      console.log(this.dataTemp);
       var temp;
       this.dataTemp.forEach(element => {
         let word = new Word(null, "", "", "", "","","");
         temp = element["_links"]["self"]["href"].match(patt1);
-        console.log("temp"+temp);
         word["id"] = temp.toString().slice(1);
         word["definition"] = element["definition"];
         word["note"] = element["note"];
@@ -89,16 +90,15 @@ getTitle(){
         word["typeWord"] = element["typeWord"];
         word["imageWord"] = element["imageWord"];
         this.activeWords.push(word);
-
+        this.storeWords.push(word);
       });
     });
-   
+    this.getWordLeft(number);   
   }
   listWordLeft:any;
   getWordLeft(number:any){
     this.titleService.getWordLeft(this.token.getToken(),number).subscribe(res=>{
       this.listWordLeft=res["data"];
-      console.log(this.listWordLeft);
       this.listWordLeft.forEach(res => {
         let word = new Word(null, "", "", "", "","","");
       word["id"] = res["id"];
@@ -110,8 +110,29 @@ getTitle(){
       word["imageWord"] = res["imageWord"];
       this.inactiveWords.push(word);
       });
-        console.log("DATA inactive:"+this.inactiveWords);
     });
-    
   }
+  saveChange(){
+    // SPLICE WORD TO INSERT ACCESSIABLE
+    // this.storeWords.forEach(element=>{
+    // this.activeWords.filter((res,index,array)=>{
+    //   if(res["id"]===element["id"]){
+    //     array.splice(index,1);
+    //   }
+    // });
+    // });
+    //CLEAR IdTitle IdWord
+    this.titleService.clearAccessiable(this.token.getToken(),this.idTitle,()=>{
+      this.activeWords.forEach(element=>{
+        this.titleService.saveAccessiable(this.token.getToken(),this.idTitle,element["id"])
+        .subscribe(res=>{
+          console.log(res);
+        });
+        });
+    });
+    // INSERT IDTITLE IDWORD ACCESSIABLE
+    // this.titleService.saveAccessiable(this.token.getToken(),12,207).subscribe(res=>{console.log(res)});
+  
+}
+
 }

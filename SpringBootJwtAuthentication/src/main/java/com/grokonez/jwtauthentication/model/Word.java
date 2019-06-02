@@ -36,6 +36,7 @@ public class Word {
     public String toString() {
         return "Product [id=" + id + ", name=" + vocabulary + "  - categories size: " + titleWord.size() +"]";
     }
+
     public String getAudioword() {
         return audioword;
     }
