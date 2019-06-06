@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { emojiRandom } from '../../model/emojis';
-import * as faker from 'faker';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { WordService } from '../service/word.service';
 import { Word } from 'src/model/word';
@@ -35,24 +33,13 @@ export class PostsComponent implements OnInit {
   };
 
   constructor(private tokenStorage:TokenStorageService,private wordService: WordService, private uploadService: UploadFileService,) { 
-    // this.people = Array(100)
-    //   .fill(1)
-    //   .map(_ => {
-    //     return {
-    //       name: faker.name.findName(),
-    //       bio: faker.hacker.phrase(),
-    //       emoji: emojiRandom()
-    //     };
-    //   });
-    
+  
   }
 
   loadWord(token: any) {
     this.wordService.getAllWord(token).subscribe(
       data => {
         this.data = data["data"];
-        // this.file="http://localhost:9059/upload/file/"+this.data["imageWord"];
-
       }
     );
 

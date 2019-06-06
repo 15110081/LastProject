@@ -26,6 +26,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DetailTitleComponent } from './detail-title/detail-title.component';
 import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ExcelSiteComponent } from './excel-site/excel-site.component';
+import { SpreadSheetsModule } from "@grapecity/spread-sheets-angular";
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     UsersComponent,
     DetailWordComponent,
     DetailTitleComponent,
-    AddWordToTitleComponent
+    AddWordToTitleComponent,
+    ExcelSiteComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     }),
     AngularFirestoreModule,
     Ng2SearchPipeModule,
-    DragDropModule
+    DragDropModule,
+    SpreadSheetsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

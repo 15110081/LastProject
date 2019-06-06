@@ -27,7 +27,7 @@ public class Word {
     @UpdateTimestamp
     private Date updatedDatetime;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "word_id") },
             inverseJoinColumns = {@JoinColumn(name = "title_id") })

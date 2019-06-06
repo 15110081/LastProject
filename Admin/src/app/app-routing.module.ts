@@ -10,6 +10,7 @@ import { UsersComponent } from './users/users.component';
 import { DetailWordComponent } from './detail-word/detail-word.component';
 import { DetailTitleComponent } from './detail-title/detail-title.component';
 import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.component';
+import { ExcelSiteComponent } from './excel-site/excel-site.component';
 
 const routes: Routes = [{
   path:'login',
@@ -51,11 +52,16 @@ const routes: Routes = [{
   path:'addwordtotitle',
   component:AddWordToTitleComponent
 },
+{
+  path:'excelsite',
+  component:ExcelSiteComponent
+},
 { 
   path: '',
   redirectTo: '/login',
   pathMatch: 'full'
-}];
+}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

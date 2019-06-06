@@ -3,7 +3,8 @@ import { TokenStorageService } from '../auth/token-storage.service';
 import { WordService } from '../service/word.service';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Word } from 'src/model/word';
-import { UploadFileService } from '../service/upload-file.service';
+import { Router } from '@angular/router';
+import { Button } from 'protractor';
 
 declare var $: any;
 declare var Materialize: any;
@@ -34,12 +35,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
 
   listWord: Word[] = [];
-  constructor(private token: TokenStorageService, private wordService: WordService) {
+  constructor(private token: TokenStorageService, private wordService: WordService,private router:Router) {
     this.loadWord(this.token.getToken());
   
   }
 
   ngOnInit() {
+    
     console.log(this.token.getToken());
     if (this.token.getToken()) {
       this.isLoggedIn = true;
@@ -60,21 +62,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
           'copy',
           'print',
           'excel',
-          'csv',
-          {
-            text: 'Some button',
-            key: '1',
-            action: function (e, dt, node, config) {
-              alert('Button activated');
-            }
-          }
+          'csv'
         ]
       };
 
     this.JqueryAjax();
 
   }
-
+  actionExcelsite(){
+    console.log('222');
+  }
 
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event

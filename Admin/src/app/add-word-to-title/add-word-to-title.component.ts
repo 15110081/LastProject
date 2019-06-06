@@ -54,12 +54,12 @@ getTitle(){
         event.previousIndex,
         event.currentIndex);
         // console.log("active:");
-      // this.activeWords.forEach(element => {
-      //   console.log(element);
-      // });
+      this.activeWords.forEach(element => {
+        console.log(JSON.stringify(element));
+      });
       // console.log("inactive:");
       // this.inactiveWords.forEach(element => {
-      //   console.log(element);
+      //   console.log(JSON.stringify(element));
       // });
     }
   }
@@ -74,7 +74,6 @@ getTitle(){
 
     this.activeWords=[];
     this.inactiveWords=[];
-    // this.listWordofTitle=[];
     this.titleService.getWordByTitleHAL(this.token.getToken(),number).subscribe(res=>{
       var patt1 = /\/[1-9]+/g;
       this.dataTemp = res["_embedded"]["word"];
@@ -128,7 +127,8 @@ getTitle(){
         .subscribe(res=>{
           console.log(res);
         });
-        });
+      });        
+      // console.log("AFTER");
     });
     // INSERT IDTITLE IDWORD ACCESSIABLE
     // this.titleService.saveAccessiable(this.token.getToken(),12,207).subscribe(res=>{console.log(res)});

@@ -1,157 +1,142 @@
 <div *ngIf="isLoggedIn; else loggedOut">
-  <app-header></app-header>
-  <!-- Section: Stats -->
-  <section class="section section-stats center">
-    <div class="row">
-      <div class="col s12 m6 l3">
-        <div class="card-panel blue lighten-1 white-text center">
-          <i class="material-icons medium">insert_emoticon</i>
-          <h5>Monthly Visitors</h5>
-          <h3 class="count">28300</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate white" style="width: 40%;"></div>
-          </div>
+    <app-header></app-header>
+    <!-- Section: Stats -->
+    <section class="section section-stats center">
+        <div class="row">
+            <div class="col s12 m6 l3">
+                <div class="card-panel blue lighten-1 white-text center">
+                    <i class="material-icons medium">insert_emoticon</i>
+                    <h5>Monthly Visitors</h5>
+                    <h3 class="count">28300</h3>
+                    <div class="progress grey lighten-1">
+                        <div class="determinate white" style="width: 40%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card-panel center">
+                    <i class="material-icons medium">mode_edit</i>
+                    <h5>Blog Posts</h5>
+                    <h3 class="count">105</h3>
+                    <div class="progress grey lighten-1">
+                        <div class="determinate blue lighten-1" style="width: 20%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card-panel blue lighten-1 white-text center">
+                    <i class="material-icons medium">mode_comment</i>
+                    <h5>Comments</h5>
+                    <h3 class="count">1200</h3>
+                    <div class="progress grey lighten-1">
+                        <div class="determinate white" style="width: 40%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card-panel center">
+                    <i class="material-icons medium">supervisor_account</i>
+                    <h5>Users</h5>
+                    <h3 class="count">350</h3>
+                    <div class="progress grey lighten-1">
+                        <div class="determinate blue lighten-1" style="width: 10%;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel center">
-          <i class="material-icons medium">mode_edit</i>
-          <h5>Blog Posts</h5>
-          <h3 class="count">105</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate blue lighten-1" style="width: 20%;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel blue lighten-1 white-text center">
-          <i class="material-icons medium">mode_comment</i>
-          <h5>Comments</h5>
-          <h3 class="count">1200</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate white" style="width: 40%;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel center">
-          <i class="material-icons medium">supervisor_account</i>
-          <h5>Users</h5>
-          <h3 class="count">350</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate blue lighten-1" style="width: 10%;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section section-visitors blue lighten-4">
-    <div class="row"></div>
-  </section>
-  <!-- <table datatable [dtOptions]="dtOptions" class="row-border hover"></table> -->
-  <table
-    datatable
-    [dtOptions]="dtOptions"
-    [dtTrigger]="dtTrigger"
-    class="row-border hover"
-  >
-    <thead>
-      <tr>
-        <th>Vocabulary</th>
-        <th>Phonetic</th>
-        <th>Definition</th>
-        <th>Note</th>
-        <th>TypeWord</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let word of data">
-        <td>{{ word.vocabulary }}</td>
-        <td>{{ word.phonetic }}</td>
-        <td>{{ word.definition }}</td>
-        <td>{{ word.note }}</td>
-        <td>{{ word.typeword }}</td>
-      </tr>
-    </tbody>
-  </table>
+    </section>
+    <section class="section section-visitors blue lighten-4">
+        <div class="row"></div>
+    </section>
+    <!-- <table datatable [dtOptions]="dtOptions" class="row-border hover"></table> -->
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <thead>
+            <tr>
+                <th>Vocabulary</th>
+                <th>Phonetic</th>
+                <th>Definition</th>
+                <th>Note</th>
+                <th>TypeWord</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let word of data">
+                <td>{{ word.vocabulary }}</td>
+                <td>{{ word.phonetic }}</td>
+                <td>{{ word.definition }}</td>
+                <td>{{ word.note }}</td>
+                <td>{{ word.typeword }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-  <!-- Section: Visitors -->
-  <section class="section section-visitors blue lighten-4">
-    <div class="row">
-      <div class="col s12 m6 l8">
-        <div class="card-panel">
-          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <!-- Section: Visitors -->
+    <section class="section section-visitors blue lighten-4">
+        <div class="row">
+            <div class="col s12 m6 l8">
+                <div class="card-panel">
+                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                </div>
+            </div>
+            <div class="col s12 m6 l4">
+                <!-- Latest Comments -->
+                <ul class="collection with-header latest-comments">
+                    <li class="collection-header">
+                        <h5>Latest Comments</h5>
+                    </li>
+                    <li class="collection-item avatar">
+                        <img src="img/person1.jpg" alt="" class="circle" />
+                        <span class="title">John Doe</span>
+                        <p class="truncate">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.
+                        </p>
+                        <a href="" class="approve green-text">Approve</a> |
+                        <a href="" class="deny red-text">Deny</a>
+                    </li>
+                    <li class="collection-item avatar">
+                        <img src="img/person2.jpg" alt="" class="circle" />
+                        <span class="title">Steve Smith</span>
+                        <p class="truncate">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.
+                        </p>
+                        <a href="" class="approve green-text">Approve</a> |
+                        <a href="" class="deny red-text">Deny</a>
+                    </li>
+                    <li class="collection-item avatar">
+                        <img src="img/person3.jpg" alt="" class="circle" />
+                        <span class="title">Ellen Williams</span>
+                        <p class="truncate">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt minima dolor error laboriosam autem ad beatae explicabo pariatur maxime fuga sed quod quo voluptas, adipisci illum aspernatur est, fugit tempore.
+                        </p>
+                        <a href="" class="approve green-text">Approve</a> |
+                        <a href="" class="deny red-text">Deny</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-      <div class="col s12 m6 l4">
-        <!-- Latest Comments -->
-        <ul class="collection with-header latest-comments">
-          <li class="collection-header">
-            <h5>Latest Comments</h5>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person1.jpg" alt="" class="circle" />
-            <span class="title">John Doe</span>
-            <p class="truncate">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
-              minima dolor error laboriosam autem ad beatae explicabo pariatur
-              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
-              fugit tempore.
-            </p>
-            <a href="" class="approve green-text">Approve</a> |
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person2.jpg" alt="" class="circle" />
-            <span class="title">Steve Smith</span>
-            <p class="truncate">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
-              minima dolor error laboriosam autem ad beatae explicabo pariatur
-              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
-              fugit tempore.
-            </p>
-            <a href="" class="approve green-text">Approve</a> |
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person3.jpg" alt="" class="circle" />
-            <span class="title">Ellen Williams</span>
-            <p class="truncate">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
-              minima dolor error laboriosam autem ad beatae explicabo pariatur
-              maxime fuga sed quod quo voluptas, adipisci illum aspernatur est,
-              fugit tempore.
-            </p>
-            <a href="" class="approve green-text">Approve</a> |
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Section: Recent Posts & Todos -->
-  <section class="section section-recent">
-    <div class="row">
-      <div class="col s12 l8 m6">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Recent Posts</span>
-            <table class="striped">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Category</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Post One</td>
-                  <td>Web Development</td>
-                  <td>
-                    <a href="details.html" class="btn blue lighten-2"
-                      >Details</a
+    <!-- Section: Recent Posts & Todos -->
+    <section class="section section-recent">
+        <div class="row">
+            <div class="col s12 l8 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Recent Posts</span>
+                        <table class="striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Post One</td>
+                                    <td>Web Development</td>
+                                    <td>
+                                        <a href="details.html" class="btn blue lighten-2">Details</a
                     >
                   </td>
                 </tr>
@@ -194,99 +179,94 @@
                   <a href="#!" class="secondary-content delete">
                     <i class="material-icons">close</i>
                   </a>
+                    </div>
+                    </li>
+                    <li class="collection-item">
+                        <div>
+                            Todo Two
+                            <a href="#!" class="secondary-content delete">
+                                <i class="material-icons">close</i>
+                            </a>
+                        </div>
+                    </li>
+                    </ul>
                 </div>
-              </li>
-              <li class="collection-item">
-                <div>
-                  Todo Two
-                  <a href="#!" class="secondary-content delete">
-                    <i class="material-icons">close</i>
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+</div>
+</section>
 
-  <!-- Footer -->
-  <footer class="section blue darken-2 white-text center">
+<!-- Footer -->
+<footer class="section blue darken-2 white-text center">
     <p>Madmin Panel Copyright &copy; 2018</p>
-  </footer>
+</footer>
 
-  <!-- Fixed Action Button -->
-  <div class="fixed-action-btn">
+<!-- Fixed Action Button -->
+<div class="fixed-action-btn">
     <a class="btn-floating btn-large red">
-      <i class="material-icons">add</i>
+        <i class="material-icons">add</i>
     </a>
     <ul>
-      <li>
-        <a href="#post-modal" class="modal-trigger btn-floating blue">
-          <i class="material-icons">mode_edit</i>
-        </a>
-      </li>
-      <li>
-        <a href="#add-word" class="modal-trigger btn-floating blue">
-          <i class="material-icons">star</i>
-        </a>
-      </li>
-      <li>
-        <a href="#user-modal" class="modal-trigger btn-floating blue">
-          <i class="material-icons">supervisor_account</i>
-        </a>
-      </li>
+        <li>
+            <a href="#post-modal" class="modal-trigger btn-floating blue">
+                <i class="material-icons">mode_edit</i>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/excelsite" class="btn-floating blue">
+                <i class="material-icons">book</i>
+            </a>
+        </li>
+        <li>
+            <a href="#user-modal" class="modal-trigger btn-floating blue">
+                <i class="material-icons">supervisor_account</i>
+            </a>
+        </li>
     </ul>
-  </div>
-  <!--Confirm Delete-->
-  <div id="delete-form" class="modal">
+</div>
+<!--Confirm Delete-->
+<div id="delete-form" class="modal">
     <div class="modal-content">
-      <i class="material-icons">info</i>
-      <h1>Do you want to delete item?</h1>
-      <button class="modal-action modal-close btn blue white-text">
+        <i class="material-icons">info</i>
+        <h1>Do you want to delete item?</h1>
+        <button class="modal-action modal-close btn blue white-text">
         Delete
       </button>
-      <button class="modal-action modal-close btn red white-text">
+        <button class="modal-action modal-close btn red white-text">
         Cancel
       </button>
     </div>
-  </div>
+</div>
 
-  
- 
 
-  <!-- Add Post Modal -->
-  <div id="post-modal" class="modal">
+
+
+<!-- Add Post Modal -->
+<div id="post-modal" class="modal">
     <div class="modal-content">
-      <h4>Add Post</h4>
-      <form>
-        <div class="input-field">
-          <input type="text" id="title" />
-          <label for="title">Title</label>
-        </div>
-        <div class="input-field">
-          <select>
+        <h4>Add Post</h4>
+        <form>
+            <div class="input-field">
+                <input type="text" id="title" />
+                <label for="title">Title</label>
+            </div>
+            <div class="input-field">
+                <select>
             <option value="" disabled selected>Select option</option>
             <option value="1">Web Development</option>
             <option value="2">Graphic Design</option>
             <option value="3">Tech Gadgets</option>
             <option value="4">Other</option>
           </select>
-          <label>Category</label>
-        </div>
-        <div class="input-field">
-          <textarea
-            name="body"
-            id="body"
-            class="materialize-textarea"
-          ></textarea>
-          <label for="body">Body</label>
-        </div>
-      </form>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close btn blue white-text"
-          >Submit</a
+                <label>Category</label>
+            </div>
+            <div class="input-field">
+                <textarea name="body" id="body" class="materialize-textarea"></textarea>
+                <label for="body">Body</label>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close btn blue white-text">Submit</a
         >
       </div>
     </div>
