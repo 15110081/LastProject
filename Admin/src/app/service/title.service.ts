@@ -56,7 +56,7 @@ export class TitleService {
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
     }
     clearAccessiable(auth_token:any,idTitle:any, callBackFunc?: () => any){
-        return this.http.delete(`http://localhost:9059/titleHAL/${idTitle}`,
+        return this.http.put(`http://localhost:9059/titleHAL/${idTitle}`,
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }).toPromise().then(()=>callBackFunc());
     }
     clearAccessiable_v1(auth_token:any,idTitle:any):Observable<any>{
