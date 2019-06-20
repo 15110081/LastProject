@@ -4,6 +4,9 @@ import * as Excel from '@grapecity/spread-excelio';
 import '@grapecity/spread-sheets-charts';
 import {saveAs} from 'file-saver';
 import { spread } from 'q';
+import { Word } from 'src/model/word';
+import { WordService } from '../service/word.service';
+import { TokenStorageService } from '../auth/token-storage.service';
 @Component({
   selector: 'app-excel-site',
   templateUrl: './excel-site.component.html',
@@ -18,7 +21,7 @@ export class ExcelSiteComponent implements OnInit {
   };
   private spread: GC.Spread.Sheets.Workbook;
   private excelIO;
-  constructor() {
+  constructor(private wordService:WordService,private token:TokenStorageService) {
     this.excelIO = new Excel.IO();
   }
   workbookInit(args) {
@@ -57,12 +60,23 @@ export class ExcelSiteComponent implements OnInit {
       });
     }
   }
+  
   onClickMe(args) {
     const self = this;
     const filename = 'exportExcel.xlsx';
     const row=self.spread.getActiveSheet().getRowCount();
-    console.log(self.spread.getActiveSheet().getArray(0,0,row,5));
-
+    const data=self.spread.getActiveSheet().getArray(1,0,row-1,5)
+    data.forEach((value,index,array)=>{
+      let word = new Word(null,"","","","","","");
+        value.forEach((v1,i1,array)=>{
+          if(i1===0) word.vocabulary=array[i1];
+          if(i1===1) word.phonetic=array[i1];
+          if(i1===2) word.definition=array[i1];
+          if(i1===3) word.note=array[i1];
+          if(i1===4) word.typeword=array[i1];
+        });
+        this.wordService.postWord(word,this.token.getToken()).subscribe();
+    });
   //   const json = JSON.stringify(self.spread.toJSON());
   //   self.excelIO.save(json, function (blob) {
   //     saveAs(blob, filename);
