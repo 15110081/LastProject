@@ -68,4 +68,9 @@ public class WordService {
         wordRepository.delete(article);
         return (wordRepository.existsById(id) == false);
     }
+    public boolean deleteWordv2(Word word) throws ObjectNotFoundException {
+        wordRepository.delete(word);
+        return (wordRepository.existsById(word.getId()) == false);
+    }
+
 }

@@ -80,7 +80,7 @@ export class DetailWordComponent implements OnInit {
    this.goBack();
   }
   deleteWord(id: number) {
-    this.wordService.deleteWord(id, this.token.getToken()).subscribe(
+    this.wordService.deleteWordHAL(id, this.token.getToken()).subscribe(
       data => {
         console.log(data);
       },

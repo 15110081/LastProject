@@ -1,5 +1,6 @@
 package com.grokonez.jwtauthentication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -27,10 +28,7 @@ public class TitleWord {
     private Date updatedDatetime;
     @Column(name="username")
     private String username;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "title_word",
-            joinColumns = { @JoinColumn(name = "title_id") },
-            inverseJoinColumns = {@JoinColumn(name = "word_id") })
+    @ManyToMany(mappedBy = "titleWord", fetch = FetchType.EAGER)
     private Set<Word> words;
 
     @Override
@@ -40,7 +38,14 @@ public class TitleWord {
 
     public TitleWord() {
     }
+    @JsonIgnore
+    public Set<Word> getWords() {
+        return words;
+    }
 
+    public void setWords(Set<Word> words) {
+        this.words = words;
+    }
 
     public String getUsername() {
         return username;

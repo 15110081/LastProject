@@ -38,4 +38,12 @@ export class WordService {
   getWordByTitle2(auth_token:any):Observable<any>{
     return this.http.get("http://localhost:9059/titleHAL/1/words", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
   }
+  deleteAccessiable(auth_token:any,idTitle:any,idWord:any){
+    return this.http.delete(`http://localhost:9059/wordHAL/6/titles/116`,
+    { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+}
+deleteWordHAL(idWord:any,auth_token:any){
+  return this.http.delete(`http://localhost:9059/wordHAL/${idWord}`,
+  { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+}
 }

@@ -1,5 +1,6 @@
 package com.grokonez.jwtauthentication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -27,7 +28,7 @@ public class Word {
     @UpdateTimestamp
     private Date updatedDatetime;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "word_id") },
             inverseJoinColumns = {@JoinColumn(name = "title_id") })
@@ -71,7 +72,6 @@ public class Word {
     }
 
 
-
     public String getImageWord() {
         return imageWord;
     }
@@ -79,7 +79,6 @@ public class Word {
     public void setImageWord(String imageWord) {
         this.imageWord = imageWord;
     }
-
     public String getTypeword() {
         return typeword;
     }
@@ -87,7 +86,6 @@ public class Word {
     public void setTypeword(String typeword) {
         this.typeword = typeword;
     }
-
 
 
     public String getDefinition() {
@@ -103,7 +101,6 @@ public class Word {
 
 
 
-
     public Long getId() {
         return id;
     }
@@ -111,7 +108,6 @@ public class Word {
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getVocabulary() {
         return vocabulary;
     }
@@ -136,7 +132,7 @@ public class Word {
         this.note = note;
     }
 
-
+    @JsonIgnore
     public Set<TitleWord> getTitleWord() {
         return titleWord;
     }
