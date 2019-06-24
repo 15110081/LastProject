@@ -1,109 +1,63 @@
 <app-header></app-header>
 
 <section class="section section-icons grey lighten-4 center">
-  <div class="container">
-    <div class="modal-content card-panel">
-      <h4>Detail Title</h4>
-      <div class="row">
-        <div class="col m6">
-          <div class="input-field">
-            
-            <img
-            *ngIf="file"
-            src="{{ file }}"
-            class="responsive-img file_image"
-            style="max-height:300px;margin-top:17%"
-          />
-           
-          </div>
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>Upload File Image</span>
-              <input
-                #f
-                accept="image/*"
-                type="file"
-                (change)="preview(f.files, $event)"
-              />
-            </div>
-            <div class="file-path-wrapper">
-              <input id="inputImage" type="text" class="file-path" [(ngModel)]=selectedTitle.imageTitle />
-            </div>
-            <span style="color:red;" *ngIf="messageImage">{{
+    <div class="container">
+        <div class="modal-content card-panel">
+            <h4>Detail Title</h4>
+            <div class="row">
+                <div class="col m6">
+                    <div class="input-field">
+
+                        <img *ngIf="file" src="{{ file }}" class="responsive-img file_image" style="max-height:300px;margin-top:17%" />
+
+                    </div>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Upload File Image</span>
+                            <input #f accept="image/*" type="file" (change)="preview(f.files, $event)" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input id="inputImage" type="text" class="file-path" [(ngModel)]=selectedTitle.imageTitle />
+                        </div>
+                        <span style="color:red;" *ngIf="messageImage">{{
               messageImage
             }}</span>
-          </div>
+                    </div>
 
-         
-        </div>
-        <div class="col m6">
-          <form>
-            <div class="input-field">
-              <input
-                type="text"
-                id="name"
-                [(ngModel)]="selectedTitle.name"
-                name="name"
-                placeholder="Empty Data"
-              />
-              <label for="name" class="active">Name</label>
-            </div>
-            <div class="input-field">
-              <input
-                type="text"
-                id="description"
-                [(ngModel)]="selectedTitle.description"
-                name="description"
-                placeholder="Empty Data"
-               
-              />
-              <label for="description" class="active">Description</label>
-            </div>
-            <div class="input-field">
-              <textarea
-                id="createdDatetime"
-                class="materialize-textarea"
-                [(ngModel)]="selectedTitle.createdDatetime"
-                name="createdDatetime"
-                placeholder="Empty Data"
-                disabled              
-              ></textarea>
-              <label for="createdDatetime" class="active">createdDatetime</label>
-            </div>
-            <div class="input-field">
-              <input
-                type="text"
-                id="updatedDatetime"
-                [(ngModel)]="selectedTitle.updatedDatetime"
-                name="updatedDatetime"
-                placeholder="Empty Data"
-               disabled
-              />
-              <label for="updatedDatetime" class="active">updatedDatetime</label>
-            </div>
-            <div class="input-field">
-              <input
-                type="text"
-                id="username"
-                [(ngModel)]="selectedTitle.username"
-                name="username"
-                placeholder="Empty Data"
-               disabled
-              />
-              <label for="username" class="active" >username</label>
-            </div>
-         
-            <button (click)="updateTitle(selectedTitle.id)" class="btn green" style="margin-left: 5px">Update</button>
-            <button
-            (click)="deleteTitle(selectedTitle.id)"
-            class=" btn red">Delete</button>
-            <button class="btn blue" (click)="goBack()">Return</button>
-          </form>
-        </div>
-      </div>
 
-      <!-- </div> -->
-      <!-- <h1  [(ngModel)]="file.audio" name="audio"></h1> -->
+                </div>
+                <div class="col m6">
+                    <form>
+                        <div class="input-field">
+                            <input type="text" id="name" [(ngModel)]="selectedTitle.name" name="name" placeholder="Empty Data" />
+                            <label for="name" class="active">Name</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="description" [(ngModel)]="selectedTitle.description" name="description" placeholder="Empty Data" />
+                            <label for="description" class="active">Description</label>
+                        </div>
+                        <div class="input-field">
+                            <textarea id="createdDatetime" class="materialize-textarea" [(ngModel)]="selectedTitle.createdDatetime" name="createdDatetime" placeholder="Empty Data" disabled></textarea>
+                            <label for="createdDatetime" class="active">createdDatetime</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="updatedDatetime" [(ngModel)]="selectedTitle.updatedDatetime" name="updatedDatetime" placeholder="Empty Data" disabled />
+                            <label for="updatedDatetime" class="active">updatedDatetime</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="username" [(ngModel)]="selectedTitle.username" name="username" placeholder="Empty Data" disabled />
+                            <label for="username" class="active">username</label>
+                        </div>
+
+                        <button (click)="updateTitle(selectedTitle.id)" class="btn green" style="margin-left: 5px">Update</button>
+                        <button (click)="deleteTitle(selectedTitle.id)" class=" btn red">Delete</button>
+                        <button class="btn blue" (click)="goBack()">Return</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- </div> -->
+            <!-- <h1  [(ngModel)]="file.audio" name="audio"></h1> -->
+        </div>
     </div>
-  </div>
 </section>

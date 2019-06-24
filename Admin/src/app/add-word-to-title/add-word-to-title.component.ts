@@ -75,7 +75,7 @@ getTitle(){
     this.activeWords=[];
     this.inactiveWords=[];
     this.titleService.getWordByTitleHAL(this.token.getToken(),number).subscribe(res=>{
-      var patt1 = /\/[1-9]+/g;
+      var patt1 = /\/[1-9]+.*/g;
       this.dataTemp = res["_embedded"]["word"];
       var temp;
       this.dataTemp.forEach(element => {

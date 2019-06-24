@@ -27,10 +27,13 @@ export class TitleService {
              { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
     putTitle(id: number, title: Title, auth_token: any) { return this.http.put<RestResponse>(this.URL_API + id, title, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }); }
-
+    deleteTitleHAL(id:any,auth_token:any){
+        return this.http.delete(`http://localhost:9059/titleHAL/${id}`,
+        { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+      }
     deleteTitle(id: number, auth_token: any) { return this.http.delete<RestResponse>(this.URL_API + id, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }); }
     getTitleHAL(auth_token: any): Observable<any> {
-        return this.http.get("http://localhost:9059/titleHAL?page=0&size=2&sort=name,asc", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+        return this.http.get("http://localhost:9059/titleHAL?page=0&size=10&sort=name,asc", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
     getTitleIDHAL(auth_token: any,id:any): Observable<any> {
         return this.http.get(`http://localhost:9059/titleHAL?page=${id}&size=2&sort=name,asc`,
@@ -59,8 +62,8 @@ export class TitleService {
         return this.http.put(`http://localhost:9059/titleHAL/${idTitle}/words`,
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }).toPromise().then(()=>callBackFunc());
     }
-    clearAccessiable_v1(auth_token:any,idTitle:any):Observable<any>{
-        return this.http.put<any>(`http://localhost:9059/titleHAL/${idTitle}/words`,
+    clearAccessiable_v1(auth_token:any,idTitle:any){
+        return this.http.put(`http://localhost:9059/titleHAL/${idTitle}/words`,
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
 

@@ -79,11 +79,8 @@ updateTitle(id:number){
  this.goBack();
 }
 deleteTitle(id: number) {
-  this.titleService.deleteTitle(id, this.token.getToken()).subscribe(
-    data => {
-      console.log(data);
-    },
-    error => console.log(error));
+  this.titleService.deleteTitle(id,this.token.getToken());
+ 
  this.goBack();
 }
 

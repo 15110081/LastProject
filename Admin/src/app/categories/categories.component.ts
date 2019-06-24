@@ -24,25 +24,32 @@ export class CategoriesComponent implements OnInit {
   numbers:any;
   nextPage:any;
   PrePage:any;
+  firstPage:any;
+  lastPage:any;
   constructor(private wordService: WordService, private token: TokenStorageService, private titleService: TitleService, private uploadService: UploadFileService) {
    
   }
   getTitleHAL(){
     this.titleService.getTitleHAL(this.token.getToken()).subscribe(res => {
+      console.table(res);
+      this.firstPage=res["_links"]["first"];
+      this.lastPage=res["_links"]["last"];
+      console.log(this.firstPage);
+      console.log(this.lastPage);
       this.page["size"]=res["page"]["size"];
       this.page["totalElements"]=res["page"]["totalElements"];
       this.page["totalPages"]=res["page"]["totalPages"];
       this.page["number"]=res["page"]["number"];
-      if(res["page"]["number"]!==0)
-      this.PrePage=res["_links"]["prev"]["href"];
-      if(res["page"]["totalPages"]*res["page"]["number"]!==res["page"]["totalElements"]){
-        this.nextPage=res["_links"]["next"]["href"];
-      }  
+      // if(res["page"]["number"]!==0)
+      // this.PrePage=res["_links"]["prev"]["href"];
+      // if(res["page"]["totalPages"]*res["page"]["number"]!==res["page"]["totalElements"]){
+      //   this.nextPage=res["_links"]["next"]["href"];
+      // }  
       this.numbers = Array(parseInt(this.page["totalPages"],10)).fill(0).map((x,i)=>i);
       
       console.log(this.numbers);
       console.log(this.page);
-      var patt1 = /\/[1-9]+/g;
+      var patt1 = /\/[1-9]+.*/g;
       this.dateTemp = res["_embedded"]["title"];
       var temp;
       this.dateTemp.forEach(element => {
@@ -67,7 +74,7 @@ export class CategoriesComponent implements OnInit {
     this.wordService.getWordByTitle2(this.token.getToken()).subscribe(res => {
       console.log(res["_embedded"]);
       console.log(res["_embedded"]["word"]);
-      var patt1 = /\/[1-9]+/g;
+      var patt1 = /\/[1-9]+.*/g;
       this.dateTemp = res["_embedded"]["word"];
       var temp;
       this.dateTemp.forEach(element => {
@@ -149,7 +156,7 @@ export class CategoriesComponent implements OnInit {
   PageClick(number:any){
     this.listTitle=[];
     this.titleService.getTitleIDHAL(this.token.getToken(),number).subscribe(res=>{
-      var patt1 = /\/[1-9]+/g;
+      var patt1 =/\/[1-9]+.*/g;
       this.dateTemp = res["_embedded"]["title"];
       this.page["number"]=res["page"]["number"];
       console.log(this.page["number"]);
@@ -173,12 +180,12 @@ export class CategoriesComponent implements OnInit {
   GetDataFromLink(link:any){
     this.listTitle=[];
     this.titleService.getTitleHALLink(this.token.getToken(),link).subscribe(res=>{
-      if(parseInt(this.page["number"])>0)
-      this.PrePage=res["_links"]["prev"]["href"];
-      if(parseInt(this.page["number"])<parseInt(res["page"]["size"])){
-        this.nextPage=res["_links"]["next"]["href"];
-      }
-      var patt1 = /\/[1-9]+/g;
+      // if(parseInt(this.page["number"])>0)
+      // this.PrePage=res["_links"]["prev"]["href"];
+      // if(parseInt(this.page["number"])<parseInt(res["page"]["size"])){
+      //   this.nextPage=res["_links"]["next"]["href"];
+      // }
+      var patt1 = /\/[1-9]+.*/g;
       this.dateTemp = res["_embedded"]["title"];
       var temp;
       this.dateTemp.forEach(element => {
