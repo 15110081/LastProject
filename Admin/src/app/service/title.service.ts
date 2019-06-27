@@ -36,7 +36,7 @@ export class TitleService {
         return this.http.get("http://localhost:9059/titleHAL?page=0&size=10&sort=name,asc", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
     getTitleIDHAL(auth_token: any,id:any): Observable<any> {
-        return this.http.get(`http://localhost:9059/titleHAL?page=${id}&size=2&sort=name,asc`,
+        return this.http.get(`http://localhost:9059/titleHAL?page=${id}&size=10&sort=name,asc`,
          { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
     getTitleHALLink(auth_token: any,link:any): Observable<any> {

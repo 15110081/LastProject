@@ -6,7 +6,6 @@ import com.grokonez.jwtauthentication.repository.WordRepository;
 import com.grokonez.jwtauthentication.service.WordService;
 import com.grokonez.jwtauthentication.storage.StorageService;
 import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
-import com.sun.deploy.association.utility.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
