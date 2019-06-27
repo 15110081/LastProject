@@ -31,6 +31,9 @@ public class ApiResponseBuilder {
     public static HashMap<String, Object> buildContainsDataSize(String message, Object data,int size) {
         return buildSize(DATA_CODE, message, data,size);
     }
+    public static HashMap<String, Object> buildContainsDataSizev2(String message,int size) {
+        return buildSizev2(DATA_CODE, message, size);
+    }
 
     private static HashMap<String, Object> build(int code, String message, Object data) {
         HashMap<String, Object> res = new HashMap<>();
@@ -48,4 +51,10 @@ public class ApiResponseBuilder {
 
         return res;
     }
+    private static HashMap<String, Object> buildSizev2(int code,String message,int size) {
+        HashMap<String, Object> res = new HashMap<>();
+        res.put(SIZE, size);
+        return res;
+    }
+    
 }

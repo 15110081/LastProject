@@ -54,4 +54,11 @@ public class TitleApiv1 {
         return new ResponseEntity<>(new ResponseMessage(String.format("Word #%d Title delete successfully!", id)), HttpStatus.OK);
 
     }
+    @GetMapping("/countWordofTitle/{id}")
+    public Map<String, ?> getCountWordofTitle(@PathVariable Long id){
+    	  TitleWord titleWord = titleService.selectTitleById(id);
+    	  Set<Word> listWord = titleWord.getWords();
+    	  return ApiResponseBuilder.buildContainsDataSizev2("Get Word Count",listWord.size());
+    }
+    
 }
