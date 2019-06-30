@@ -36,16 +36,51 @@ public class TitleApiv1 {
         return new ResponseEntity<>(new ResponseMessage(String.format("Word #%d Title save successfully!", id2)), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}/deletev2")
+    public ResponseEntity<?> deleteTitleWordv2(@PathVariable Long id) {
+        TitleWord titleWord = titleService.selectTitleById(id);
+        Set<Word> listWord =new HashSet<>();
+//        listWord.add(word);
+        titleWord.setWords(listWord);
+        return new ResponseEntity<>(new ResponseMessage(String.format("Word #%d Title delete successfully!", id)), HttpStatus.OK);
+    }
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteTitleWord(@PathVariable Long id) {
         TitleWord titleWord = titleService.selectTitleById(id);
         Set<TitleWord> words = new HashSet<>();
         Set<Word> listWord =titleWord.getWords();
-        listWord.remove(this);
+        titleWord.setWords(null);
+        Set<Word> listWord1 =titleWord.getWords();
+        System.out.println(listWord);
+//        words.add(titleWord);
+//        Word word = wordService.selectWordById((long) id2);
+//        word.setTitleWord(words);
+        for(Word word:listWord) {
+        wordService.deleteWord(word.getId());
+        }
+        for(Word word:listWord1) {
+        	Word temp=new Word();
+        	temp.setCreatedDatetime(word.getCreatedDatetime());
+        	temp.setDefinition(word.getDefinition());
+        	temp.setImageWord(word.getImageWord());
+        	temp.setNote(word.getNote());
+        	temp.setPhonetic(word.getPhonetic());
+        	temp.setTypeword(word.getTypeword());
+        	temp.setUpdatedDatetime(word.getUpdatedDatetime());
+        	temp.setVocabulary(word.getVocabulary());
+//        	word.getVocabulary();
+//        	word.getUpdatedDatetime();
+//        	word.getTypeword();
+//        	word.getTitleWord();
+//        	word.getPhonetic();
+//        	word.getNote();
+//        	word.getImageWord();
+//        	word.getDefinition();
+//        	word.getCreatedDatetime();
+        	wordService.insertWord(temp);
+        }
 //        titleWord()..remove(this);
-//        for (Word u : listWord) {
-//            u.getTitleWord().remove(this);
-//        }
+      
 //        listWord.stream().forEach(word->titleService.de);
 
 //        Word word = wordService.selectWordById((long) id2);
