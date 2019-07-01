@@ -1,8 +1,10 @@
 package com.grokonez.jwtauthentication.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -50,8 +54,16 @@ public class User{
     @NotBlank
     @Size(min=6, max = 100)
     private String password;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    
+    @Column(name = "created_datetime")
+    @CreationTimestamp
+    private Date createdDatetime;
+    
+    @Column(name = "updated_datetime")
+    @UpdateTimestamp
+    private Date updatedDatetime;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", 
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -113,4 +125,21 @@ public class User{
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+	public Date getCreatedDatetime() {
+		return createdDatetime;
+	}
+
+	public void setCreatedDatetime(Date createdDatetime) {
+		this.createdDatetime = createdDatetime;
+	}
+
+	public Date getUpdatedDatetime() {
+		return updatedDatetime;
+	}
+
+	public void setUpdatedDatetime(Date updatedDatetime) {
+		this.updatedDatetime = updatedDatetime;
+	}
+    
 }

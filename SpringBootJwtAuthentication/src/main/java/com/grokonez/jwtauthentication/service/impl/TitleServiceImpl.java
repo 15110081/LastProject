@@ -32,6 +32,7 @@ public class TitleServiceImpl {
         if (article == null) throw new TypeMismatchException("Object is null");
         return titleRepository.save(article);
     }
+ 
     public boolean deleteTitle(Long id) throws ObjectNotFoundException {
         TitleWord article = selectTitleById(id);
         titleRepository.delete(article);
@@ -41,7 +42,6 @@ public class TitleServiceImpl {
         TitleWord article = selectTitleById(id);
         article.setImageTitle(data.getImageTitle());
         article.setName(data.getName());
-        article.setUsername(data.getUsername());
         return titleRepository.save(article);
     }
     public TitleWord updateImageTitle(Long id,String titleName) throws ObjectNotFoundException {

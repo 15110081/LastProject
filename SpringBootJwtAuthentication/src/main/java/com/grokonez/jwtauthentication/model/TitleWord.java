@@ -26,9 +26,7 @@ public class TitleWord {
     @Column(name = "updated_datetime")
     @UpdateTimestamp
     private Date updatedDatetime;
-    @Column(name="username")
-    private String username;
-    @ManyToMany(mappedBy = "titleWord", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "title", fetch = FetchType.EAGER)
     private Set<Word> words;
 
     @Override
@@ -47,13 +45,7 @@ public class TitleWord {
         this.words = words;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+   
 
     public TitleWord(String name, String imageTitle, String description) {
         this.name = name;

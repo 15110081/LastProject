@@ -32,10 +32,11 @@ public class Word {
     @JoinTable(name = "title_word",
             joinColumns = { @JoinColumn(name = "word_id") },
             inverseJoinColumns = {@JoinColumn(name = "title_id") })
-    private Set<TitleWord> titleWord ;
+    private Set<TitleWord> title ;
+    
     @Override
     public String toString() {
-        return "Product [id=" + id + ", name=" + vocabulary + "  - categories size: " + titleWord.size() +"]";
+        return "Product [id=" + id + ", name=" + vocabulary + "  - categories size: " + title.size() +"]";
     }
 
     public String getAudioword() {
@@ -134,10 +135,10 @@ public class Word {
 
     @JsonIgnore
     public Set<TitleWord> getTitleWord() {
-        return titleWord;
+        return title;
     }
 
     public void setTitleWord(Set<TitleWord> titleWord) {
-        this.titleWord = titleWord;
+        this.title = titleWord;
     }
 }

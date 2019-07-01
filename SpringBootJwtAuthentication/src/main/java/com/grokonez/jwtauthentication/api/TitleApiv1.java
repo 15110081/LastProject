@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
@@ -24,7 +25,8 @@ public class TitleApiv1 {
     private WordService wordService;
     @Autowired
     private TitleServiceImpl titleService;
-
+    @Autowired
+    private JdbcTemplate jT;
     @PostMapping("/{id}/save/{id2}")
     public ResponseEntity<?> saveTitleWord(@PathVariable Long id, @PathVariable Long id2) {
         TitleWord titleWord = titleService.selectTitleById(id);
@@ -39,9 +41,20 @@ public class TitleApiv1 {
     @DeleteMapping("/{id}/deletev2")
     public ResponseEntity<?> deleteTitleWordv2(@PathVariable Long id) {
         TitleWord titleWord = titleService.selectTitleById(id);
-        Set<Word> listWord =new HashSet<>();
-//        listWord.add(word);
-        titleWord.setWords(listWord);
+        jT.execute("delete from title_word where title_id="+id);
+//        titleWord.getWords().removeAll(titleWord.getWords());
+//        titleService.deleteTitle(titleWord.getId());
+//        Set<Word> listWord =titleWord.getWords();
+//        for(Word word:titleWord.getWords())
+//        {
+//        	titleWord.getWords().remove(word);
+//        }
+//        Group group = groupRepository.findOne(groupId);
+//        group.getUsers().removeAll(group.getUsers());
+//
+//        // Other business logic
+//
+//        groupRepository.delete(group);
         return new ResponseEntity<>(new ResponseMessage(String.format("Word #%d Title delete successfully!", id)), HttpStatus.OK);
     }
     @DeleteMapping("/{id}/delete")
@@ -49,17 +62,20 @@ public class TitleApiv1 {
         TitleWord titleWord = titleService.selectTitleById(id);
         Set<TitleWord> words = new HashSet<>();
         Set<Word> listWord =titleWord.getWords();
-        titleWord.setWords(null);
+//        titleWord.setWords(null);
         Set<Word> listWord1 =titleWord.getWords();
-        System.out.println(listWord);
+//        System.out.println(listWord);
 //        words.add(titleWord);
 //        Word word = wordService.selectWordById((long) id2);
 //        word.setTitleWord(words);
         for(Word word:listWord) {
+//        Word word1=new Word();
+//        word1.setId(1);
         wordService.deleteWord(word.getId());
         }
         for(Word word:listWord1) {
         	Word temp=new Word();
+        	temp.setId(word.getId());
         	temp.setCreatedDatetime(word.getCreatedDatetime());
         	temp.setDefinition(word.getDefinition());
         	temp.setImageWord(word.getImageWord());
@@ -68,17 +84,11 @@ public class TitleApiv1 {
         	temp.setTypeword(word.getTypeword());
         	temp.setUpdatedDatetime(word.getUpdatedDatetime());
         	temp.setVocabulary(word.getVocabulary());
-//        	word.getVocabulary();
-//        	word.getUpdatedDatetime();
-//        	word.getTypeword();
-//        	word.getTitleWord();
-//        	word.getPhonetic();
-//        	word.getNote();
-//        	word.getImageWord();
-//        	word.getDefinition();
-//        	word.getCreatedDatetime();
         	wordService.insertWord(temp);
         }
+        TitleWord temp=new TitleWord();
+     
+//        titleService.insertTitle(temp);
 //        titleWord()..remove(this);
       
 //        listWord.stream().forEach(word->titleService.de);

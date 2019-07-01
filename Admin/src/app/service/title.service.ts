@@ -59,12 +59,20 @@ export class TitleService {
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
     }
     clearAccessiable(auth_token:any,idTitle:any, callBackFunc?: () => any){
-        return this.http.put(`http://localhost:9059/titleHAL/${idTitle}/words`,
+        return this.http.delete(`http://localhost:9059/titleApiv1/${idTitle}/deletev2`,
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }).toPromise().then(()=>callBackFunc());
     }
     clearAccessiable_v1(auth_token:any,idTitle:any){
         return this.http.put(`http://localhost:9059/titleHAL/${idTitle}/words`,
         { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
-
+    getUserHAL(auth_token: any,id:number): Observable<any> {
+        return this.http.get(`http://localhost:9059/userHAL?page=${id}&size=5&sort=name,asc`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
+    getUserHALStart(auth_token: any): Observable<any> {
+        return this.http.get(`http://localhost:9059/userHAL?page=0&size=5&sort=name,asc`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
+    deleteUserHAL(auth_token:any,id:number):Observable<any>{
+        return this.http.delete(`http://localhost:9059/userHAL/${id}`,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    }
 }
