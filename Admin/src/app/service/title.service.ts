@@ -72,7 +72,8 @@ export class TitleService {
     getUserHALStart(auth_token: any): Observable<any> {
         return this.http.get(`http://localhost:9059/userHAL?page=0&size=5&sort=name,asc`, { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
     }
-    deleteUserHAL(auth_token:any,id:number):Observable<any>{
-        return this.http.delete(`http://localhost:9059/userHAL/${id}`,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+    deleteUserHAL(auth_token:any,id:number, callBackFunc?: () => any){
+        return this.http.delete(`http://localhost:9059/userHAL/${id}`,{ headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) }).toPromise().then(()=>callBackFunc());
     }
+
 }

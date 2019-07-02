@@ -28,6 +28,7 @@ import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.c
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ExcelSiteComponent } from './excel-site/excel-site.component';
 import { SpreadSheetsModule } from "@grapecity/spread-sheets-angular";
+import { DetailresultComponent } from './detailresult/detailresult.component';
 // import { MaterializeModule } from "angular2-materialize";
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { SpreadSheetsModule } from "@grapecity/spread-sheets-angular";
     DetailWordComponent,
     DetailTitleComponent,
     AddWordToTitleComponent,
-    ExcelSiteComponent
+    ExcelSiteComponent,
+    DetailresultComponent
   ],
   imports: [
     BrowserModule,

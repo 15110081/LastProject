@@ -37,7 +37,7 @@ export class UsersComponent implements OnInit {
   data: any;
   dateTemp: any;
   listUser: User[] = [];
-  user: User = new User(null, "", "", "");
+  user: User = new User(null, "", "", "","");
   page={size:"",totalElements:'',totalPages:'',number:''};
   numbers:any;
   currentPage:number=0;
@@ -48,8 +48,8 @@ export class UsersComponent implements OnInit {
   getUserHAL(){
     this.userService.getUserHALStart(this.token.getToken()).subscribe(res => {
       console.table(res);
-      this.firstPage=res["_links"]["first"]["href"];
-      this.lastPage=res["_links"]["last"]["href"];
+      // this.firstPage=res["_links"]["first"]["href"];
+
       console.log(this.firstPage);
       console.log(this.lastPage);
       this.page["size"]=res["page"]["size"];
@@ -57,17 +57,20 @@ export class UsersComponent implements OnInit {
       this.page["totalPages"]=res["page"]["totalPages"];
       this.page["number"]=res["page"]["number"];
       this.numbers = Array(parseInt(this.page["totalPages"],10)).fill(0).map((x,i)=>i);
-      
+      if(parseInt(this.page["totalPages"])>1)
+      this.lastPage=res["_links"]["last"]["href"];
+
       console.log(this.numbers);
       console.log(this.page);
       var patt1 = /\/[1-9]+.*/g;
       this.dateTemp = res["_embedded"]["user"];
       var temp;
       this.dateTemp.forEach(element => {
-        let user = new User(null, "", "", "");
+        let user = new User(null, "", "", "","");
         temp = element["_links"]["self"]["href"].match(patt1);
         user["id"] = temp.toString().slice(1);
         user["name"] = element["name"];
+        user["username"] = element["username"];
         user["email"] = element["email"];
         user["createdDatetime"] = element["createdDatetime"];
         this.listUser.push(user);
@@ -87,10 +90,11 @@ export class UsersComponent implements OnInit {
       this.dateTemp = res["_embedded"]["user"];
       var temp;
       this.dateTemp.forEach(element => {
-        let user = new User(null, "", "", "");
+        let user = new User(null, "", "", "","");
         temp = element["_links"]["self"]["href"].match(patt1);
         user["id"] = temp.toString().slice(1);
         user["name"] = element["name"];
+        user["username"] = element["username"];
         user["email"] = element["email"];
         user["createdDatetime"] = element["createdDatetime"];
         this.listUser.push(user);
@@ -101,5 +105,27 @@ export class UsersComponent implements OnInit {
       console.log(this.data);
     });
   }
- 
+  DeleteUser(id:number){
+    this.listUser=[];
+    this.userService.deleteUserHAL(this.token.getToken(),id,()=>{
+      this.userService.getUserHAL(this.token.getToken(),this.currentPage).subscribe(res=>{
+        var patt1 = /\/[1-9]+.*/g;
+        this.dateTemp = res["_embedded"]["user"];
+        var temp;
+        this.dateTemp.forEach(element => {
+          let user = new User(null, "", "", "","");
+          temp = element["_links"]["self"]["href"].match(patt1);
+          user["id"] = temp.toString().slice(1);
+          user["name"] = element["name"];
+          user["username"] = element["username"];
+          user["email"] = element["email"];
+          user["createdDatetime"] = element["createdDatetime"];
+          this.listUser.push(user);
+  
+        });
+        this.data = this.listUser;
+  
+      });
+    });
+ }
 }

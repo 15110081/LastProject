@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { RestResponse } from 'src/model/restresponse';
 import { Word } from 'src/model/word';
+import { Result } from 'src/model/result';
 
 
 @Injectable({
@@ -45,5 +46,21 @@ export class WordService {
 deleteWordHAL(idWord:any,auth_token:any){
   return this.http.delete(`http://localhost:9059/wordHAL/${idWord}`,
   { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+}
+getAllResult(auth_token:any){
+  return this.http.get(`http://localhost:9059/resultHAL`,
+  { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
+}
+getIdResult(auth_token:any,id:number){
+  return this.http.get(`http://localhost:9059/resultHAL/`+id,
+  { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)})
+}
+putIdResult(auth_token:any,id:number,result:Result){
+  return this.http.put(`http://localhost:9059/resultHAL/`+id,result,
+  { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)})
+}
+deleteIdResult(auth_token:any,id:number){
+  return this.http.delete(`http://localhost:9059/resultHAL/`+id,
+  { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)})
 }
 }

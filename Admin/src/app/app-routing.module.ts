@@ -11,6 +11,7 @@ import { DetailWordComponent } from './detail-word/detail-word.component';
 import { DetailTitleComponent } from './detail-title/detail-title.component';
 import { AddWordToTitleComponent } from './add-word-to-title/add-word-to-title.component';
 import { ExcelSiteComponent } from './excel-site/excel-site.component';
+import { DetailresultComponent } from './detailresult/detailresult.component';
 
 const routes: Routes = [{
   path:'login',
@@ -47,6 +48,10 @@ const routes: Routes = [{
 {
   path:'detailtitle/:id',
   component:DetailTitleComponent
+},
+{
+  path:'detailresult/:id',
+  component:DetailresultComponent
 },
 {
   path:'addwordtotitle',

@@ -10,7 +10,6 @@
                         <table class="striped">
                             <thead>
                                 <tr>
-                                    <th></th>
                                     <th>Name</th>
                                     <th>UserName</th>
                                     <th>Email</th>
@@ -25,7 +24,9 @@
                                     <td>{{user.email}}</td>
                                     <td>{{user.createdDatetime}}</td>
                                     <td>
-                                        <button class="btn red lighten-2">DELETE</button>
+                                        <a href="javascript:void(0);" (click)="DeleteUser(user.id)" class="red-text">
+                                            <i class="material-icons">close</i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -33,9 +34,9 @@
                     </div>
                     <div class="card-action">
                         <ul class="pagination">
-                            <li class="disabled">
-                                <a href="#!" class="blue-text">
-                                    <i class="material-icons">chevron_left</i>
+                            <li class="waves-effect">
+                                <a href="javascript:void(0);" class="blue-text">
+                                    <i class="material-icons" (click)="PageClick(0)">chevron_left</i>
                                 </a>
                             </li>
                             <li class="waves-effect" *ngFor="let number of numbers">
@@ -43,8 +44,8 @@
                             </li>
 
                             <li class="waves-effect">
-                                <a href="#!" class="blue-text">
-                                    <i class="material-icons">chevron_right</i>
+                                <a href="javascript:void(0);" class="blue-text">
+                                    <i class="material-icons" (click)="PageClick(page.totalPages-1)">chevron_right</i>
                                 </a>
                             </li>
                         </ul>
