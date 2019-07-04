@@ -20,11 +20,11 @@ public class Result {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    @Column(name = "title_id")
-	    private String title_id;
+	    private String titleId;
 	    @Column(name="username")
 	    private  String username;
 	    @Column(name="type_test")
-	    private  String type_test;
+	    private  String typeTest;
 	    @Column(name="result")
 	    private  String result;
 	    @Column(name = "created_datetime")
@@ -39,23 +39,25 @@ public class Result {
 		public void setId(Long id) {
 			this.id = id;
 		}
-		public String getTitle_id() {
-			return title_id;
-		}
-		public void setTitle_id(String title_id) {
-			this.title_id = title_id;
-		}
+		
 		public String getUsername() {
 			return username;
 		}
 		public void setUsername(String username) {
 			this.username = username;
 		}
-		public String getType_test() {
-			return type_test;
+		
+		public String getTitleId() {
+			return titleId;
 		}
-		public void setType_test(String type_test) {
-			this.type_test = type_test;
+		public void setTitleId(String titleId) {
+			this.titleId = titleId;
+		}
+		public String getTypeTest() {
+			return typeTest;
+		}
+		public void setTypeTest(String typeTest) {
+			this.typeTest = typeTest;
 		}
 		public String getResult() {
 			return result;
