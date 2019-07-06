@@ -3,7 +3,9 @@ package com.grokonez.jwtauthentication.api;
 import com.grokonez.jwtauthentication.message.response.ResponseMessage;
 import com.grokonez.jwtauthentication.model.TitleWord;
 import com.grokonez.jwtauthentication.model.Word;
+import com.grokonez.jwtauthentication.repository.ResultRepository;
 import com.grokonez.jwtauthentication.repository.TitleRepository;
+import com.grokonez.jwtauthentication.repository.UserRepository;
 import com.grokonez.jwtauthentication.service.WordService;
 import com.grokonez.jwtauthentication.service.impl.TitleServiceImpl;
 import com.grokonez.jwtauthentication.util.ApiResponseBuilder;
@@ -25,6 +27,10 @@ public class TitleApiv1 {
     private WordService wordService;
     @Autowired
     private TitleServiceImpl titleService;
+    @Autowired
+    private UserRepository userService;
+    @Autowired
+    private ResultRepository resultRepository;
     @Autowired
     private JdbcTemplate jT;
     @PostMapping("/{id}/save/{id2}")
@@ -105,5 +111,13 @@ public class TitleApiv1 {
     	  Set<Word> listWord = titleWord.getWords();
     	  return ApiResponseBuilder.buildContainsDataSizev2("Get Word Count",listWord.size());
     }
-    
+    @GetMapping("/overview")
+    public  Map<String, ?> getOverview(){
+    	 HashMap<String, Object> res = new HashMap<>();
+    	 res.put("words", wordService.selectAllWord().size());
+    	 res.put("users",userService.findAll().size());
+    	 res.put("results",resultRepository.findAll().size());
+    	 res.put("titles",titleService.selectAllTitle().size());
+    	 return res; 
+    }
 }

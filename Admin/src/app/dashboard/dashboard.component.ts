@@ -5,11 +5,16 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { Word } from 'src/model/word';
 import { Router } from '@angular/router';
 import { Button } from 'protractor';
+import { Title } from 'src/model/title';
+import { HttpClient } from '@angular/common/http';
+import { TitleService } from '../service/title.service';
+import { ChartModel } from 'src/model/chartmodel';
+import { OverView } from 'src/model/overview';
 
 declare var $: any;
 declare var Materialize: any;
 declare var CKEDITOR: any;
-
+declare var CanvasJS:any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -35,13 +40,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
 
   listWord: Word[] = [];
-  constructor(private token: TokenStorageService, private wordService: WordService,private router:Router) {
+  constructor(private http:HttpClient,private titleService:TitleService, private token: TokenStorageService, private wordService: WordService,private router:Router) {
     this.loadWord(this.token.getToken());
-  
+    // this.loadWordv2();  
+    this.getTop3Words();
+    this.getTop3Title();
+    this.getOverview();
   }
 
   ngOnInit() {
-    
+    this.chartCanvas();
     console.log(this.token.getToken());
     if (this.token.getToken()) {
       this.isLoggedIn = true;
@@ -68,6 +76,119 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
     this.JqueryAjax();
 
+  }
+
+  dataTempTop3: any;
+  ListLoadTop3: Word[] = [];
+  getTop3Words() {
+
+    this.wordService.getTop3Words(this.token.getToken()).subscribe(res => {
+      var patt1 = /\/[1-9]+.*/g;
+      this.dataTempTop3 = res["_embedded"]["word"];
+      var temp;
+      this.dataTempTop3.forEach((element) => {
+        let word = new Word(null, null, "", "", "", "", "");
+        temp = element["_links"]["self"]["href"].match(patt1);
+        word["id"] = temp.toString().slice(1);
+        word["definition"] = element["definition"];
+        word["note"] = element["note"];
+        word["phonetic"] = element["phonetic"];
+        word["vocabulary"] = element["vocabulary"];
+        word["typeWord"] = element["typeWord"];
+        word["imageWord"] = element["imageWord"];
+        this.ListLoadTop3.push(word);
+      });
+      console.log(this.ListLoadTop3);     
+    });
+  }
+  dateTempv2: any;
+  listTitle: Title[] = [];
+  datav2: any;
+ 
+  loadWordv2()
+{
+  
+this.titleService.getAllCourse(this.token.getToken()).subscribe(res=>{
+      var patt1 =/\/[1-9]+.*/g;
+      this.dateTempv2 = res["_embedded"]["title"];
+      var temp;
+      this.dateTempv2.forEach(element => {
+        let title = new ChartModel(null, "");
+        let lengthData:any;
+        temp = element["_links"]["self"]["href"].match(patt1);
+      
+        this.http.get(`http://localhost:9059/titleApiv1/countWordofTitle/`+temp.toString().slice(1)).forEach((value)=>{
+          title["x"]=value["size"];
+        });
+         let splitDatetime=element["createdDatetime"];
+         
+        title["label"] = element["name"];
+      
+        this.listChart.push(title);
+      });
+      this.datav2 = this.listChart;
+      console.log(this.datav2);
+    });
+  
+  }
+  listChart:ChartModel[]=[];
+
+  chartCanvas(){
+    // this.listTitle.forEach((value,index,array)=>{
+    // let chart=new ChartModel("","");
+    //     chart.y=value.size;
+    //     chart.label=value.name;
+    //     this.listChart.push(chart);
+    // });
+    let listCanvas=this.listChart;
+    // console.log(listCanvas);
+      $(document).ready(function(){
+            var chart = new CanvasJS.Chart("chartContainer", {
+              animationEnabled: true,
+      
+              title: {
+                  text: "Fortune 500 Companies by Country"
+              },
+              axisX: {
+                  interval: 1
+              },
+              axisY2: {
+                  interlacedColor: "rgba(1,77,101,.2)",
+                  gridColor: "rgba(1,77,101,.1)",
+                  title: "Number of Companies"
+              },
+              data: [{
+                  type: "bar",
+                  name: "companies",
+                  axisYType: "secondary",
+                  color: "#014D65",
+                  dataPoints:
+                  [    
+                      { y: 7, label: "Chủ đề 1" },
+                      { y: 5, label: "Chủ đề 2" },
+                      { y: 9, label: "Chủ đề 3" },
+                      { y: 7, label: "Chủ đề 4" },
+                      { y: 7, label: "Chủ đề 5" },
+                      { y: 9, label: "Chủ đề 6" },
+                      { y: 8, label: "Chủ đề 7" },
+                      { y: 11, label: "Chủ đề 8" },
+                      { y: 15, label: "Chủ đề 9 " },
+                      { y: 12, label: "Chủ đề 10" },
+                      { y: 15, label: "Chủ đề 11" },
+                      { y: 25, label: "Chủ đề 12" },
+                      { y: 28, label: "Chủ đề 13" },
+                      { y: 29, label: "Chủ đề 14" },
+                      { y: 52, label: "Chủ đề 15" },
+                      { y: 103, label: "Chủ đề 16" },
+                      { y: 134, label: "Chủ đề 17" }
+                  ]
+              }]
+          });
+          chart.render();
+          
+       
+       });
+   
   }
   actionExcelsite(){
     console.log('222');
@@ -136,14 +257,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
         });
 
         // Comments - Approve & Deny
-        $('.approve').click(function (e) {
-          Materialize.toast('Comment Approved', 3000);
-          e.preventDefault();
-        });
-        $('.deny').click(function (e) {
-          Materialize.toast('Comment Denied', 3000);
-          e.preventDefault();
-        });
+        // $('.approve').click(function (e) {
+        //   Materialize.toast('Comment Approved', 3000);
+        //   e.preventDefault();
+        // });
+        // $('.deny').click(function (e) {
+        //   Materialize.toast('Comment Denied', 3000);
+        //   e.preventDefault();
+        // });
 
         // Quick Todos
         $('#todo-form').submit(function (e) {
@@ -183,9 +304,36 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
 
 
-
-  viewWord(id: number) {
-
+dataTempTop3Title:any;
+listTitleTop3:Title[]=[];
+  getTop3Title(){
+    this.listTitle=[];
+    this.titleService.getTop3Courses(this.token.getToken()).subscribe(res=>{
+      var patt1 =/\/[1-9]+.*/g;
+      this.dataTempTop3Title = res["_embedded"]["title"];
+      var temp;
+      this.dataTempTop3Title.forEach(element => {
+        let title = new Title(null, "", "", "", "","");
+        temp = element["_links"]["self"]["href"].match(patt1);
+        title["id"] = temp.toString().slice(1);
+        title["name"] = element["name"];
+        title["imageTitle"] = element["imageTitle"];
+        title["description"] = element["description"];
+        title["createdDatetime"] = element["createdDatetime"].toString().slice(0,10);
+        title["updatedDatetime"] = element["updatedDatetime"];
+        this.listTitleTop3.push(title);
+      });
+      console.log(this.listTitleTop3);
+    });
   }
-
+  overview=new OverView("","","","");
+getOverview(){
+  this.http.get(`http://localhost:9059/titleApiv1/overview`).subscribe(res=>{
+    this.overview.results=res["results"];
+    this.overview.titles=res["titles"];
+    this.overview.users=res["users"];
+    this.overview.words=res["words"];
+   console.log(this.overview);
+  });
+}
 }

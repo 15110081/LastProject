@@ -63,4 +63,7 @@ deleteIdResult(auth_token:any,id:number){
   return this.http.delete(`http://localhost:9059/resultHAL/`+id,
   { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)})
 }
+getTop3Words(auth_token: any): Observable<any> {
+  return this.http.get("http://localhost:9059/wordHAL?page=0&size=3&sort=createdDatetime,desc", { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`) });
+}
 }
