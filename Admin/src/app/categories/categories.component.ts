@@ -201,4 +201,8 @@ export class CategoriesComponent implements OnInit {
       this.data = this.listTitle;
     })
   }
+  checkLoginRole():boolean{
+    if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
+  }
 }

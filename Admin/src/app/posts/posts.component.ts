@@ -189,5 +189,8 @@ upload() {
         });
       }, 1000);
   }
-
+  checkLoginRole():boolean{
+    if(this.tokenStorage.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
+  }
 }

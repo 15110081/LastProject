@@ -7,7 +7,7 @@
                 <div class="card-panel blue lighten-1 white-text center">
                     <i class="material-icons medium">insert_emoticon</i>
                     <h5>Words</h5>
-                    <h3 class="count">{{overview.words}}</h3>
+                    <h3>{{overview.words}}</h3>
                     <div class="progress grey lighten-1">
                         <div class="determinate white lighten-1" style="width: 100%;"></div>
                     </div>
@@ -17,7 +17,7 @@
                 <div class="card-panel center">
                     <i class="material-icons medium">mode_edit</i>
                     <h5>Titles</h5>
-                    <h3 class="count">{{overview.titles}}</h3>
+                    <h3>{{overview.titles}}</h3>
                     <div class="progress grey lighten-1">
                         <div class="determinate blue lighten-1" style="width: 100%;"></div>
                     </div>
@@ -27,7 +27,7 @@
                 <div class="card-panel blue lighten-1 white-text center">
                     <i class="material-icons medium">mode_comment</i>
                     <h5>Results</h5>
-                    <h3 class="count">{{overview.results}}</h3>
+                    <h3>{{overview.results}}</h3>
                     <div class="progress grey lighten-1">
                         <div class="determinate white lighten-1" style="width: 100%;"></div>
                     </div>
@@ -37,7 +37,7 @@
                 <div class="card-panel center">
                     <i class="material-icons medium">supervisor_account</i>
                     <h5>Users</h5>
-                    <h3 class="count">{{overview.users}}</h3>
+                    <h3>{{overview.users}}</h3>
                     <div class="progress grey lighten-1">
                         <div class="determinate blue lighten-1" style="width: 100%;"></div>
                     </div>
@@ -165,21 +165,21 @@
         <i class="material-icons">add</i>
     </a>
     <ul>
-        <li>
+        <!-- <li>
             <a href="#post-modal" class="modal-trigger btn-floating blue">
                 <i class="material-icons">mode_edit</i>
             </a>
-        </li>
+        </li> -->
         <li>
             <a routerLink="/excelsite" class="btn-floating blue">
                 <i class="material-icons">book</i>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="#user-modal" class="modal-trigger btn-floating blue">
                 <i class="material-icons">supervisor_account</i>
             </a>
-        </li>
+        </li> -->
     </ul>
 </div>
 <!--Confirm Delete-->
@@ -259,8 +259,13 @@
     </div>
   </div>
 
-  <!-- Preloader -->
-  <div class="loader preloader-wrapper big active">
+  
+</div>
+<ng-template #loggedOut>
+  <app-login></app-login>
+</ng-template>
+<!-- Preloader -->
+<!-- <div class="loader preloader-wrapper big active">
     <div class="spinner-layer spinner-blue-only">
       <div class="circle-clipper left">
         <div class="circle"></div>
@@ -272,8 +277,4 @@
         <div class="circle"></div>
       </div>
     </div>
-  </div>
-</div>
-<ng-template #loggedOut>
-  <app-login></app-login>
-</ng-template>
+  </div> -->

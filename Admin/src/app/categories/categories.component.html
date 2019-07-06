@@ -1,137 +1,129 @@
-<app-header></app-header>
-<!-- Section: Categories -->
-<section class="section section-categories grey lighten-4">
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Categories</span>
-                        <table class="striped" id="myTableId">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Date Created</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let title of data">
-                                    <td>{{title.name}}</td>
-                                    <td>{{title.createdDatetime}}</td>
-                                    <td>
-                                        <a routerLink="/detailtitle/{{title.id}}" class="btn blue lighten-2">Details</a>
-                                    </td>
-                                </tr>
+<div *ngIf="checkLoginRole(); else loggedOut">
+    <app-header></app-header>
+    <!-- Section: Categories -->
+    <section class="section section-categories grey lighten-4">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Categories</span>
+                            <table class="striped" id="myTableId">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date Created</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let title of data">
+                                        <td>{{title.name}}</td>
+                                        <td>{{title.createdDatetime}}</td>
+                                        <td>
+                                            <a routerLink="/detailtitle/{{title.id}}" class="btn blue lighten-2">Details</a>
+                                        </td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-action">
-                        <ul class="pagination">
-                            <!-- <li class="waves-effect">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-action">
+                            <ul class="pagination">
+                                <!-- <li class="waves-effect">
                                 <a href="javascript: return false;" class="blue-text" (click)="GetDataFromLink(firstPage)">
                                     <i class="material-icons">chevron_left</i>
                                 </a>
                             </li> -->
 
 
-                            <li class="waves-effect" *ngFor="let number of numbers;let info of page">
-                                <!-- <li class="active blue lighten-2"> -->
-                                <a href="javascript: return false;" (click)="PageClick(number)" class="blue-text">{{number}}</a>
-                                <!-- </li>  -->
-                            </li>
+                                <li class="waves-effect" *ngFor="let number of numbers;let info of page">
+                                    <!-- <li class="active blue lighten-2"> -->
+                                    <a href="javascript: return false;" (click)="PageClick(number)" class="blue-text">{{number}}</a>
+                                    <!-- </li>  -->
+                                </li>
 
-                            <!-- <li class="waves-effect">
+                                <!-- <li class="waves-effect">
                                 <a href="javascript: return false;" class=" blue-text" (click)="GetDataFromLink(lastPage)">
                                     <i class="material-icons">chevron_right</i>
                                 </a>
                             </li> -->
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section blue darken-2 white-text center">
+        <p>Madmin Panel Copyright &copy; 2018</p>
+    </footer>
+
+    <!-- Fixed Action Button -->
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="material-icons">add</i>
+        </a>
+        <ul>
+            <li>
+                <a href="#title-modal" class="modal-trigger btn-floating blue">
+                    <i class="material-icons">folder</i>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/addwordtotitle" class="modal-trigger btn-floating blue">
+                    <i class="material-icons">list_alt</i>
+                </a>
+            </li>
+
+        </ul>
     </div>
-</section>
 
-<!-- Footer -->
-<footer class="section blue darken-2 white-text center">
-    <p>Madmin Panel Copyright &copy; 2018</p>
-</footer>
-
-<!-- Fixed Action Button -->
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large red">
-        <i class="material-icons">add</i>
-    </a>
-    <ul>
-        <li>
-            <a href="#title-modal" class="modal-trigger btn-floating blue">
-                <i class="material-icons">folder</i>
-            </a>
-        </li>
-        <li>
-            <a routerLink="/addwordtotitle" class="modal-trigger btn-floating blue">
-                <i class="material-icons">list_alt</i>
-            </a>
-        </li>
-
-    </ul>
-</div>
-
-<!-- Add Category Modal -->
-<div id="title-modal" class="modal">
-    <div class="modal-content">
-        <h4>Add Title</h4>
-        <form>
-            <div class="input-field">
-                <input type="text" id="name" [(ngModel)]="title.name" name="name" placeholder="" />
-                <label for="name">Name</label>
-            </div>
-            <div class="input-field">
-                <input type="text" id="description" [(ngModel)]="title.description" name="description" placeholder="" />
-                <label for="description">Description</label>
-            </div>
-
-            <!-- Upload File Image -->
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>Upload File Image</span>
-                    <input #file type="file" accept="image/*" (change)="preview(file.files, $event)" />
+    <!-- Add Category Modal -->
+    <div id="title-modal" class="modal">
+        <div class="modal-content">
+            <h4>Add Title</h4>
+            <form>
+                <div class="input-field">
+                    <input type="text" id="name" [(ngModel)]="title.name" name="name" placeholder="" />
+                    <label for="name">Name</label>
                 </div>
-                <div class="file-path-wrapper">
-                    <input id="inputImage" type="text" class="file-path" />
+                <div class="input-field">
+                    <input type="text" id="description" [(ngModel)]="title.description" name="description" placeholder="" />
+                    <label for="description">Description</label>
                 </div>
-            </div>
-            <!-- Result Preview Upload File Image -->
-            <div class="input-field">
-                <span style="color:red;" *ngIf="messageImage">{{
+
+                <!-- Upload File Image -->
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Upload File Image</span>
+                        <input #file type="file" accept="image/*" (change)="preview(file.files, $event)" />
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input id="inputImage" type="text" class="file-path" />
+                    </div>
+                </div>
+                <!-- Result Preview Upload File Image -->
+                <div class="input-field">
+                    <span style="color:red;" *ngIf="messageImage">{{
               messageImage
             }}</span>
-                <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
-            </div>
-        </form>
-        <div class="modal-footer">
-            <button (click)="saveTitle()" class="modal-action btn blue white-text ">
+                    <img id="resultImage" [src]="imgURL" height="200" *ngIf="imgURL" />
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button (click)="saveTitle()" class="modal-action btn blue white-text ">
             Save
           </button>
-            <button (click)="file.value = null" id="updateButton" style="display:none;" class="modal-close"></button>
+                <button (click)="file.value = null" id="updateButton" style="display:none;" class="modal-close"></button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Preloader -->
-<div class="loader preloader-wrapper big active">
-    <div class="spinner-layer spinner-blue-only">
-        <div class="circle-clipper left">
-            <div class="circle"></div>
-        </div>
-        <div class="gap-patch">
-            <div class="circle"></div>
-        </div>
-        <div class="circle-clipper right">
-            <div class="circle"></div>
-        </div>
-    </div>
+
 </div>
+<ng-template #loggedOut>
+    <app-login></app-login>
+</ng-template>

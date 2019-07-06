@@ -117,4 +117,8 @@ export class DetailWordComponent implements OnInit {
        this.token.getToken(),id).toPromise();
   
   }
+  checkLoginRole():boolean{
+    if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
+  }
 }

@@ -58,4 +58,8 @@ export class DetailresultComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  checkLoginRole():boolean{
+    if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
+  }
 }

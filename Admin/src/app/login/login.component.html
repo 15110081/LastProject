@@ -1,12 +1,12 @@
-<div *ngIf="isLoggedIn; else loggedOut">
-    <!-- <app-dashboard></app-dashboard> -->
+<div *ngIf="checkLoginRole(); else loggedOut">
+    <app-dashboard></app-dashboard>
 </div>
 <ng-template #loggedOut>
     <div class="grey lighten-4">
         <nav class="blue darken-2">
             <div class="container">
                 <div class="nav-wrapper">
-                    <a href="index.html" class="brand-logo">Madmin</a>
+                    <a routerLink="/login" class="brand-logo">Madmin</a>
                 </div>
             </div>
         </nav>
@@ -77,19 +77,6 @@
             <p>Madmin Panel Copyright &copy; 2018</p>
         </footer>
 
-        <!-- Preloader -->
-        <div class="loader preloader-wrapper big active">
-            <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </ng-template>

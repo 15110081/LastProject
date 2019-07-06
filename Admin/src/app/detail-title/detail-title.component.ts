@@ -79,9 +79,12 @@ updateTitle(id:number){
  this.goBack();
 }
 deleteTitle(id: number) {
-  this.titleService.deleteTitle(id,this.token.getToken());
+  this.titleService.deleteTitle(id,this.token.getToken()).subscribe(res=>console.log(res));
  
  this.goBack();
 }
-
+checkLoginRole():boolean{
+  if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+  return false;
+}
 }

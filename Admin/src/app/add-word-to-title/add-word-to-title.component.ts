@@ -133,5 +133,9 @@ getTitle(){
     // this.titleService.saveAccessiable(this.token.getToken(),12,207).subscribe(res=>{console.log(res)});
   
 }
+checkLoginRole():boolean{
+  if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+  return false;
+}
 
 }

@@ -72,4 +72,8 @@ export class CommentsComponent implements OnInit {
         console.log(this.data);
       });
   }
+  checkLoginRole():boolean{
+    if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
+  }
 }

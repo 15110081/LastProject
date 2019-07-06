@@ -53,7 +53,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.chartCanvas();
     console.log(this.token.getToken());
-    if (this.token.getToken()) {
+    if (this.token.getToken() && this.token.getAuthorities().toString()==="ROLE_ADMIN") {
       this.isLoggedIn = true;
       this.roles = this.token.getAuthorities();
     }
@@ -333,7 +333,7 @@ getOverview(){
     this.overview.titles=res["titles"];
     this.overview.users=res["users"];
     this.overview.words=res["words"];
-   console.log(this.overview);
+   console.log("overview"+this.overview);
   });
 }
 todo:any;

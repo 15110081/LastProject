@@ -26,6 +26,13 @@ export class ExcelSiteComponent implements OnInit {
   constructor(private wordService:WordService,private token:TokenStorageService) {
     this.excelIO = new Excel.IO();
   }
+  ngOnInit() {
+    $('#SaveExcel').on('click', function (e) {
+      Materialize.toast('Save Data Sucessfully', 3000);
+
+      e.preventDefault();
+    });
+  }
   workbookInit(args) {
     const self = this;
     self.spread = args.spread;
@@ -87,12 +94,9 @@ export class ExcelSiteComponent implements OnInit {
   // });
   }
 
-  ngOnInit() {
-    $('#SaveExcel').on('click', function (e) {
-      Materialize.toast('Save Data Sucessfully', 3000);
-
-      e.preventDefault();
-    });
+ 
+  checkLoginRole():boolean{
+    if(this.token.getAuthorities().toString()==="ROLE_ADMIN")return true;
+    return false;
   }
-
 }
