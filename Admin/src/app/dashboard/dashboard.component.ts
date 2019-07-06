@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { TitleService } from '../service/title.service';
 import { ChartModel } from 'src/model/chartmodel';
 import { OverView } from 'src/model/overview';
+import { ToDo } from 'src/model/todo';
 
 declare var $: any;
 declare var Materialize: any;
@@ -46,6 +47,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.getTop3Words();
     this.getTop3Title();
     this.getOverview();
+    this.getToDo();
   }
 
   ngOnInit() {
@@ -147,7 +149,7 @@ this.titleService.getAllCourse(this.token.getToken()).subscribe(res=>{
               animationEnabled: true,
       
               title: {
-                  text: "Fortune 500 Companies by Country"
+                  text: "Overview Title"
               },
               axisX: {
                   interval: 1
@@ -155,7 +157,7 @@ this.titleService.getAllCourse(this.token.getToken()).subscribe(res=>{
               axisY2: {
                   interlacedColor: "rgba(1,77,101,.2)",
                   gridColor: "rgba(1,77,101,.1)",
-                  title: "Number of Companies"
+                  title: "Number Word of Title"
               },
               data: [{
                   type: "bar",
@@ -190,9 +192,7 @@ this.titleService.getAllCourse(this.token.getToken()).subscribe(res=>{
        });
    
   }
-  actionExcelsite(){
-    console.log('222');
-  }
+  
 
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -336,4 +336,33 @@ getOverview(){
    console.log(this.overview);
   });
 }
+todo:any;
+dataToDo:any;
+listToDo:ToDo[]=[];
+  getToDo(){
+    this.http.get(`http://localhost:9059/todoHAL`).subscribe(res=>{
+      var patt1 =/\/[1-9]+.*/g;
+      this.dataToDo = res["_embedded"]["todo"];
+      var temp;
+      this.dataToDo.forEach(element => {
+        let todo = new ToDo(null, "");
+        temp = element["_links"]["self"]["href"].match(patt1);
+        todo["id"] = temp.toString().slice(1);
+        todo["note"] = element["note"];
+        // todo["createdDatetime"] = element["createdDatetime"].toString().slice(0,10);
+        this.listToDo.push(todo);
+    });
+    console.log(this.listToDo);
+  });
+  }
+  deleteToDo(id:number){
+    this.http.delete(`http://localhost:9059/todoHAL/${id}`).subscribe(res=>{console.log(res)});
+  }
+  saveToDo(){
+    let addToDo=new ToDo(null,"");
+    addToDo.note=$("#todo").val();
+    console.log($("#todo").val());
+    this.http.post("http://localhost:9059/todoHAL",addToDo).subscribe(res=>console.log(res));
+  }
+
 }

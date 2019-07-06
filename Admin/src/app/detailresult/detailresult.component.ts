@@ -33,10 +33,10 @@ export class DetailresultComponent implements OnInit {
   
           this.result["id"] = id;
           this.result["username"] = res["username"];
-          this.result["type_test"] = res["type_test"];
+          this.result["typeTest"] = res["typeTest"];
           this.result["result"] = res["result"];
           this.result["createdDatetime"] = res["createdDatetime"];
-          this.result["title_id"] = res["title_id"];
+          this.result["titleId"] = res["titleId"];
       }
 
     );

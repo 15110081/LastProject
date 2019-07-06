@@ -134,26 +134,19 @@
             <span class="card-title">Quick Todos</span>
             <form id="todo-form">
               <div class="input-field">
-                <input id="todo" type="text" placeholder="Add Todo..." />
+                <input  id="todo" type="text" placeholder="Add Todo..." (keyup.enter)="saveToDo()" />
               </div>
             </form>
             <ul class="collection todos">
-              <li class="collection-item">
+              <li class="collection-item" *ngFor="let todo of listToDo">
                 <div>
-                  Todo One
-                  <a href="#!" class="secondary-content delete">
+                  {{todo.note}}
+                  <a href="javascript:void(0);" (click)="deleteToDo(todo.id)" class="secondary-content delete">
                     <i class="material-icons">close</i>
                   </a>
                     </div>
                     </li>
-                    <li class="collection-item">
-                        <div>
-                            Todo Two
-                            <a href="#!" class="secondary-content delete">
-                                <i class="material-icons">close</i>
-                            </a>
-                        </div>
-                    </li>
+
                     </ul>
                 </div>
             </div>

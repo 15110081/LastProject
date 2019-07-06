@@ -37,7 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "**/webjars/**"
     };
     private static final String[] NO_CONFIRM = {
-          "/upload/**", "/api/auth/**", "/browser/index.html","/titleApiv1/**","/titleApi/**","/titleHAL/**","/worduserapi/**","/resultHAL/**"
+          "/upload/**", "/api/auth/**", "/browser/index.html","/titleApiv1/**","/titleApi/**","/titleHAL/**","/worduserapi/**","/resultHAL/**",
+          "/todoHAL/**"
     };
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {

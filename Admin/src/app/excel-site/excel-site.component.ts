@@ -7,6 +7,8 @@ import { spread } from 'q';
 import { Word } from 'src/model/word';
 import { WordService } from '../service/word.service';
 import { TokenStorageService } from '../auth/token-storage.service';
+declare var $: any;
+declare var Materialize: any;
 @Component({
   selector: 'app-excel-site',
   templateUrl: './excel-site.component.html',
@@ -61,7 +63,7 @@ export class ExcelSiteComponent implements OnInit {
     }
   }
   
-  onClickMe(args) {
+  onClickMe() {
     const self = this;
     const filename = 'exportExcel.xlsx';
     const row=self.spread.getActiveSheet().getRowCount();
@@ -86,6 +88,11 @@ export class ExcelSiteComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('#SaveExcel').on('click', function (e) {
+      Materialize.toast('Save Data Sucessfully', 3000);
+
+      e.preventDefault();
+    });
   }
 
 }

@@ -61,8 +61,8 @@ export class CommentsComponent implements OnInit {
           result["id"] = temp.toString().slice(1);
           result["result"] = element["result"];
           result["username"] = element["username"];
-          result["title_id"] = element["title_id"];
-          result["type_test"] = element["type_test"];
+          result["titleId"] = element["titleId"];
+          result["typeTest"] = element["typeTest"];
           result["createdDatetime"] = element["createdDatetime"];
           this.listResult.push(result);
 

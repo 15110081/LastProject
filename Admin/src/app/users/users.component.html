@@ -72,27 +72,44 @@
 <div id="user-modal" class="modal">
     <div class="modal-content">
         <h4>Add User</h4>
-        <form>
-            <div class="input-field">
-                <input type="text" id="name">
-                <label for="name">Name</label>
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+            <div class="input-field" data-validate="Your Name">
+                <input class="input100" type="text" placeholder="Họ và tên người dùng" name="name" [(ngModel)]="form.name" #name="ngModel" required>
+                <div *ngIf="f.submitted && username.invalid">
+                    <div *ngIf="username.errors.required">Username is required</div>
+                </div>
+            </div>
+            <div class="input-field" data-validate="Enter UserName">
+                <input name="name" class="input100" type="text" placeholder="Tên đăng nhập" [(ngModel)]="form.username" #username="ngModel" required>
+                <div *ngIf="f.submitted && name.invalid">
+                    <div *ngIf="name.errors.required">Name is required</div>
+                </div>
             </div>
             <div class="input-field">
-                <input type="email" id="email">
-                <label for="email">Email</label>
+                <input type="text" placeholder="Email" class="input100" name="email" [(ngModel)]="form.email" #email="ngModel" required email />
+                <div *ngIf="f.submitted && email.invalid">
+                    <div *ngIf="email.errors.required">Email is required</div>
+                    <div *ngIf="email.errors.email">Email must be a valid email address</div>
+                </div>
             </div>
-            <div class="input-field">
-                <input type="password" id="password">
-                <label for="password">Password</label>
+            <div class="input-field" data-validate="Enter password">
+                <input name="password" class="input100" type="password" placeholder="Mật khẩu" [(ngModel)]="form.password" #password="ngModel" required minlength="6">
+                <div *ngIf="f.submitted && password.invalid">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                    <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
             </div>
-            <div class="input-field">
-                <input type="password" id="password2">
-                <label for="password2">Confirm Password</label>
+            <div>
+                <div class="modal-footer">
+                    <button class="modal-action btn blue white-text">Submit</button>
+                    <button class="modal-close" id="close"></button>
+                </div>
+                <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
+                    Signup failed!<br/>{{errorMessage}}
+                </div>
             </div>
         </form>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close btn blue white-text">Submit</a>
-        </div>
+
     </div>
 </div>
 

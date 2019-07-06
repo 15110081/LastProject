@@ -61,7 +61,6 @@ export class CategoriesComponent implements OnInit {
         title["description"] = element["description"];
         title["createdDatetime"] = element["createdDatetime"];
         title["updatedDatetime"] = element["updatedDatetime"];
-        title["username"] = element["username"];
         this.listTitle.push(title);
 
       });
@@ -170,7 +169,6 @@ export class CategoriesComponent implements OnInit {
         title["description"] = element["description"];
         title["createdDatetime"] = element["createdDatetime"];
         title["updatedDatetime"] = element["updatedDatetime"];
-        title["username"] = element["username"];
         this.listTitle.push(title);
 
       });
@@ -197,7 +195,6 @@ export class CategoriesComponent implements OnInit {
         title["description"] = element["description"];
         title["createdDatetime"] = element["createdDatetime"];
         title["updatedDatetime"] = element["updatedDatetime"];
-        title["username"] = element["username"];
         this.listTitle.push(title);
 
       });

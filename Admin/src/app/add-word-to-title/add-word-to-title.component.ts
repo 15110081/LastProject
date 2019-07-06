@@ -8,6 +8,7 @@ import {
 import { Word } from 'src/model/word';
 import { element } from '@angular/core/src/render3';
 declare var $: any;
+declare var Materialize: any;
 @Component({
   selector: 'app-add-word-to-title',
   templateUrl: './add-word-to-title.component.html',
@@ -36,9 +37,6 @@ getTitle(){
 });
 }
   ngOnInit() {
-    $(document).ready(function() {
-      $('select').material_select();
-    });
   }
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -121,6 +119,7 @@ getTitle(){
     // });
     // });
     //CLEAR IdTitle IdWord
+    Materialize.toast('Add Word To Title Sucessfully', 3000);
     this.titleService.clearAccessiable(this.token.getToken(),this.idTitle,()=>{
       this.activeWords.forEach(element=>{
         this.titleService.saveAccessiable(this.token.getToken(),this.idTitle,element["id"])

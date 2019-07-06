@@ -12,7 +12,6 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Date Created</th>
-                                    <th>Username</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -20,7 +19,6 @@
                                 <tr *ngFor="let title of data">
                                     <td>{{title.name}}</td>
                                     <td>{{title.createdDatetime}}</td>
-                                    <td>{{title.username}}</td>
                                     <td>
                                         <a routerLink="/detailtitle/{{title.id}}" class="btn blue lighten-2">Details</a>
                                     </td>

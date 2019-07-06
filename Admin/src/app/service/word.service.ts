@@ -48,7 +48,7 @@ deleteWordHAL(idWord:any,auth_token:any){
   { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
 }
 getAllResult(auth_token:any){
-  return this.http.get(`http://localhost:9059/resultHAL`,
+  return this.http.get(`http://localhost:9059/resultHAL?size=all`,
   { headers: new HttpHeaders().append('Authorization', `Bearer ${auth_token}`)});
 }
 getIdResult(auth_token:any,id:number){

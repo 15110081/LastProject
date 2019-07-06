@@ -44,10 +44,7 @@
                             <input type="text" id="updatedDatetime" [(ngModel)]="selectedTitle.updatedDatetime" name="updatedDatetime" placeholder="Empty Data" disabled />
                             <label for="updatedDatetime" class="active">updatedDatetime</label>
                         </div>
-                        <div class="input-field">
-                            <input type="text" id="username" [(ngModel)]="selectedTitle.username" name="username" placeholder="Empty Data" disabled />
-                            <label for="username" class="active">username</label>
-                        </div>
+
 
                         <button (click)="updateTitle(selectedTitle.id)" class="btn green" style="margin-left: 5px">Update</button>
                         <button (click)="deleteTitle(selectedTitle.id)" class=" btn red">Delete</button>

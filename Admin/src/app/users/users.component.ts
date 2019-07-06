@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/model/user';
 import { TitleService } from '../service/title.service';
 import { TokenStorageService } from '../auth/token-storage.service';
+import { AuthService } from '../auth/auth.service';
+import { SignUpInfo } from '../auth/signup-info';
 declare var $:any;
 @Component({
   selector: 'app-users',
@@ -10,7 +12,7 @@ declare var $:any;
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private userService:TitleService ,private token:TokenStorageService) { }
+  constructor(private authService: AuthService,private userService:TitleService ,private token:TokenStorageService) { }
 
   ngOnInit() {
     this.getUserHAL();
@@ -128,4 +130,33 @@ export class UsersComponent implements OnInit {
       });
     });
  }
+ form: any = {};
+  signupInfo: SignUpInfo;
+  isSignedUp = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+ onSubmit() {
+  console.log(this.form);
+
+  this.signupInfo = new SignUpInfo(
+    this.form.name,
+    this.form.username,
+    this.form.email,
+    this.form.password);
+
+  this.authService.signUp(this.signupInfo).subscribe(
+    data => {
+      console.log(data);
+      this.isSignedUp = true;
+      this.isSignUpFailed = false;
+      $("#close").click();
+      location.reload();
+    },
+    error => {
+      console.log(error);
+      this.errorMessage = error.error.message;
+      this.isSignUpFailed = true;
+    }
+  );
+}
 }

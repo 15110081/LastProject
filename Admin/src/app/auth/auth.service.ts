@@ -28,4 +28,7 @@ export class AuthService {
   signUp(info: SignUpInfo): Observable<string> {
     return this.http.post<string>(this.signupUrl, info, httpOptions);
   }
+  signUpv2(info: SignUpInfo,callBackFunc?: () => any) {
+    return this.http.post(this.signupUrl, info, httpOptions).toPromise().then(()=>callBackFunc());
+  }
 }

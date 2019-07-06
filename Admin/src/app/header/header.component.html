@@ -1,8 +1,8 @@
 <nav class="blue darken-2">
     <div class="container">
         <div class="nav-wrapper">
-            <a href="index.html" class="brand-logo">Madmin</a>
-            <a href="#" data-activates="side-nav" class="button-collapse show-on-large right">
+            <a routerLink="/dashboard" class="brand-logo">Madmin</a>
+            <a href="javascript:void(0);" data-activates="side-nav" class="button-collapse show-on-large right">
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down nav navbar-nav" routerLinkActive="active">
@@ -13,7 +13,7 @@
                     <a routerLink="/posts" class="nav-link"> Words</a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/categories" class="nav-link">Categories</a>
+                    <a routerLink="/categories" class="nav-link">Titles</a>
                 </li>
                 <li class="nav-item">
                     <a routerLink="/comments" class="nav-link">Results</a>
@@ -25,42 +25,29 @@
             <!-- Side nav -->
             <ul id="side-nav" class="side-nav">
                 <li>
-                    <div class="user-view">
-                        <div class="background">
-                            <img src="img/ocean.jpg" alt="">
-                        </div>
-                        <a href="#">
-                            <img src="img/person1.jpg" alt="" class="circle">
-                        </a>
-                        <a href="#">
-                            <span class="name white-text">John Doe</span>
-                        </a>
-                        <a href="#">
-                            <span class="email white-text">jdoe@gmail.com</span>
-                        </a>
-                    </div>
-                </li>
-                <li>
-                    <a href="index.html">
+                    <a routerLink="/dashboard">
                         <i class="material-icons">dashboard</i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="posts.html">Posts</a>
+                    <a routerLink="/posts">Words</a>
                 </li>
                 <li>
-                    <a href="categories.html">Categories</a>
+                    <a routerLink="/categories">Titles</a>
                 </li>
                 <li>
-                    <a href="comments.html">Comments</a>
+                    <a routerLink="/comments">Results</a>
                 </li>
                 <li>
-                    <a href="users.html">Users</a>
+                    <a routerLink="/users">Users</a>
+                </li>
+                <li>
+                    <a routerLink="/addwordtotitle">Add Word To Title</a>
+                </li>
+                <li>
+                    <a routerLink="/excelsite">Excel site</a>
                 </li>
                 <li>
                     <div class="divider"></div>
-                </li>
-                <li>
-                    <a class="subheader">Account Controls</a>
                 </li>
                 <li>
                     <a (click)="logout()" class="waves-effect">Logout</a>
